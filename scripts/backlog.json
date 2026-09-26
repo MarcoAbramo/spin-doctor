@@ -1,5 +1,135 @@
 {
-  "v0.2 – Backend": [
+  "v0.2 – Engine & Karte": [
+    {
+      "title": "M1: Engine for locations, till economy and multi-currency",
+      "labels": ["enhancement", "backend"],
+      "body": "Generic, data-driven engine support for the world: `locations[]` content section; per-location production; location tills (cap, on-site bonus ×1.5, collect on entry); `location:<id>` multipliers; spin quality via `qualityEffects`; time-based traits (hour/weekday via TickContext); hotspots; offline distribution to tills; `location`/`costStat`/`produces`/`maxCount`/`perUnitEffects` on generators & upgrades; new conditions; `framing` and `ending` steps; stat coupling; save v2 with migration. The press house becomes the first location (scene slots move to content). No visible change. See docs/roadmap.md.",
+      "acceptance": [
+        "All existing tests green, new tests for tills, collection, traits, framing, migration v1→v2",
+        "A v0.1 save loads",
+        "validate:content checks all new references"
+      ]
+    },
+    {
+      "title": "M2: Walkable city map with live location signs and entry animations",
+      "labels": ["enhancement", "polish"],
+      "body": "Tiled-based map of the capital (48×48 tiles, 16 px), tap-to-walk with A* and path preview, entrances, locked sites with signs, live signs above buildings (till, fill bar, rate, status icons) with info card, transition engine (walk to door, door anim, pixel zoom, dither/iris wipe, title banner, coin-stream collection), map ambience and time-of-day tint. Completing act 1 unlocks the map with a cutscene. See docs/roadmap.md.",
+      "acceptance": [
+        "Playable on a phone at 60 fps",
+        "Transitions skippable and reduced-motion safe",
+        "Placeholder tileset, walk cycle, signs and door generated",
+        "Smoke test: map → press house → back"
+      ]
+    }
+  ],
+  "v0.3 – Rosengarten & P.R.I.C.E.": [
+    {
+      "title": "M3: Level 2 – Rosengarten der Strafzölle",
+      "labels": ["story", "content", "minigame"],
+      "body": "Rose garden press podium with five microphones and the world map easel. Generators, upgrades, price-level meter (tariffs raise production but depress approval), `zoll-tafel` minigame, framing duels (secret language „furbeln“, real-estate diplomacy → cookie tariffs), gate + wind entry animation, hotspots and traits. Lexicon: trade tariffs, independent science. See docs/roadmap.md.",
+      "acceptance": [
+        "Level unlock after act 1",
+        "Framing quality changes the location's yield",
+        "Lexicon cards with verified sources (needs-fact-check)"
+      ]
+    },
+    {
+      "title": "M4: Level 3 – P.R.I.C.E. and the Great Record Wall",
+      "labels": ["story", "content"],
+      "body": "P.R.I.C.E. (Patriotic Revenue & Import Curbing Enforcement) satirises tariff mania and red tape – never people crossing borders. Shark-moat event at the finance ministry. Mega project „Große Rekord-Mauer“: up to 20 sections visible on the map, milestone events (no-bid contract for the nephew's firm, neighbour returns the invoice, emergency declaration, cardboard sections, souvenir shop, rain at the inauguration). Lexicon: judicial review, parliament's power of the purse, emergency powers. See docs/roadmap.md.",
+      "acceptance": [
+        "Satire guardrails reviewed",
+        "Wall sections render on the map",
+        "Stamp entry animation"
+      ]
+    }
+  ],
+  "v0.4 – Golf-Resort & Bear Force One": [
+    {
+      "title": "M5: Level 4 – Golf resort „Rekord Links“",
+      "labels": ["story", "content", "minigame"],
+      "body": "Favours currency (back-room deals), `golf-cheat` and `abort-countdown` minigames, nuclear weather control event with framing („climate protection, Nobel-worthy“), pardon vending machine. Golf cart entry animation, weekend trait. Lexicon: pardon power, conflicts of interest. See docs/roadmap.md.",
+      "acceptance": ["Favours earned and spent", "Both minigames scale rewards with score"]
+    },
+    {
+      "title": "M6: Level 5 – Bear Force One",
+      "labels": ["story", "content", "minigame"],
+      "body": "Fast travel between locations (plane flies over the map), in-flight trait, `whack-posts` minigame, dictator romance event (fictional Uranistan) with „cuddle diplomacy“ framing and #MagnusIstLiebe boost mode. Lexicon: diplomacy/international law, press pool. See docs/roadmap.md.",
+      "acceptance": ["Fast travel with animation", "Uranistan leader stays abstract and fictional"]
+    }
+  ],
+  "v0.5 – Jubel-TV & Wahlkampf": [
+    {
+      "title": "M7: Level 6 – Jubel-TV studio",
+      "labels": ["story", "content"],
+      "body": "Medicine milestone (fabric softener; delete panicking doctors' posts), toaster vs. squirrels, dictator Tuesday talk show, colouring-book photo op event in the city park („playground safety inspection“). Prime-time trait, ON AIR entry animation. Lexicon: disinformation, freedom of assembly. See docs/roadmap.md.",
+      "acceptance": ["All events as data-driven quests", "Prime-time trait uses local time"]
+    },
+    {
+      "title": "M8: Campaign mode (Wahlkampf)",
+      "labels": ["story", "content", "minigame"],
+      "body": "Campaign engine: 7 in-game days, rallies on the map (`rally-hype` rhythm minigame), daily scandal framing (hamster panic, coup sneakers, dictator Tuesday), TV debate, campaign funds currency and temporary campaign upgrades, crowd-size „optimisation“. Election night branches into endings. Lexicon: electoral principles, party financing. See docs/roadmap.md.",
+      "acceptance": [
+        "Campaign runs idle and offline (8 h cap)",
+        "Result depends on votes, manipulation upgrades and democracy index"
+      ]
+    }
+  ],
+  "v0.6 – Finale & Neue Amtszeit": [
+    {
+      "title": "M9: Finale – The Great Dome, election night, endings and prestige",
+      "labels": ["story", "content"],
+      "body": "Dome location, „unannounced sightseeing tour“ spin event (satire targets the spin, big democracy penalty), endings (democracy saved despite you, eternal press secretary, whistleblower via new stat „Gewissen“), prestige „Neue Amtszeit“ with personality-cult bonus – the campaign returns each term. Lexicon: peaceful transfer of power, term limits. See docs/roadmap.md.",
+      "acceptance": [
+        "All endings reachable in tests",
+        "Prestige reset keeps bonus",
+        "Campaign recurs with higher difficulty"
+      ]
+    }
+  ],
+  "Content & Community": [
+    {
+      "title": "Weekly quests and achievements",
+      "labels": ["content", "enhancement"],
+      "body": "Extend the daily system with weekly tasks and permanent achievements (data-driven).",
+      "acceptance": ["Weekly reset on Monday local time", "Achievements tab"]
+    },
+    {
+      "title": "More lexicon cards (rule of law, term limits, nepotism, propaganda)",
+      "labels": ["content", "needs-fact-check"],
+      "body": "Factual, neutral, with a source. Each unlocked by a matching upgrade.",
+      "acceptance": ["Source verified", "Label needs-fact-check until reviewed"]
+    },
+    {
+      "title": "Content pipeline: community events and quests as JSON PRs",
+      "labels": ["content", "help wanted"],
+      "body": "Document and streamline: PR template for content, CI validation (exists), preview build per PR.",
+      "acceptance": ["Content PR checklist", "Preview deployment per PR"]
+    },
+    {
+      "title": "Fact-check lexicon card „Pressefreiheit“",
+      "labels": ["content", "needs-fact-check"],
+      "body": "Verify text and source of `lexicon.press-freedom`. Candidate source (verified reachable): https://www.bpb.de/kurz-knapp/lexika/lexikon-in-einfacher-sprache/250000/pressefreiheit/ — the card currently links to the bpb.de start page. Check the wording about the 1966 Spiegel ruling.",
+      "acceptance": [
+        "Text reviewed",
+        "Deep link to source set in content/core/lexicon.json",
+        "`factChecked: true`"
+      ]
+    },
+    {
+      "title": "Fact-check lexicon card „Gewaltenteilung“",
+      "labels": ["content", "needs-fact-check"],
+      "body": "Verify text and source of `lexicon.separation-of-powers`. Candidate source: https://www.bpb.de/kurz-knapp/lexika/politiklexikon/17567/gewaltenteilung-gewaltenverschraenkung/",
+      "acceptance": ["Text reviewed", "Deep link to source set", "`factChecked: true`"]
+    },
+    {
+      "title": "Fact-check lexicon card „Wahlkreiszuschnitt (Gerrymandering)“",
+      "labels": ["content", "needs-fact-check"],
+      "body": "Verify text and source of `lexicon.gerrymandering`. Candidate source: https://www.bpb.de/themen/nordamerika/usa/505567/nahezu-jede-neue-wahlkreiskarte-wird-vor-gericht-angefochten/ — check the statement about the German Wahlkreiskommission.",
+      "acceptance": ["Text reviewed", "Deep link to source set", "`factChecked: true`"]
+    }
+  ],
+  "Backend": [
     {
       "title": "Cloud save with anonymous account",
       "labels": ["backend", "enhancement"],
@@ -73,104 +203,7 @@
       ]
     }
   ],
-  "v0.3 – Story & Inhalte": [
-    {
-      "title": "Act 2 „Der große Skandal“",
-      "labels": ["story", "content"],
-      "body": "Next story act as a content pack in `content/story/act2.json`, chained to `act1-first-100-days`.",
-      "acceptance": [
-        "At least 5 steps incl. dialog choices",
-        "New texts in de.json",
-        "No engine changes required"
-      ]
-    },
-    {
-      "title": "Act 3 „Die Wahl“ with multiple endings",
-      "labels": ["story", "content"],
-      "body": "Endings depend on stats, e.g. whistleblower ending, „Ewiger Pressesprecher“, „Demokratie gerettet (trotz dir)“. May need a generic 'ending' step type.",
-      "acceptance": ["≥ 3 endings driven by conditions", "Ending screen", "Endings are data-driven"]
-    },
-    {
-      "title": "New stat „Gewissen“ (conscience) of the press secretary",
-      "labels": ["story", "content"],
-      "body": "A new stat in a content pack that dialog choices influence; unlocks choices/endings (e.g. whistleblower).",
-      "acceptance": [
-        "Stat added via content pack only",
-        "Choices can require a minimum conscience (condition on choices)",
-        "Shown in HUD"
-      ]
-    },
-    {
-      "title": "Prestige „Neue Amtszeit“ with personality-cult bonus",
-      "labels": ["story", "enhancement"],
-      "body": "The president changes the constitution for another term: resets progress, grants a permanent bonus.",
-      "acceptance": [
-        "Prestige currency and bonus defined as data",
-        "Save migration",
-        "Balancing tests"
-      ]
-    },
-    {
-      "title": "More NPCs and story quests (opposition leader, court reporter, nephew Konstantin)",
-      "labels": ["story", "content", "good first issue"],
-      "body": "Use the quest guide in CONTRIBUTING.md. Opposition meets in a basement without Wi-Fi.",
-      "acceptance": [
-        "Each NPC has a speaker entry + portrait entry in the asset checklist",
-        "At least one quest per NPC"
-      ]
-    },
-    {
-      "title": "More minigames (press conference dodge quiz, talk show rhythm game, escape the fact check)",
-      "labels": ["minigame", "enhancement"],
-      "body": "Each minigame is a new handler registered in `QuestModal.tsx` and `KNOWN_HANDLERS`.",
-      "acceptance": [
-        "One new handler per PR",
-        "Reward scales with score",
-        "Accessible alternative controls"
-      ]
-    },
-    {
-      "title": "Weekly quests and achievements",
-      "labels": ["content", "enhancement"],
-      "body": "Extend the daily system with weekly tasks and permanent achievements (data-driven).",
-      "acceptance": ["Weekly reset on Monday local time", "Achievements tab"]
-    },
-    {
-      "title": "More lexicon cards (rule of law, term limits, nepotism, propaganda)",
-      "labels": ["content", "needs-fact-check"],
-      "body": "Factual, neutral, with a source. Each unlocked by a matching upgrade.",
-      "acceptance": ["Source verified", "Label needs-fact-check until reviewed"]
-    },
-    {
-      "title": "Content pipeline: community events and quests as JSON PRs",
-      "labels": ["content", "help wanted"],
-      "body": "Document and streamline: PR template for content, CI validation (exists), preview build per PR.",
-      "acceptance": ["Content PR checklist", "Preview deployment per PR"]
-    },
-    {
-      "title": "Fact-check lexicon card „Pressefreiheit“",
-      "labels": ["content", "needs-fact-check"],
-      "body": "Verify text and source of `lexicon.press-freedom`. Candidate source (verified reachable): https://www.bpb.de/kurz-knapp/lexika/lexikon-in-einfacher-sprache/250000/pressefreiheit/ — the card currently links to the bpb.de start page. Check the wording about the 1966 Spiegel ruling.",
-      "acceptance": [
-        "Text reviewed",
-        "Deep link to source set in content/core/lexicon.json",
-        "`factChecked: true`"
-      ]
-    },
-    {
-      "title": "Fact-check lexicon card „Gewaltenteilung“",
-      "labels": ["content", "needs-fact-check"],
-      "body": "Verify text and source of `lexicon.separation-of-powers`. Candidate source: https://www.bpb.de/kurz-knapp/lexika/politiklexikon/17567/gewaltenteilung-gewaltenverschraenkung/",
-      "acceptance": ["Text reviewed", "Deep link to source set", "`factChecked: true`"]
-    },
-    {
-      "title": "Fact-check lexicon card „Wahlkreiszuschnitt (Gerrymandering)“",
-      "labels": ["content", "needs-fact-check"],
-      "body": "Verify text and source of `lexicon.gerrymandering`. Candidate source: https://www.bpb.de/themen/nordamerika/usa/505567/nahezu-jede-neue-wahlkreiskarte-wird-vor-gericht-angefochten/ — check the statement about the German Wahlkreiskommission.",
-      "acceptance": ["Text reviewed", "Deep link to source set", "`factChecked: true`"]
-    }
-  ],
-  "v0.4 – Polish & Plattform": [
+  "Polish & Plattform": [
     {
       "title": "English translation and i18n for more languages",
       "labels": ["enhancement", "good first issue"],
@@ -231,6 +264,12 @@
       "labels": ["infra", "polish"],
       "body": "The runtime image is ~300 MB. Bundle all dependencies with esbuild or use a distroless base.",
       "acceptance": ["Image < 150 MB", "Health check still works"]
+    },
+    {
+      "title": "M10: Extra satire ideas and cross-level balancing",
+      "labels": ["polish", "content"],
+      "body": "Record crowd photo, renaming offensive on the map, cabinet revolving door, seating order for Frieda, statistics office, weather decree, birthday parade with lawn mowers, self-awarded medals on the portrait, record peace prize, loyalty karaoke, ghostwritten memoirs, self-pardon framing. Balance all levels (target 20–40 min per level). See docs/roadmap.md.",
+      "acceptance": ["Balancing tests per level", "Sounds for all new events"]
     }
   ]
 }
