@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Builds the static client and serves it with Caddy (also the reverse proxy for /api).
-FROM node:24-alpine AS build
+FROM node:26-alpine AS build
 RUN corepack enable
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc tsconfig.base.json ./
