@@ -14,4 +14,8 @@ updates:
   - package-ecosystem: docker
     directories: [/apps/server, /apps/client]
     schedule: { interval: weekly }
+    # Stay on the Node LTS line; major Node upgrades are done deliberately.
+    ignore:
+      - dependency-name: node
+        update-types: [version-update:semver-major]
     commit-message: { prefix: "chore(deps)" }

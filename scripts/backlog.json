@@ -62,6 +62,15 @@
       "labels": ["backend", "ci"],
       "body": "Currently the API is tested without a database (ADR 0003). Add a Postgres service container once real DB features land.",
       "acceptance": ["Migration runs in CI", "At least one DB-backed API test"]
+    },
+    {
+      "title": "release-please PRs need a token that triggers CI",
+      "labels": ["ci"],
+      "body": "PRs opened with `GITHUB_TOKEN` do not trigger workflows, so release PRs never get the required status checks of the `main` ruleset. Use a GitHub App token (e.g. actions/create-github-app-token) or a fine-grained PAT for release-please.",
+      "acceptance": [
+        "Release PR shows green required checks",
+        "Merging it creates tag + GitHub release"
+      ]
     }
   ],
   "v0.3 – Story & Inhalte": [
