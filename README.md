@@ -26,6 +26,10 @@ first (English translation is on the roadmap).
   content packs — new storylines or new "points" need no engine code ([ADR 0002](docs/adr/0002-data-driven-content.md)).
 - Installable **PWA**, works offline, save export/import as text code.
 
+## Roadmap
+
+Next up: a walkable map of the capital with new levels — Rosengarten der Strafzölle, P.R.I.C.E., golf resort, Bear Force One, Jubel-TV, a campaign mode and the finale in the Great Dome. See [docs/roadmap.md](docs/roadmap.md).
+
 ## Quickstart
 
 Requirements: Node 24 (`.nvmrc`), pnpm 10 (`corepack enable`).
