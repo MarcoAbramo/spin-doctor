@@ -87,6 +87,17 @@ Currently the API is tested without a database (ADR 0003). Add a Postgres servic
 - [ ] Migration runs in CI
 - [ ] At least one DB-backed API test
 
+### release-please PRs need a token that triggers CI
+
+Labels: `ci`
+
+PRs opened with `GITHUB_TOKEN` do not trigger workflows, so release PRs never get the required status checks of the `main` ruleset. Use a GitHub App token (e.g. actions/create-github-app-token) or a fine-grained PAT for release-please.
+
+**Acceptance criteria**
+
+- [ ] Release PR shows green required checks
+- [ ] Merging it creates tag + GitHub release
+
 ## v0.3 – Story & Inhalte
 
 ### Act 2 „Der große Skandal“

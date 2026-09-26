@@ -10,8 +10,11 @@ x-node: &node
     - client_node_modules:/app/apps/client/node_modules
     - server_node_modules:/app/apps/server/node_modules
     - shared_node_modules:/app/packages/shared/node_modules
+    - pnpm_store:/pnpm-store
   environment:
     CI: "true"
+    # Keep the pnpm store out of the bind-mounted repo.
+    npm_config_store_dir: /pnpm-store
 
 services:
   db:
@@ -20,7 +23,7 @@ services:
       POSTGRES_USER: spin
       POSTGRES_PASSWORD: spin
       POSTGRES_DB: spin
-    ports: ["5432:5432"]
+    ports: ["${DB_PORT:-5432}:5432"]
     volumes: [pgdata:/var/lib/postgresql/data]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U spin"]
@@ -37,7 +40,7 @@ services:
     environment:
       DATABASE_URL: postgres://spin:spin@db:5432/spin
       PORT: "3000"
-    ports: ["3000:3000"]
+    ports: ["${SERVER_PORT:-3000}:3000"]
     depends_on:
       db: { condition: service_healthy }
       install: { condition: service_completed_successfully }
@@ -45,7 +48,7 @@ services:
   client:
     <<: *node
     command: sh -c "corepack enable && pnpm --filter @spin-doctor/client exec vite --host 0.0.0.0 --port 5173"
-    ports: ["5173:5173"]
+    ports: ["${CLIENT_PORT:-5173}:5173"]
     depends_on:
       install: { condition: service_completed_successfully }
 
@@ -55,3 +58,4 @@ volumes:
   client_node_modules:
   server_node_modules:
   shared_node_modules:
+  pnpm_store:

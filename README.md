@@ -39,6 +39,7 @@ or with Docker (Postgres + API + client with hot reload):
 
 ```bash
 docker compose up
+# ports busy? SERVER_PORT=3100 CLIENT_PORT=5174 DB_PORT=5433 docker compose up
 ```
 
 Open the LAN URL printed by Vite on your phone (same Wi-Fi). Add `?debug` to the URL for debug buttons
