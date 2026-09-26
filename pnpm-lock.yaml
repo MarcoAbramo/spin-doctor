@@ -32,6 +32,9 @@ importers:
 
   apps/client:
     dependencies:
+      '@fontsource/pixelify-sans':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@spin-doctor/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -1272,6 +1275,9 @@ packages:
 
   '@fastify/swagger@9.9.0':
     resolution: {integrity: sha512-d21Im1l3KoF2kmzJHOYL50Erjhj1qUUudQsW9hzwYTE7likjvMx7AQKpClyZbdhrqGXbl+fU4dI2S7BaLpFIvw==}
+
+  '@fontsource/pixelify-sans@5.3.0':
+    resolution: {integrity: sha512-4RCe9nXbi7wUu5+H0FNX1sgPZ2kJ1MmY1uTkEfvQIzzqhoS8zGKJaJfdK8oreE0OU+5gM+NdurFi3H3FJRBvyw==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -4911,6 +4917,8 @@ snapshots:
       yaml: 2.9.1
     transitivePeerDependencies:
       - supports-color
+
+  '@fontsource/pixelify-sans@5.3.0': {}
 
   '@img/colour@1.1.0': {}
 
