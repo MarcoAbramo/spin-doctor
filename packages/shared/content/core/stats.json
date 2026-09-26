@@ -1,0 +1,62 @@
+{
+  "stats": [
+    {
+      "id": "spin",
+      "role": "currency",
+      "initial": 0,
+      "min": 0,
+      "display": "number",
+      "order": 0,
+      "emoji": "🌀"
+    },
+    {
+      "id": "approval",
+      "initial": 50,
+      "min": 0,
+      "max": 100,
+      "display": "percent",
+      "order": 10,
+      "productionMultiplier": {
+        "base": 0.5,
+        "perPoint": 0.01
+      },
+      "drift": {
+        "toward": 45,
+        "perSec": 0.01
+      },
+      "perTap": 0.02,
+      "emoji": "📊"
+    },
+    {
+      "id": "democracy",
+      "initial": 100,
+      "min": 0,
+      "max": 100,
+      "display": "bar",
+      "order": 20,
+      "emoji": "🏛️"
+    }
+  ],
+  "speakers": [
+    {
+      "id": "president",
+      "nameKey": "speaker.president",
+      "color": "#e8b923"
+    },
+    {
+      "id": "konstantin",
+      "nameKey": "speaker.konstantin",
+      "color": "#8e7cc3"
+    },
+    {
+      "id": "frieda",
+      "nameKey": "speaker.frieda",
+      "color": "#3d85c6"
+    },
+    {
+      "id": "you",
+      "nameKey": "speaker.you",
+      "color": "#6aa84f"
+    }
+  ]
+}

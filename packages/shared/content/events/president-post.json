@@ -1,0 +1,118 @@
+{
+  "quests": [
+    {
+      "id": "president-post",
+      "category": "event",
+      "titleKey": "quest.president-post.title",
+      "trigger": {
+        "type": "random",
+        "minSec": 180,
+        "maxSec": 480
+      },
+      "repeatable": true,
+      "conditions": {
+        "type": "quest",
+        "quest": "act1-intro"
+      },
+      "steps": [
+        {
+          "type": "timed",
+          "handler": "president-post",
+          "timeoutSec": 8,
+          "pool": "president-posts",
+          "success": [
+            {
+              "type": "productionSeconds",
+              "seconds": 45
+            },
+            {
+              "type": "addStat",
+              "stat": "approval",
+              "value": 1
+            }
+          ],
+          "failure": [
+            {
+              "type": "scandal",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -4
+                },
+                {
+                  "type": "modifier",
+                  "id": "scandal",
+                  "durationSec": 60,
+                  "labelKey": "modifier.scandal",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "production",
+                      "value": 0.6
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pools": [
+    {
+      "id": "president-posts",
+      "entries": [
+        {
+          "key": "pool.president-posts.1"
+        },
+        {
+          "key": "pool.president-posts.2"
+        },
+        {
+          "key": "pool.president-posts.3"
+        },
+        {
+          "key": "pool.president-posts.4"
+        },
+        {
+          "key": "pool.president-posts.5"
+        },
+        {
+          "key": "pool.president-posts.6"
+        },
+        {
+          "key": "pool.president-posts.7"
+        },
+        {
+          "key": "pool.president-posts.8"
+        },
+        {
+          "key": "pool.president-posts.9"
+        },
+        {
+          "key": "pool.president-posts.10"
+        },
+        {
+          "key": "pool.president-posts.11"
+        },
+        {
+          "key": "pool.president-posts.12"
+        },
+        {
+          "key": "pool.president-posts.13"
+        },
+        {
+          "key": "pool.president-posts.14"
+        },
+        {
+          "key": "pool.president-posts.15"
+        },
+        {
+          "key": "pool.president-posts.16"
+        }
+      ]
+    }
+  ]
+}

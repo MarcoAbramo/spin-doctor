@@ -1,0 +1,225 @@
+{
+  "upgrades": [
+    {
+      "id": "framing-seminar",
+      "cost": 50,
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 25
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "tap",
+          "value": 2
+        }
+      ],
+      "emoji": "🖼️"
+    },
+    {
+      "id": "whataboutism-course",
+      "cost": 250,
+      "unlock": {
+        "type": "generator",
+        "generator": "intern",
+        "gte": 5
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:intern",
+          "value": 2
+        }
+      ],
+      "emoji": "🔀"
+    },
+    {
+      "id": "record-claim-generator",
+      "cost": 1000,
+      "unlock": {
+        "type": "generator",
+        "generator": "talkshow-guest",
+        "gte": 3
+      },
+      "effects": [
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 5
+        },
+        {
+          "type": "multiplier",
+          "target": "tap",
+          "value": 1.5
+        }
+      ],
+      "emoji": "🏆"
+    },
+    {
+      "id": "talkshow-media-training",
+      "cost": 2500,
+      "unlock": {
+        "type": "generator",
+        "generator": "talkshow-guest",
+        "gte": 10
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:talkshow-guest",
+          "value": 2
+        }
+      ],
+      "emoji": "🎤"
+    },
+    {
+      "id": "favourite-journalists",
+      "cost": 5000,
+      "dark": true,
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 2500
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 1.5
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -10
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "press-freedom"
+        }
+      ],
+      "emoji": "🎟️"
+    },
+    {
+      "id": "emoji-bots",
+      "cost": 11000,
+      "unlock": {
+        "type": "generator",
+        "generator": "bot-farm",
+        "gte": 5
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:bot-farm",
+          "value": 2
+        }
+      ],
+      "emoji": "😎"
+    },
+    {
+      "id": "fact-check-restructuring",
+      "cost": 20000,
+      "dark": true,
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 10000
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "scandal-detection",
+          "value": 0.6
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -5
+        }
+      ],
+      "emoji": "🗑️"
+    },
+    {
+      "id": "nephew-minister-of-everything",
+      "cost": 50000,
+      "dark": true,
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 25000
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 1.25
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -5
+        },
+        {
+          "type": "setFlag",
+          "flag": "nephew-minister"
+        }
+      ],
+      "emoji": "👔"
+    },
+    {
+      "id": "creative-redistricting",
+      "cost": 150000,
+      "dark": true,
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 80000
+      },
+      "effects": [
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 10
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -10
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "gerrymandering"
+        }
+      ],
+      "emoji": "✏️"
+    },
+    {
+      "id": "loyal-judges",
+      "cost": 500000,
+      "dark": true,
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 250000
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 2
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -15
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "separation-of-powers"
+        }
+      ],
+      "emoji": "⚖️"
+    }
+  ]
+}

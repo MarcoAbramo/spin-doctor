@@ -1,0 +1,16 @@
+{
+  "lexicon": [
+    {
+      "id": "press-freedom",
+      "source": { "label": "bpb.de", "url": "https://www.bpb.de/" }
+    },
+    {
+      "id": "separation-of-powers",
+      "source": { "label": "bpb.de", "url": "https://www.bpb.de/" }
+    },
+    {
+      "id": "gerrymandering",
+      "source": { "label": "bpb.de", "url": "https://www.bpb.de/" }
+    }
+  ]
+}

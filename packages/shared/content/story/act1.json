@@ -1,0 +1,191 @@
+{
+  "quests": [
+    {
+      "id": "act1-intro",
+      "category": "story",
+      "act": 1,
+      "titleKey": "quest.act1-intro.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.act1-intro.s0.l1", "quest.act1-intro.s0.l2", "quest.act1-intro.s0.l3"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.act1-intro.s1.l1", "quest.act1-intro.s1.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "you",
+          "lines": ["quest.act1-intro.s2.l1"],
+          "choices": [
+            {
+              "textKey": "quest.act1-intro.s2.c1",
+              "replyKey": "quest.act1-intro.s2.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 3
+                }
+              ]
+            },
+            {
+              "textKey": "quest.act1-intro.s2.c2",
+              "replyKey": "quest.act1-intro.s2.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                }
+              ]
+            },
+            {
+              "textKey": "quest.act1-intro.s2.c3",
+              "replyKey": "quest.act1-intro.s2.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -1
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "objective",
+          "textKey": "quest.act1-intro.s3.goal",
+          "condition": {
+            "type": "counter",
+            "counter": "statements",
+            "gte": 10
+          }
+        },
+        {
+          "type": "objective",
+          "textKey": "quest.act1-intro.s4.goal",
+          "condition": {
+            "type": "generator",
+            "generator": "intern",
+            "gte": 1
+          }
+        },
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.act1-intro.s5.l1", "quest.act1-intro.s5.l2"]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "addStat",
+          "stat": "spin",
+          "value": 25
+        },
+        {
+          "type": "setFlag",
+          "flag": "onboarding-done"
+        }
+      ]
+    },
+    {
+      "id": "act1-first-100-days",
+      "category": "story",
+      "act": 1,
+      "titleKey": "quest.act1-first-100-days.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "quest",
+        "quest": "act1-intro"
+      },
+      "steps": [
+        {
+          "type": "objective",
+          "textKey": "quest.act1-first-100-days.s0.goal",
+          "condition": {
+            "type": "upgrade",
+            "upgrade": "framing-seminar"
+          }
+        },
+        {
+          "type": "objective",
+          "textKey": "quest.act1-first-100-days.s1.goal",
+          "condition": {
+            "type": "generator",
+            "generator": "talkshow-guest",
+            "gte": 1
+          }
+        },
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.act1-first-100-days.s2.l1", "quest.act1-first-100-days.s2.l2"]
+        },
+        {
+          "type": "objective",
+          "textKey": "quest.act1-first-100-days.s3.goal",
+          "condition": {
+            "type": "upgrade",
+            "upgrade": "favourite-journalists"
+          }
+        },
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.act1-first-100-days.s4.l1", "quest.act1-first-100-days.s4.l2"]
+        },
+        {
+          "type": "objective",
+          "textKey": "quest.act1-first-100-days.s5.goal",
+          "condition": {
+            "type": "generator",
+            "generator": "bot-farm",
+            "gte": 1
+          }
+        },
+        {
+          "type": "objective",
+          "textKey": "quest.act1-first-100-days.s6.goal",
+          "condition": {
+            "type": "stat",
+            "stat": "democracy",
+            "lte": 80
+          }
+        },
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": [
+            "quest.act1-first-100-days.s7.l1",
+            "quest.act1-first-100-days.s7.l2",
+            "quest.act1-first-100-days.s7.l3"
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 300
+        },
+        {
+          "type": "setFlag",
+          "flag": "act1-complete"
+        }
+      ]
+    }
+  ]
+}

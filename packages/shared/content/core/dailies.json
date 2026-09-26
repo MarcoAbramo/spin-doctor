@@ -1,0 +1,123 @@
+{
+  "dailies": [
+    {
+      "id": "survive-scandals",
+      "textKey": "daily.survive-scandals",
+      "counter": "scandals",
+      "target": 3,
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        },
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "statements",
+      "textKey": "daily.statements",
+      "counter": "statements",
+      "target": 200,
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        },
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "buy-generators",
+      "textKey": "daily.buy-generators",
+      "counter": "generators-bought",
+      "target": 10,
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        },
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "handle-posts",
+      "textKey": "daily.handle-posts",
+      "counter": "handled-president-post",
+      "target": 3,
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        },
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "play-swipe",
+      "textKey": "daily.play-swipe",
+      "counter": "played-headline-swipe",
+      "target": 2,
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        },
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "buy-upgrades",
+      "textKey": "daily.buy-upgrades",
+      "counter": "upgrades-bought",
+      "target": 2,
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        },
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "swipe-points",
+      "textKey": "daily.swipe-points",
+      "counter": "minigame-points",
+      "target": 40,
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        },
+        {
+          "type": "addStat",
+          "stat": "approval",
+          "value": 2
+        }
+      ]
+    }
+  ]
+}

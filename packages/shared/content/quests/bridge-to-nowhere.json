@@ -1,0 +1,252 @@
+{
+  "quests": [
+    {
+      "id": "bridge-to-nowhere",
+      "category": "side",
+      "titleKey": "quest.bridge-to-nowhere.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "all",
+        "of": [
+          {
+            "type": "quest",
+            "quest": "act1-intro"
+          },
+          {
+            "type": "lifetime",
+            "stat": "spin",
+            "gte": 400
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "frieda",
+          "lines": ["quest.bridge-to-nowhere.s0.l1", "quest.bridge-to-nowhere.s0.l2"],
+          "choices": [
+            {
+              "textKey": "quest.bridge-to-nowhere.s0.c1",
+              "replyKey": "quest.bridge-to-nowhere.s0.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -2
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s0.c2",
+              "replyKey": "quest.bridge-to-nowhere.s0.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 3
+                },
+                {
+                  "type": "counter",
+                  "counter": "dog-videos",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s0.c3",
+              "replyKey": "quest.bridge-to-nowhere.s0.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 1
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s0.c4",
+              "replyKey": "quest.bridge-to-nowhere.s0.r4",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "dialog",
+          "speaker": "frieda",
+          "lines": ["quest.bridge-to-nowhere.s1.l1"],
+          "choices": [
+            {
+              "textKey": "quest.bridge-to-nowhere.s1.c1",
+              "replyKey": "quest.bridge-to-nowhere.s1.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -2
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s1.c2",
+              "replyKey": "quest.bridge-to-nowhere.s1.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                },
+                {
+                  "type": "counter",
+                  "counter": "dog-videos",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s1.c3",
+              "replyKey": "quest.bridge-to-nowhere.s1.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -3
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s1.c4",
+              "replyKey": "quest.bridge-to-nowhere.s1.r4",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "dialog",
+          "speaker": "frieda",
+          "lines": ["quest.bridge-to-nowhere.s2.l1"],
+          "choices": [
+            {
+              "textKey": "quest.bridge-to-nowhere.s2.c1",
+              "replyKey": "quest.bridge-to-nowhere.s2.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 1
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -3
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s2.c2",
+              "replyKey": "quest.bridge-to-nowhere.s2.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 4
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s2.c3",
+              "replyKey": "quest.bridge-to-nowhere.s2.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -2
+                }
+              ]
+            },
+            {
+              "textKey": "quest.bridge-to-nowhere.s2.c4",
+              "replyKey": "quest.bridge-to-nowhere.s2.r4",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -4
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "dialog",
+          "speaker": "frieda",
+          "lines": ["quest.bridge-to-nowhere.s3.l1"]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 120
+        }
+      ]
+    }
+  ]
+}

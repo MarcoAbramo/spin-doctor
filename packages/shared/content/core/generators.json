@@ -1,0 +1,71 @@
+{
+  "generators": [
+    {
+      "id": "intern",
+      "baseCost": 15,
+      "rate": 0.1,
+      "sprite": "gen-intern",
+      "emoji": "📱"
+    },
+    {
+      "id": "talkshow-guest",
+      "baseCost": 100,
+      "rate": 1,
+      "sprite": "gen-talkshow",
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 50
+      },
+      "emoji": "🛋️"
+    },
+    {
+      "id": "bot-farm",
+      "baseCost": 1100,
+      "rate": 8,
+      "sprite": "gen-botfarm",
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 500
+      },
+      "emoji": "🤖"
+    },
+    {
+      "id": "court-paper",
+      "baseCost": 12000,
+      "rate": 47,
+      "sprite": "gen-paper",
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 5000
+      },
+      "emoji": "📰"
+    },
+    {
+      "id": "jubel-tv",
+      "baseCost": 130000,
+      "rate": 260,
+      "sprite": "gen-tv",
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 60000
+      },
+      "emoji": "📺"
+    },
+    {
+      "id": "truth-ministry",
+      "baseCost": 1400000,
+      "rate": 1400,
+      "sprite": "gen-ministry",
+      "unlock": {
+        "type": "lifetime",
+        "stat": "spin",
+        "gte": 700000
+      },
+      "emoji": "🏛️"
+    }
+  ]
+}

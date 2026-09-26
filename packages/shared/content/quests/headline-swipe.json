@@ -1,0 +1,153 @@
+{
+  "quests": [
+    {
+      "id": "headline-swipe",
+      "category": "minigame",
+      "titleKey": "quest.headline-swipe.title",
+      "trigger": {
+        "type": "manual",
+        "cooldownSec": 90
+      },
+      "repeatable": true,
+      "conditions": {
+        "type": "quest",
+        "quest": "act1-intro"
+      },
+      "steps": [
+        {
+          "type": "minigame",
+          "handler": "headline-swipe",
+          "durationSec": 20,
+          "pool": "headlines",
+          "productionSecondsPerPoint": 3,
+          "effects": [
+            {
+              "type": "addStat",
+              "stat": "approval",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pools": [
+    {
+      "id": "headlines",
+      "entries": [
+        {
+          "key": "pool.headlines.neg1",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg2",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg3",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg4",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg5",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg6",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg7",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg8",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg9",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg10",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg11",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg12",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg13",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.neg14",
+          "tag": "negative"
+        },
+        {
+          "key": "pool.headlines.pos1",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos2",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos3",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos4",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos5",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos6",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos7",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos8",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos9",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos10",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos11",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos12",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos13",
+          "tag": "positive"
+        },
+        {
+          "key": "pool.headlines.pos14",
+          "tag": "positive"
+        }
+      ]
+    }
+  ]
+}
