@@ -10,3 +10,7 @@ coverage/
 .vite/
 *.tsbuildinfo
 .pnpm-store/
+
+# iCloud / Finder conflict copies such as "package 2.json" — never commit these
+* [0-9]
+* [0-9].*
