@@ -15,26 +15,48 @@ export interface AssetSpec {
   optional?: boolean
 }
 
-/** Fixed scene & UI assets that do not come from content packs. */
+/** Fixed scene & UI assets that do not come from content packs. Sizes are native art pixels. */
 export const STATIC_ASSETS: AssetSpec[] = [
   {
     path: 'sprites/scene-background.png',
     kind: 'sprite',
-    size: '1080×1350',
-    purpose: 'Press room back wall + floor',
+    size: '480×400',
+    purpose: 'Press room: wall from y=0, floor from y=290; core play area is x 80–400 (320 px)',
   },
   {
     path: 'sprites/scene-podium.png',
     kind: 'sprite',
-    size: '480×420',
-    purpose: 'Speaker podium (tap target), centred',
+    size: '80×64',
+    purpose: 'Speaker podium with microphone (tap target), bottom-centre anchored',
   },
   {
     path: 'sprites/scene-portrait.png',
     kind: 'sprite',
-    size: '360×440',
-    purpose: 'Stylised, fictional portrait of President Magnus Rekord (no real-person likeness!)',
+    size: '64×80',
+    purpose: 'Framed, stylised portrait of the fictional President Magnus Rekord',
   },
+  {
+    path: 'sprites/player.png',
+    kind: 'sprite',
+    size: '48×64 per frame',
+    purpose:
+      'You, the press secretary, behind the podium. Sheet + Aseprite JSON with tags idle, talk (plays on every tap), point',
+  },
+  {
+    path: 'sprites/player.json',
+    kind: 'sprite',
+    size: 'Aseprite JSON',
+    purpose:
+      'Frame data for player.png (Aseprite: Export Sprite Sheet → JSON Data “Array”, Tags on)',
+  },
+  ...['generators', 'upgrades', 'quests', 'lexicon', 'settings'].map(
+    (tab): AssetSpec => ({
+      path: `icons/tab-${tab}.png`,
+      kind: 'icon',
+      size: '16×16',
+      purpose: `Tab bar icon "${tab}" (shown at 32×32)`,
+    }),
+  ),
   { path: 'audio/tap.ogg', kind: 'audio', size: '< 0.2 s', purpose: 'Tap on podium' },
   { path: 'audio/buy.ogg', kind: 'audio', size: '< 0.4 s', purpose: 'Generator bought' },
   { path: 'audio/upgrade.ogg', kind: 'audio', size: '< 0.8 s', purpose: 'Upgrade bought' },
@@ -79,13 +101,13 @@ export function contentAssets(content: Content): AssetSpec[] {
     list.push({
       path: `sprites/${g.sprite ?? `gen-${g.id}`}.png`,
       kind: 'sprite',
-      size: '256×256',
-      purpose: `Generator "${g.id}" in the press room (idle animation optional)`,
+      size: '48×48 per frame',
+      purpose: `Generator "${g.id}" in the press room (optional Aseprite JSON with tag idle for animation)`,
     })
     list.push({
       path: `icons/generator-${g.id}.png`,
       kind: 'icon',
-      size: '128×128',
+      size: '16×16',
       purpose: `Shop icon for generator "${g.id}" (emoji until then)`,
       optional: true,
     })
@@ -94,7 +116,7 @@ export function contentAssets(content: Content): AssetSpec[] {
     list.push({
       path: `portraits/${s.id}.png`,
       kind: 'portrait',
-      size: '512×512',
+      size: '48×48',
       purpose: `Dialog portrait of speaker "${s.id}"`,
     })
   }
@@ -103,17 +125,16 @@ export function contentAssets(content: Content): AssetSpec[] {
     list.push({
       path: `icons/stat-${s.id}.png`,
       kind: 'icon',
-      size: '96×96',
+      size: '16×16',
       purpose: `HUD icon for stat "${s.id}"`,
-      optional: true,
     })
   }
   for (const u of content.upgrades) {
     list.push({
       path: `icons/upgrade-${u.id}.png`,
       kind: 'icon',
-      size: '128×128',
-      purpose: `Icon for upgrade "${u.id}"`,
+      size: '16×16',
+      purpose: `Icon for upgrade "${u.id}" (emoji until then)`,
       optional: true,
     })
   }
@@ -121,7 +142,7 @@ export function contentAssets(content: Content): AssetSpec[] {
     list.push({
       path: `illustrations/lexicon-${l.id}.png`,
       kind: 'illustration',
-      size: '800×450',
+      size: '160×90',
       purpose: `Header image of lexicon card "${l.id}"`,
       optional: true,
     })
