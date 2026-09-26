@@ -1,4 +1,4 @@
-import { formatDuration, formatNumber, productionPerSecond } from '@spin-doctor/shared'
+import { formatDuration, formatNumber, locationRate } from '@spin-doctor/shared'
 import { content } from '../content'
 import { t } from '../i18n'
 import { AssetIcon } from './AssetIcon'
@@ -21,7 +21,7 @@ export function Hud() {
           <span class="hud-label">{t(`stat.${currency.id}.name`)}</span>
         </div>
         <div class="hud-rate">
-          {t('ui.perSecond', { value: formatNumber(productionPerSecond(state, content)) })}
+          {t('ui.perSecond', { value: formatNumber(locationRate(state, content, state.location)) })}
         </div>
       </div>
       <div class="hud-stats">

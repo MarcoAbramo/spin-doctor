@@ -2,6 +2,14 @@ import type { Content } from './content'
 import type { Condition } from './schema'
 import type { GameState } from './state'
 
+/** The first location is always open; others need their `unlock` condition. */
+export function isLocationUnlocked(state: GameState, content: Content, id: string): boolean {
+  const index = content.locations.findIndex((l) => l.id === id)
+  if (index < 0) return false
+  if (index === 0 || state.location === id) return true
+  return check(state, content, content.locations[index]!.unlock)
+}
+
 export function check(state: GameState, content: Content, cond: Condition | undefined): boolean {
   if (!cond) return true
   switch (cond.type) {
@@ -21,6 +29,16 @@ export function check(state: GameState, content: Content, cond: Condition | unde
       return (state.counters[cond.counter] ?? 0) >= cond.gte
     case 'lifetime':
       return (state.lifetime[cond.stat] ?? 0) >= cond.gte
+    case 'location':
+      return state.location === cond.location
+    case 'locationUnlocked':
+      return isLocationUnlocked(state, content, cond.location)
+    case 'hour': {
+      const h = state.clock.hour
+      return cond.from <= cond.to ? h >= cond.from && h < cond.to : h >= cond.from || h < cond.to
+    }
+    case 'weekday':
+      return cond.days.includes(state.clock.weekday)
     case 'all':
       return cond.of.every((c) => check(state, content, c))
     case 'any':

@@ -1,6 +1,6 @@
 import { check } from './conditions'
 import type { Content } from './content'
-import { addCounter, applyEffects } from './economy'
+import { addCounter, addStat, applyEffects, applyQuality, productionPerSecond } from './economy'
 import type { QuestDef, Step } from './schema'
 import { type ActiveQuest, type GameState, random } from './state'
 
@@ -32,6 +32,7 @@ function hasInteractive(state: GameState, content: Content): boolean {
 
 export function isQuestAvailable(state: GameState, content: Content, q: QuestDef): boolean {
   if (state.quests.active.some((a) => a.id === q.id)) return false
+  if (q.location && q.location !== state.location) return false
   if (!q.repeatable && state.quests.completed.includes(q.id)) return false
   if ((state.quests.cooldowns[q.id] ?? 0) > state.now) return false
   return check(state, content, q.conditions)
@@ -40,6 +41,8 @@ export function isQuestAvailable(state: GameState, content: Content, q: QuestDef
 function enterStep(state: GameState, content: Content, active: ActiveQuest): void {
   active.stepStartedAt = state.now
   active.entry = undefined
+  active.scores = undefined
+  active.started = undefined
   const step = currentStep(content, active)
   if (step?.type === 'timed' && step.pool) {
     const pool = content.pools.find((p) => p.id === step.pool)
@@ -113,6 +116,55 @@ export function updateQuests(state: GameState, content: Content): void {
     ) {
       applyEffects(state, content, step.failure)
       advanceMut(state, content, active.id)
+    } else if (step.type === 'framing' && active.started) {
+      // Unanswered questions count as a failed spin once their time is up.
+      const stepIndex = active.step
+      while (
+        active.step === stepIndex &&
+        active.started &&
+        (active.scores?.length ?? 0) < step.questions.length &&
+        state.now - active.stepStartedAt >= step.timePerQuestionSec * 1000
+      ) {
+        recordFramingAnswer(state, content, active, step, null)
+      }
     }
   }
+}
+
+type FramingStep = Extract<Step, { type: 'framing' }>
+
+/**
+ * Mutating helper: records one framing answer (`null` = timed out). After the last
+ * question, rewards and the spin-quality tier are applied and the quest advances.
+ */
+export function recordFramingAnswer(
+  state: GameState,
+  content: Content,
+  active: ActiveQuest,
+  step: FramingStep,
+  answer: number | null,
+): void {
+  const scores = active.scores ?? []
+  const question = step.questions[scores.length]
+  if (!question) return
+  const picked = answer === null ? undefined : question.answers[answer]
+  scores.push(picked?.score ?? 0)
+  active.scores = scores
+  if (picked) applyEffects(state, content, picked.effects)
+  const questionEnd = active.stepStartedAt + step.timePerQuestionSec * 1000
+  active.stepStartedAt = answer === null ? questionEnd : state.now
+  if (scores.length < step.questions.length) return
+
+  const total = scores.reduce((a, b) => a + b, 0)
+  const average = total / step.questions.length
+  addStat(
+    state,
+    content,
+    content.currency,
+    total * step.productionSecondsPerPoint * productionPerSecond(state, content),
+  )
+  addCounter(state, 'framings')
+  if (average >= 0.8) addCounter(state, 'framings-perfect')
+  applyQuality(state, content, active.id, step.qualityEffects, average)
+  advanceMut(state, content, active.id)
 }

@@ -7,7 +7,17 @@ import { type GameState, reconcile, SAVE_VERSION } from './state'
  * Add a function here whenever `SAVE_VERSION` is bumped — never edit old ones.
  */
 type RawSave = Record<string, unknown> & { version: number }
-export const migrations: Array<(save: RawSave) => RawSave> = []
+export const migrations: Array<(save: RawSave) => RawSave> = [
+  // v1 → v2: the world map. Everything so far happened in the press house.
+  (save) => ({
+    ...save,
+    version: 2,
+    clock: { hour: 12, weekday: 1 },
+    location: 'press-house',
+    locations: {},
+    hotspots: {},
+  }),
+]
 
 const num = z.number().finite()
 const record = z.record(z.string(), num)
@@ -25,6 +35,20 @@ export const saveSchema = z.object({
   flags: z.array(z.string()),
   lexicon: z.array(z.string()),
   counters: record,
+  clock: z.object({ hour: num, weekday: num }),
+  location: z.string(),
+  locations: z.record(
+    z.string(),
+    z.object({
+      till: record,
+      producedSinceVisit: record,
+      lifetime: record,
+      lastVisitAt: num,
+      visits: z.number().int().min(0),
+      fullNotified: z.boolean(),
+    }),
+  ),
+  hotspots: record,
   modifiers: z.array(
     z.object({ id: z.string(), until: num, labelKey: z.string(), effects: z.array(passive) }),
   ),
@@ -35,6 +59,8 @@ export const saveSchema = z.object({
         step: z.number().int().min(0),
         stepStartedAt: num,
         entry: z.string().optional(),
+        scores: z.array(num).optional(),
+        started: z.boolean().optional(),
       }),
     ),
     completed: z.array(z.string()),

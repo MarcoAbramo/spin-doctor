@@ -238,5 +238,11 @@
   "ui.toast.update": "Neue Version verfügbar.",
   "ui.toast.reload": "Neu laden",
   "ui.toast.offlineReady": "Jetzt auch offline spielbar!",
-  "ui.hud.objective": "Aufgabe"
+  "ui.hud.objective": "Aufgabe",
+  "location.press-house.name": "Pressehaus",
+  "ui.effect.location": "{name}: Ertrag ×{value}",
+  "ui.effect.tillCap": "Ortskassen fassen ×{value}",
+  "ui.effect.tillCapAt": "Ortskasse {name} fasst ×{value}",
+  "ui.maxed": "Fertig gebaut",
+  "ui.perSecondHere": "{value} pro Sek. hier"
 }

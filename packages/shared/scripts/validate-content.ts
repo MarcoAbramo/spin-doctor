@@ -14,7 +14,8 @@ try {
     process.exit(1)
   }
   console.log(
-    `Content OK: ${content.stats.length} stats, ${content.generators.length} generators, ` +
+    `Content OK: ${content.locations.length} location(s), ${content.stats.length} stats, ` +
+      `${content.generators.length} generators, ` +
       `${content.upgrades.length} upgrades, ${content.quests.length} quests, ` +
       `${content.dailies.length} dailies, ${content.lexicon.length} lexicon cards.`,
   )

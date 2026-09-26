@@ -28,6 +28,9 @@ The original spec is `HACKATHON_PROMPT.md`.
   steps are rendered by handler id (`ui/modals/QuestModal.tsx`; keep `KNOWN_HANDLERS` in sync).
 - Assets by convention (ADR 0004): `apps/client/public/assets/{sprites,portraits,icons,illustrations,audio}`,
   names from content ids, placeholders when missing. See `docs/ASSET_GUIDE.md`.
+- World/levels (docs/roadmap.md): `locations[]` content; the current location pays directly
+  (on-site bonus), all others fill tills (capped) that `travel()` collects. Scenes are built from
+  `location.scene` (`apps/client/src/scene/scene.ts`), never hard-coded.
 - Saves: versioned (`SAVE_VERSION`) with migrations in `save.ts`; `reconcile()` adds new stats/generators.
 
 ## Conventions

@@ -98,6 +98,15 @@ Example — a new side quest in `packages/shared/content/quests/opposition-basem
   `counter`, `all`, `any`, `not`.
 - **Effects:** `addStat`, `multiplier` (upgrades), `productionSeconds`, `setFlag`, `unlockLexicon`,
   `counter`, `modifier` (timed buff/debuff), `scandal`.
+- **Locations** (levels on the map) live in `locations[]`: scene layout (background, props,
+  player, tap target, generator slots, backdrop colours), `onSiteBonus`, till capacity
+  (`till.capMinutes`), time-based `traits` (`hour`/`weekday` conditions), random `hotspots` and
+  `enter`/`exit` transition presets. Generators and upgrades name their `location`; generators
+  may `produce` and cost other stats (`produces`, `costStat`), have a `maxCount` (building
+  projects) and `perUnitEffects`.
+- **Framing duels** (`"type": "framing"` step): press questions with 2–4 answers scored 0…1, a
+  time limit per question and `qualityEffects` tiers — e.g. a great spin puts the location into
+  a boom via a `modifier` on `location:<id>`. **Endings** use the `ending` step.
 - **Story acts** are just quests with `"category": "story", "act": 2` chained by `quest` conditions —
   a new act is a new file in `content/story/`.
 - **New stats/"points"** (e.g. *Gewissen*): add to `stats` in a pack; existing saves pick them up

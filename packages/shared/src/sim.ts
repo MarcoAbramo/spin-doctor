@@ -5,13 +5,24 @@ import {
   addStat,
   applyDriftAndExpiry,
   applyEffects,
+  applyQuality,
+  distributeProduction,
   doBuyGenerator,
   doBuyUpgrade,
   doTap,
   productionPerSecond,
   tapValue,
+  travelMut,
+  updateHotspots,
 } from './economy'
-import { advanceMut, currentStep, isQuestAvailable, startQuestMut, updateQuests } from './quests'
+import {
+  advanceMut,
+  currentStep,
+  isQuestAvailable,
+  recordFramingAnswer,
+  startQuestMut,
+  updateQuests,
+} from './quests'
 import { draft, type GameState } from './state'
 
 /** Inputs from the outside world. The simulation never reads clocks itself. */
@@ -20,6 +31,10 @@ export interface TickContext {
   now: number
   /** Local calendar date 'YYYY-MM-DD' (for the midnight reset of dailies). */
   localDate: string
+  /** Local hour 0–23 (location traits such as prime time). Defaults to 12. */
+  localHour?: number
+  /** Local weekday, 0 = Sunday … 6 = Saturday. Defaults to 1 (Monday). */
+  localWeekday?: number
 }
 
 /**
@@ -35,9 +50,10 @@ export function tick(
   const s = draft(state)
   const dt = Math.max(0, dtSec)
   s.now = ctx.now
-  const produced = productionPerSecond(s, content) * dt
-  if (produced > 0) addStat(s, content, content.currency, produced)
+  s.clock = { hour: ctx.localHour ?? 12, weekday: ctx.localWeekday ?? 1 }
+  distributeProduction(s, content, dt)
   applyDriftAndExpiry(s, content, dt)
+  updateHotspots(s, content)
   ensureDailies(s, content, ctx.localDate)
   updateQuests(s, content)
   updateDailies(s, content)
@@ -142,8 +158,62 @@ export function finishMinigame(
   const perSecond = Math.max(productionPerSecond(s, content), tapValue(s, content))
   addStat(s, content, content.currency, points * step.productionSecondsPerPoint * perSecond)
   applyEffects(s, content, step.effects)
+  if (step.qualityEffects.length) applyQuality(s, content, questId, step.qualityEffects, points)
   addCounter(s, `played-${step.handler}`)
   addCounter(s, 'minigame-points', points)
+  advanceMut(s, content, questId)
+  updateQuests(s, content)
+  updateDailies(s, content)
+  return s
+}
+
+/** Walks/flies to another unlocked location and collects its till. */
+export function travel(state: GameState, content: Content, locationId: string): GameState {
+  const s = draft(state)
+  if (travelMut(s, content, locationId)) {
+    updateQuests(s, content)
+    updateDailies(s, content)
+  }
+  return s
+}
+
+/** Starts the clock of a framing duel (after the player has read the intro). */
+export function startFraming(state: GameState, content: Content, questId: string): GameState {
+  const s = draft(state)
+  const active = s.quests.active.find((a) => a.id === questId)
+  const step = active && currentStep(content, active)
+  if (!active || step?.type !== 'framing' || active.started) return s
+  active.started = true
+  active.scores = []
+  active.stepStartedAt = s.now
+  return s
+}
+
+/** Answers the current framing question; `null` means the time ran out. */
+export function answerFraming(
+  state: GameState,
+  content: Content,
+  questId: string,
+  answer: number | null,
+): GameState {
+  const s = draft(state)
+  const active = s.quests.active.find((a) => a.id === questId)
+  const step = active && currentStep(content, active)
+  if (!active || step?.type !== 'framing' || !active.started) return s
+  const late = s.now - active.stepStartedAt > step.timePerQuestionSec * 1000
+  recordFramingAnswer(s, content, active, step, late ? null : answer)
+  updateQuests(s, content)
+  updateDailies(s, content)
+  return s
+}
+
+/** Closes an ending screen. */
+export function acknowledgeEnding(state: GameState, content: Content, questId: string): GameState {
+  const s = draft(state)
+  const active = s.quests.active.find((a) => a.id === questId)
+  const step = active && currentStep(content, active)
+  if (step?.type !== 'ending') return s
+  applyEffects(s, content, step.effects)
   advanceMut(s, content, questId)
   updateQuests(s, content)
   updateDailies(s, content)
