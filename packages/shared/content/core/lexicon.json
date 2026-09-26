@@ -2,15 +2,24 @@
   "lexicon": [
     {
       "id": "press-freedom",
-      "source": { "label": "bpb.de", "url": "https://www.bpb.de/" }
+      "source": {
+        "label": "bpb.de – Pressefreiheit (Lexikon in einfacher Sprache)",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/lexikon-in-einfacher-sprache/250000/pressefreiheit/"
+      }
     },
     {
       "id": "separation-of-powers",
-      "source": { "label": "bpb.de", "url": "https://www.bpb.de/" }
+      "source": {
+        "label": "bpb.de – Gewaltenteilung/Gewaltenverschränkung (Politiklexikon)",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/politiklexikon/17567/gewaltenteilung-gewaltenverschraenkung/"
+      }
     },
     {
       "id": "gerrymandering",
-      "source": { "label": "bpb.de", "url": "https://www.bpb.de/" }
+      "source": {
+        "label": "bpb.de – „Nahezu jede neue Wahlkreiskarte wird vor Gericht angefochten“",
+        "url": "https://www.bpb.de/themen/nordamerika/usa/505567/nahezu-jede-neue-wahlkreiskarte-wird-vor-gericht-angefochten/"
+      }
     }
   ]
 }
