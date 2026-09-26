@@ -114,7 +114,7 @@ class Canvas {
   }
   ascii(x, y, rows, map = ASCII) {
     rows.forEach((row, j) => {
-      ;[...row].forEach((ch, i) => this.px(x + i, y + j, map[ch]))
+      for (const [i, ch] of [...row].entries()) this.px(x + i, y + j, map[ch])
     })
   }
   /** 1px outline around everything drawn inside the given region (classic pixel-art look). */
