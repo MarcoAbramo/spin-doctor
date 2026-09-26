@@ -1,0 +1,6 @@
+# Default owners for everything in the repo
+* @MarcoAbramo
+
+# Game content (quests, texts, lexicon) — reviewed for satire guardrails & fact-checks
+/packages/shared/content/ @MarcoAbramo
+/packages/shared/locales/ @MarcoAbramo

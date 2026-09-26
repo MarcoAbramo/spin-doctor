@@ -1,0 +1,17 @@
+name: Bug report
+description: Something is broken
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes: { label: What happened?, description: What did you expect instead? }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Steps to reproduce }
+  - type: input
+    id: device
+    attributes: { label: Device / browser, placeholder: "Pixel 7, Chrome 140" }
+  - type: textarea
+    id: save
+    attributes: { label: Save code (optional), description: Settings → Export save }

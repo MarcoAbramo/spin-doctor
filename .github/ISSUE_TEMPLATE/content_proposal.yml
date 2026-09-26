@@ -1,0 +1,27 @@
+name: Content proposal
+description: Propose a quest, event, president post, generator, upgrade or lexicon card
+labels: [content]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of content
+      options: [Story quest / act, Side quest, Random event, President post, Headline, Generator, Upgrade, New stat, Lexicon card]
+    validations: { required: true }
+  - type: textarea
+    id: idea
+    attributes: { label: Idea, description: "Describe it. German text first is fine." }
+    validations: { required: true }
+  - type: checkboxes
+    id: guardrails
+    attributes:
+      label: Satire guardrails
+      options:
+        - label: Everything is fictional — no real persons, parties, brands or quotes
+          required: true
+        - label: It targets techniques of power, not groups of people (punch up, never down)
+          required: true
+        - label: Lexicon cards are factual, neutral and cite a source
+  - type: textarea
+    id: source
+    attributes: { label: Source (for lexicon cards) }

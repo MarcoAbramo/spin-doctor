@@ -1,0 +1,15 @@
+Spin Doctor — original assets and texts
+
+Copyright (c) 2026 Spin Doctor contributors
+
+Unless stated otherwise in ASSETS.md, all original graphics, sounds, game texts
+(including everything under packages/shared/content/ and packages/shared/locales/)
+and illustrations in this repository are licensed under the
+
+  Creative Commons Attribution 4.0 International License (CC BY 4.0)
+  https://creativecommons.org/licenses/by/4.0/
+
+Third-party assets (e.g. Kenney CC0 packs under apps/client/public/assets/vendor/)
+keep their original licenses as listed in ASSETS.md.
+
+Source code is licensed separately under the MIT License (see LICENSE).

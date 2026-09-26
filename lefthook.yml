@@ -1,0 +1,12 @@
+output:
+  - failure
+pre-commit:
+  parallel: true
+  commands:
+    biome:
+      glob: "*.{js,ts,tsx,json,jsonc}"
+      run: pnpm exec biome check --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm exec commitlint --edit {1}
