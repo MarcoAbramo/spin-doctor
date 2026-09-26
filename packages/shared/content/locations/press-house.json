@@ -1,0 +1,29 @@
+{
+  "locations": [
+    {
+      "id": "press-house",
+      "order": 0,
+      "emoji": "🎙️",
+      "mapEntrance": "press-house",
+      "onSiteBonus": 1.5,
+      "till": { "capMinutes": 60 },
+      "enter": { "preset": "doors" },
+      "exit": { "preset": "doors" },
+      "scene": {
+        "background": "scene-background",
+        "viewH": 350,
+        "props": [{ "sprite": "scene-portrait", "x": 160, "y": 150 }],
+        "player": { "x": 160, "y": 372 },
+        "tapTarget": { "sprite": "scene-podium", "x": 160, "y": 400 },
+        "slots": {
+          "intern": [[44, 384], [76, 396], [108, 388]],
+          "talkshow-guest": [[276, 318], [300, 332]],
+          "bot-farm": [[36, 300], [62, 300]],
+          "court-paper": [[240, 392], [272, 398]],
+          "jubel-tv": [[60, 150]],
+          "truth-ministry": [[262, 170]]
+        }
+      }
+    }
+  ]
+}

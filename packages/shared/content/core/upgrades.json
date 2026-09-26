@@ -2,6 +2,7 @@
   "upgrades": [
     {
       "id": "framing-seminar",
+      "location": "press-house",
       "cost": 50,
       "unlock": {
         "type": "lifetime",
@@ -19,6 +20,7 @@
     },
     {
       "id": "whataboutism-course",
+      "location": "press-house",
       "cost": 250,
       "unlock": {
         "type": "generator",
@@ -36,6 +38,7 @@
     },
     {
       "id": "record-claim-generator",
+      "location": "press-house",
       "cost": 1000,
       "unlock": {
         "type": "generator",
@@ -58,6 +61,7 @@
     },
     {
       "id": "talkshow-media-training",
+      "location": "press-house",
       "cost": 2500,
       "unlock": {
         "type": "generator",
@@ -75,6 +79,7 @@
     },
     {
       "id": "favourite-journalists",
+      "location": "press-house",
       "cost": 5000,
       "dark": true,
       "unlock": {
@@ -102,6 +107,7 @@
     },
     {
       "id": "emoji-bots",
+      "location": "press-house",
       "cost": 11000,
       "unlock": {
         "type": "generator",
@@ -119,6 +125,7 @@
     },
     {
       "id": "fact-check-restructuring",
+      "location": "press-house",
       "cost": 20000,
       "dark": true,
       "unlock": {
@@ -142,6 +149,7 @@
     },
     {
       "id": "nephew-minister-of-everything",
+      "location": "press-house",
       "cost": 50000,
       "dark": true,
       "unlock": {
@@ -169,6 +177,7 @@
     },
     {
       "id": "creative-redistricting",
+      "location": "press-house",
       "cost": 150000,
       "dark": true,
       "unlock": {
@@ -196,6 +205,7 @@
     },
     {
       "id": "loyal-judges",
+      "location": "press-house",
       "cost": 500000,
       "dark": true,
       "unlock": {

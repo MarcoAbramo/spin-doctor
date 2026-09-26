@@ -2,6 +2,7 @@
   "generators": [
     {
       "id": "intern",
+      "location": "press-house",
       "baseCost": 15,
       "rate": 0.1,
       "sprite": "gen-intern",
@@ -9,6 +10,7 @@
     },
     {
       "id": "talkshow-guest",
+      "location": "press-house",
       "baseCost": 100,
       "rate": 1,
       "sprite": "gen-talkshow",
@@ -21,6 +23,7 @@
     },
     {
       "id": "bot-farm",
+      "location": "press-house",
       "baseCost": 1100,
       "rate": 8,
       "sprite": "gen-botfarm",
@@ -33,6 +36,7 @@
     },
     {
       "id": "court-paper",
+      "location": "press-house",
       "baseCost": 12000,
       "rate": 47,
       "sprite": "gen-paper",
@@ -45,6 +49,7 @@
     },
     {
       "id": "jubel-tv",
+      "location": "press-house",
       "baseCost": 130000,
       "rate": 260,
       "sprite": "gen-tv",
@@ -57,6 +62,7 @@
     },
     {
       "id": "truth-ministry",
+      "location": "press-house",
       "baseCost": 1400000,
       "rate": 1400,
       "sprite": "gen-ministry",
