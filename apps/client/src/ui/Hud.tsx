@@ -1,6 +1,7 @@
 import { formatDuration, formatNumber, productionPerSecond } from '@spin-doctor/shared'
 import { content } from '../content'
 import { t } from '../i18n'
+import { AssetIcon } from './AssetIcon'
 import { useGame } from './hooks'
 
 export function Hud() {
@@ -11,9 +12,11 @@ export function Hud() {
     <header class="hud">
       <div class="hud-main">
         <div class="hud-spin" aria-live="off">
-          <span class="hud-emoji" aria-hidden="true">
-            {currency.emoji}
-          </span>
+          <AssetIcon
+            class="hud-emoji"
+            path={`icons/stat-${currency.id}.png`}
+            emoji={currency.emoji ?? ''}
+          />
           <strong>{formatNumber(state.stats[currency.id] ?? 0)}</strong>
           <span class="hud-label">{t(`stat.${currency.id}.name`)}</span>
         </div>

@@ -3,6 +3,7 @@ import { content } from '../../content'
 import { t } from '../../i18n'
 import { play, vibrate } from '../../juice/audio'
 import { dispatch } from '../../store'
+import { AssetIcon } from '../AssetIcon'
 import { describeEffects } from '../describe'
 import { useGame } from '../hooks'
 
@@ -19,9 +20,7 @@ export function UpgradesTab() {
       <ul class="list">
         {available.map((u) => (
           <li class={`card ${u.dark ? 'card-dark' : ''}`} key={u.id}>
-            <div class="card-icon" aria-hidden="true">
-              {u.emoji ?? '⬆️'}
-            </div>
+            <AssetIcon path={`icons/upgrade-${u.id}.png`} emoji={u.emoji ?? '⬆️'} />
             <div class="card-body">
               <div class="card-title">{t(`upgrade.${u.id}.name`)}</div>
               <div class="card-flavor">{t(`upgrade.${u.id}.desc`)}</div>

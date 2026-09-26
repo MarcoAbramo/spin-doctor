@@ -11,7 +11,8 @@
     "build": "echo 'shared is consumed as TypeScript source'",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "validate:content": "tsx scripts/validate-content.ts"
+    "validate:content": "tsx scripts/validate-content.ts",
+    "assets": "tsx scripts/asset-checklist.ts"
   },
   "dependencies": {
     "zod": "^4.6.5"

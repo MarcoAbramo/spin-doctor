@@ -35,27 +35,6 @@ export const STATIC_ASSETS: AssetSpec[] = [
     size: '360×440',
     purpose: 'Stylised, fictional portrait of President Magnus Rekord (no real-person likeness!)',
   },
-  {
-    path: 'sprites/scene-phone.png',
-    kind: 'sprite',
-    size: '600×1100',
-    purpose: 'Smartphone frame for "the president posted" event',
-    optional: true,
-  },
-  {
-    path: 'sprites/particle-star.png',
-    kind: 'sprite',
-    size: '64×64',
-    purpose: 'Tap particle',
-    optional: true,
-  },
-  {
-    path: 'sprites/confetti.png',
-    kind: 'sprite',
-    size: '32×32',
-    purpose: 'Confetti piece (tinted in code)',
-    optional: true,
-  },
   { path: 'audio/tap.ogg', kind: 'audio', size: '< 0.2 s', purpose: 'Tap on podium' },
   { path: 'audio/buy.ogg', kind: 'audio', size: '< 0.4 s', purpose: 'Generator bought' },
   { path: 'audio/upgrade.ogg', kind: 'audio', size: '< 0.8 s', purpose: 'Upgrade bought' },
@@ -91,13 +70,6 @@ export const STATIC_ASSETS: AssetSpec[] = [
     purpose: 'Speech bubble typing tick',
     optional: true,
   },
-  {
-    path: 'audio/music-loop.ogg',
-    kind: 'audio',
-    size: '60–120 s loop',
-    purpose: 'Background music (quiet)',
-    optional: true,
-  },
 ]
 
 /** Assets derived from content — new characters, generators, stats or cards add entries here. */
@@ -114,7 +86,8 @@ export function contentAssets(content: Content): AssetSpec[] {
       path: `icons/generator-${g.id}.png`,
       kind: 'icon',
       size: '128×128',
-      purpose: `Shop icon for generator "${g.id}"`,
+      purpose: `Shop icon for generator "${g.id}" (emoji until then)`,
+      optional: true,
     })
   }
   for (const s of content.speakers) {

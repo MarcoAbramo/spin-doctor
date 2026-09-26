@@ -11,6 +11,7 @@ import { content } from '../../content'
 import { t } from '../../i18n'
 import { play, vibrate } from '../../juice/audio'
 import { dispatch } from '../../store'
+import { AssetIcon } from '../AssetIcon'
 import { useGame } from '../hooks'
 
 export function GeneratorsTab() {
@@ -30,9 +31,7 @@ export function GeneratorsTab() {
           : g.rate * global
         return (
           <li class="card" key={g.id}>
-            <div class="card-icon" aria-hidden="true">
-              {g.emoji ?? '⭐'}
-            </div>
+            <AssetIcon path={`icons/generator-${g.id}.png`} emoji={g.emoji ?? '⭐'} />
             <div class="card-body">
               <div class="card-title">
                 {t(`generator.${g.id}.name`)}{' '}

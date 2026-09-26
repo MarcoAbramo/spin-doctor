@@ -37,5 +37,6 @@ export default defineConfig({
   ],
   server: { host: true, port: 5173, fs: { allow: ['../..'] } },
   preview: { port: 4173 },
-  build: { target: 'es2022', chunkSizeWarningLimit: 800 },
+  // Hashed build output goes to /static so /assets stays free for (non-hashed) game art.
+  build: { target: 'es2022', chunkSizeWarningLimit: 800, assetsDir: 'static' },
 })

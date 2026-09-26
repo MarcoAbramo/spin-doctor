@@ -1,0 +1,227 @@
+{
+  "v0.2 – Backend": [
+    {
+      "title": "Cloud save with anonymous account",
+      "labels": ["backend", "enhancement"],
+      "body": "Anonymous device token (stored client-side, hashed server-side in `players.device_token_hash`), optional linking to a real account later. Save upload/download via the API using the existing save schema.",
+      "acceptance": [
+        "POST/GET /saves with device token auth",
+        "Conflict handling (newest `now` wins, with confirmation in the UI)",
+        "Works offline-first; sync when online",
+        "Tests with a Postgres service in CI"
+      ]
+    },
+    {
+      "title": "Server-side validation of saves and offline progress (anti-cheat)",
+      "labels": ["backend"],
+      "body": "Reuse the pure simulation from `packages/shared` on the server to check that uploaded saves are plausible (max production × elapsed time, offline cap 8 h, cost curves).",
+      "acceptance": [
+        "Server rejects saves with impossible currency gains",
+        "Shared tests cover the validation function",
+        "Document tolerance rules in an ADR"
+      ]
+    },
+    {
+      "title": "Leaderboards",
+      "labels": ["backend", "enhancement"],
+      "body": "E.g. highest approval rating, most scandals survived, lifetime spin. Requires cloud save.",
+      "acceptance": [
+        "API endpoints with pagination",
+        "Leaderboard tab in the client",
+        "No personal data beyond chosen display name"
+      ]
+    },
+    {
+      "title": "Server-side daily and weekly quests with a shared seed",
+      "labels": ["backend", "enhancement"],
+      "body": "Dailies are currently assigned client-side from the seeded RNG. Move assignment to the server with one seed per day for all players.",
+      "acceptance": [
+        "GET /quests/daily returns the same set for everyone",
+        "Client falls back to local dailies offline",
+        "Streak validated server-side"
+      ]
+    },
+    {
+      "title": "Deployment pipeline to the VPS (GHCR + SSH) incl. Postgres backups",
+      "labels": ["backend", "infra"],
+      "body": "GitHub Actions: build images, push to GHCR, deploy via SSH with `docker compose -f docker-compose.prod.yml pull && up -d`. Nightly `pg_dump` with retention.",
+      "acceptance": [
+        "Tag push deploys automatically",
+        "Secrets only in GitHub environments",
+        "Backup + restore documented and tested"
+      ]
+    },
+    {
+      "title": "Privacy-friendly self-hosted analytics without cookies",
+      "labels": ["backend"],
+      "body": "E.g. Plausible/Umami self-hosted or a minimal event endpoint. No cookies, no personal data.",
+      "acceptance": ["Opt-out in settings", "Documented in README / privacy note"]
+    },
+    {
+      "title": "CI: Postgres integration tests for the API",
+      "labels": ["backend", "ci"],
+      "body": "Currently the API is tested without a database (ADR 0003). Add a Postgres service container once real DB features land.",
+      "acceptance": ["Migration runs in CI", "At least one DB-backed API test"]
+    }
+  ],
+  "v0.3 – Story & Inhalte": [
+    {
+      "title": "Act 2 „Der große Skandal“",
+      "labels": ["story", "content"],
+      "body": "Next story act as a content pack in `content/story/act2.json`, chained to `act1-first-100-days`.",
+      "acceptance": [
+        "At least 5 steps incl. dialog choices",
+        "New texts in de.json",
+        "No engine changes required"
+      ]
+    },
+    {
+      "title": "Act 3 „Die Wahl“ with multiple endings",
+      "labels": ["story", "content"],
+      "body": "Endings depend on stats, e.g. whistleblower ending, „Ewiger Pressesprecher“, „Demokratie gerettet (trotz dir)“. May need a generic 'ending' step type.",
+      "acceptance": ["≥ 3 endings driven by conditions", "Ending screen", "Endings are data-driven"]
+    },
+    {
+      "title": "New stat „Gewissen“ (conscience) of the press secretary",
+      "labels": ["story", "content"],
+      "body": "A new stat in a content pack that dialog choices influence; unlocks choices/endings (e.g. whistleblower).",
+      "acceptance": [
+        "Stat added via content pack only",
+        "Choices can require a minimum conscience (condition on choices)",
+        "Shown in HUD"
+      ]
+    },
+    {
+      "title": "Prestige „Neue Amtszeit“ with personality-cult bonus",
+      "labels": ["story", "enhancement"],
+      "body": "The president changes the constitution for another term: resets progress, grants a permanent bonus.",
+      "acceptance": [
+        "Prestige currency and bonus defined as data",
+        "Save migration",
+        "Balancing tests"
+      ]
+    },
+    {
+      "title": "More NPCs and story quests (opposition leader, court reporter, nephew Konstantin)",
+      "labels": ["story", "content", "good first issue"],
+      "body": "Use the quest guide in CONTRIBUTING.md. Opposition meets in a basement without Wi-Fi.",
+      "acceptance": [
+        "Each NPC has a speaker entry + portrait entry in the asset checklist",
+        "At least one quest per NPC"
+      ]
+    },
+    {
+      "title": "More minigames (press conference dodge quiz, talk show rhythm game, escape the fact check)",
+      "labels": ["minigame", "enhancement"],
+      "body": "Each minigame is a new handler registered in `QuestModal.tsx` and `KNOWN_HANDLERS`.",
+      "acceptance": [
+        "One new handler per PR",
+        "Reward scales with score",
+        "Accessible alternative controls"
+      ]
+    },
+    {
+      "title": "Weekly quests and achievements",
+      "labels": ["content", "enhancement"],
+      "body": "Extend the daily system with weekly tasks and permanent achievements (data-driven).",
+      "acceptance": ["Weekly reset on Monday local time", "Achievements tab"]
+    },
+    {
+      "title": "More lexicon cards (rule of law, term limits, nepotism, propaganda)",
+      "labels": ["content", "needs-fact-check"],
+      "body": "Factual, neutral, with a source. Each unlocked by a matching upgrade.",
+      "acceptance": ["Source verified", "Label needs-fact-check until reviewed"]
+    },
+    {
+      "title": "Content pipeline: community events and quests as JSON PRs",
+      "labels": ["content", "help wanted"],
+      "body": "Document and streamline: PR template for content, CI validation (exists), preview build per PR.",
+      "acceptance": ["Content PR checklist", "Preview deployment per PR"]
+    },
+    {
+      "title": "Fact-check lexicon card „Pressefreiheit“",
+      "labels": ["content", "needs-fact-check"],
+      "body": "Verify text and source of `lexicon.press-freedom`. Candidate source (verified reachable): https://www.bpb.de/kurz-knapp/lexika/lexikon-in-einfacher-sprache/250000/pressefreiheit/ — the card currently links to the bpb.de start page. Check the wording about the 1966 Spiegel ruling.",
+      "acceptance": [
+        "Text reviewed",
+        "Deep link to source set in content/core/lexicon.json",
+        "`factChecked: true`"
+      ]
+    },
+    {
+      "title": "Fact-check lexicon card „Gewaltenteilung“",
+      "labels": ["content", "needs-fact-check"],
+      "body": "Verify text and source of `lexicon.separation-of-powers`. Candidate source: https://www.bpb.de/kurz-knapp/lexika/politiklexikon/17567/gewaltenteilung-gewaltenverschraenkung/",
+      "acceptance": ["Text reviewed", "Deep link to source set", "`factChecked: true`"]
+    },
+    {
+      "title": "Fact-check lexicon card „Wahlkreiszuschnitt (Gerrymandering)“",
+      "labels": ["content", "needs-fact-check"],
+      "body": "Verify text and source of `lexicon.gerrymandering`. Candidate source: https://www.bpb.de/themen/nordamerika/usa/505567/nahezu-jede-neue-wahlkreiskarte-wird-vor-gericht-angefochten/ — check the statement about the German Wahlkreiskommission.",
+      "acceptance": ["Text reviewed", "Deep link to source set", "`factChecked: true`"]
+    }
+  ],
+  "v0.4 – Polish & Plattform": [
+    {
+      "title": "English translation and i18n for more languages",
+      "labels": ["enhancement", "good first issue"],
+      "body": "Add `locales/en.json`, language switch in settings, locale-aware number formatting.",
+      "acceptance": [
+        "All keys translated",
+        "Validation checks every locale",
+        "Language persisted in save"
+      ]
+    },
+    {
+      "title": "Accessibility: screen reader support, colour-blind mode, reduced motion",
+      "labels": ["a11y"],
+      "body": "Audit the overlay with VoiceOver/TalkBack; announce spin changes sensibly; colour-blind safe democracy bar.",
+      "acceptance": [
+        "axe audit clean",
+        "Minigame playable without swiping (buttons exist — verify with screen reader)"
+      ]
+    },
+    {
+      "title": "Replace placeholder art with own illustrations (CC BY 4.0)",
+      "labels": ["polish", "help wanted"],
+      "body": "See docs/ASSET_GUIDE.md and docs/ASSET_CHECKLIST.md (`pnpm assets`). Optionally integrate Kenney CC0 packs.",
+      "acceptance": [
+        "All required assets present (`pnpm assets --check` passes)",
+        "ASSETS.md updated"
+      ]
+    },
+    {
+      "title": "Sound design (replace synth placeholders, add MP3 fallback for older Safari)",
+      "labels": ["polish"],
+      "body": "Real CC0/CC BY sounds per ASSET_GUIDE; `.ogg` plus `.mp3` fallback.",
+      "acceptance": ["All sounds in assets/audio", "Volume balanced", "Mute respected"]
+    },
+    {
+      "title": "Big-number library for late game",
+      "labels": ["enhancement"],
+      "body": "`formatNumber` handles up to letter suffixes but JS numbers overflow at 1e308. Evaluate break_infinity.js or similar.",
+      "acceptance": ["Simulation uses the library behind a small interface", "Save migration"]
+    },
+    {
+      "title": "E2E tests with Playwright (mobile emulation) and Lighthouse CI with performance budget",
+      "labels": ["ci", "polish"],
+      "body": "Automate the onboarding smoke test (tap, buy, dialog, post, minigame) in Playwright; Lighthouse CI with PWA + perf budgets.",
+      "acceptance": [
+        "Runs in CI on PRs",
+        "Budget: initial JS < 300 kB gzip, LCP < 2.5 s on Moto G4 profile"
+      ]
+    },
+    {
+      "title": "Settings: better save export/import (file download, QR code)",
+      "labels": ["polish", "enhancement"],
+      "body": "Export as file / QR, import via file picker.",
+      "acceptance": ["Works on iOS and Android"]
+    },
+    {
+      "title": "Shrink server Docker image",
+      "labels": ["infra", "polish"],
+      "body": "The runtime image is ~300 MB. Bundle all dependencies with esbuild or use a distroless base.",
+      "acceptance": ["Image < 150 MB", "Health check still works"]
+    }
+  ]
+}

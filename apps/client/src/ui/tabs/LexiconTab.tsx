@@ -1,6 +1,11 @@
 import { content } from '../../content'
 import { t } from '../../i18n'
-import { useGame } from '../hooks'
+import { useAsset, useGame } from '../hooks'
+
+function Illustration({ id }: { id: string }) {
+  const path = `illustrations/lexicon-${id}.png`
+  return useAsset(path) ? <img class="lexicon-img" src={`assets/${path}`} alt="" /> : null
+}
 
 export function LexiconTab() {
   const state = useGame()
@@ -18,6 +23,7 @@ export function LexiconTab() {
                 </div>
                 {unlocked ? (
                   <>
+                    <Illustration id={card.id} />
                     <p class="lexicon-body">{t(`lexicon.${card.id}.body`)}</p>
                     <div class="card-meta">
                       {t('ui.lexicon.source')}:{' '}
