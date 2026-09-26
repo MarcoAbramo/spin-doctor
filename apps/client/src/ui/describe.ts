@@ -15,6 +15,15 @@ export function describeEffects(effects: Effect[]): string[] {
           out.push(
             t('ui.effect.generator', { name: t(`generator.${e.target.slice(10)}.name`), value }),
           )
+        else if (e.target === 'till-cap') out.push(t('ui.effect.tillCap', { value }))
+        else if (e.target.startsWith('till-cap:'))
+          out.push(
+            t('ui.effect.tillCapAt', { name: t(`location.${e.target.slice(9)}.name`), value }),
+          )
+        else if (e.target.startsWith('location:'))
+          out.push(
+            t('ui.effect.location', { name: t(`location.${e.target.slice(9)}.name`), value }),
+          )
         else if (e.target.startsWith('stat-gain:'))
           out.push(t('ui.effect.statGain', { name: t(`stat.${e.target.slice(10)}.name`), value }))
         break

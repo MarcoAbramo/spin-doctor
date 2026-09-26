@@ -9,10 +9,9 @@ import { useGame } from '../hooks'
 
 export function UpgradesTab() {
   const state = useGame()
-  const spin = state.stats[content.currency] ?? 0
-  const available = content.upgrades.filter(
-    (u) => !state.upgrades.includes(u.id) && check(state, content, u.unlock),
-  )
+  const available = content.upgrades
+    .filter((u) => u.location === state.location)
+    .filter((u) => !state.upgrades.includes(u.id) && check(state, content, u.unlock))
   const bought = content.upgrades.filter((u) => state.upgrades.includes(u.id))
   return (
     <div>
@@ -33,7 +32,7 @@ export function UpgradesTab() {
             <button
               type="button"
               class="btn btn-buy"
-              disabled={spin < u.cost}
+              disabled={(state.stats[u.costStat] ?? 0) < u.cost}
               onClick={() => {
                 dispatch((s) => buyUpgrade(s, content, u.id))
                 play('upgrade')
@@ -41,6 +40,9 @@ export function UpgradesTab() {
               }}
             >
               <span class="btn-sub">{t('ui.buy')}</span>
+              {u.costStat === content.currency
+                ? ''
+                : `${content.stats.find((st) => st.id === u.costStat)?.emoji ?? u.costStat} `}
               {formatNumber(u.cost)}
             </button>
           </li>

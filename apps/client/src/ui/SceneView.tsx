@@ -18,7 +18,7 @@ export function SceneView() {
     // PixiJS is loaded on demand to keep the initial bundle small.
     void import('../scene/scene').then(async ({ createScene }) => {
       if (!host.current || !alive) return
-      const s = await createScene(host.current)
+      const s = await createScene(host.current, getState().location)
       scene.current = s
       s.setReducedMotion(
         getState().settings.reducedMotion ||

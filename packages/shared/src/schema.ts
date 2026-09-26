@@ -268,6 +268,14 @@ export const locationSchema = z.object({
     background: z.string(),
     /** Visible height; the top of the room may be cropped on short screens. */
     viewH: z.number().positive().default(350),
+    /** Colours that extend the background beyond its edges on wide/tall screens. */
+    backdrop: z
+      .object({
+        top: z.string().default('#124e89'),
+        bottom: z.string().default('#733e39'),
+        splitY: z.number().default(290),
+      })
+      .prefault({}),
     props: z.array(placedSprite).default([]),
     player: z.object({ x: z.number(), y: z.number() }),
     tapTarget: placedSprite,

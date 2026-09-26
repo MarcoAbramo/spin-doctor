@@ -116,9 +116,12 @@ function loop(ts: number): void {
     if (report) offlineReport = report
     dirtyUi = true
   }
+  const date = new Date(now)
   state = tick(state, content, Math.min(dt, MAX_FRAME_SEC), {
     now,
-    localDate: localDateString(new Date(now)),
+    localDate: localDateString(date),
+    localHour: date.getHours(),
+    localWeekday: date.getDay(),
   })
   if (state.events.length) {
     emit(state.events)

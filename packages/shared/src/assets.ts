@@ -18,24 +18,6 @@ export interface AssetSpec {
 /** Fixed scene & UI assets that do not come from content packs. Sizes are native art pixels. */
 export const STATIC_ASSETS: AssetSpec[] = [
   {
-    path: 'sprites/scene-background.png',
-    kind: 'sprite',
-    size: '480×400',
-    purpose: 'Press room: wall from y=0, floor from y=290; core play area is x 80–400 (320 px)',
-  },
-  {
-    path: 'sprites/scene-podium.png',
-    kind: 'sprite',
-    size: '80×64',
-    purpose: 'Speaker podium with microphone (tap target), bottom-centre anchored',
-  },
-  {
-    path: 'sprites/scene-portrait.png',
-    kind: 'sprite',
-    size: '64×80',
-    purpose: 'Framed, stylised portrait of the fictional President Magnus Rekord',
-  },
-  {
     path: 'sprites/player.png',
     kind: 'sprite',
     size: '48×64 per frame',
@@ -97,14 +79,41 @@ export const STATIC_ASSETS: AssetSpec[] = [
 /** Assets derived from content — new characters, generators, stats or cards add entries here. */
 export function contentAssets(content: Content): AssetSpec[] {
   const list: AssetSpec[] = []
+  const seen = new Set<string>()
+  const add = (spec: AssetSpec) => {
+    if (seen.has(spec.path)) return
+    seen.add(spec.path)
+    list.push(spec)
+  }
+  for (const l of content.locations) {
+    add({
+      path: `sprites/${l.scene.background}.png`,
+      kind: 'sprite',
+      size: '480×400',
+      purpose: `Location "${l.id}": background (core play area x 80–400, see ASSET_GUIDE)`,
+    })
+    add({
+      path: `sprites/${l.scene.tapTarget.sprite}.png`,
+      kind: 'sprite',
+      size: 'about 80×64',
+      purpose: `Location "${l.id}": tap target at (${l.scene.tapTarget.x}, ${l.scene.tapTarget.y}), bottom-centre`,
+    })
+    for (const p of l.scene.props)
+      add({
+        path: `sprites/${p.sprite}.png`,
+        kind: 'sprite',
+        size: 'free',
+        purpose: `Location "${l.id}": prop at (${p.x}, ${p.y}), bottom-centre`,
+      })
+  }
   for (const g of content.generators) {
-    list.push({
+    add({
       path: `sprites/${g.sprite ?? `gen-${g.id}`}.png`,
       kind: 'sprite',
       size: '48×48 per frame',
-      purpose: `Generator "${g.id}" in the press room (optional Aseprite JSON with tag idle for animation)`,
+      purpose: `Generator "${g.id}" at location "${g.location}" (optional Aseprite JSON with tag idle)`,
     })
-    list.push({
+    add({
       path: `icons/generator-${g.id}.png`,
       kind: 'icon',
       size: '16×16',
@@ -113,7 +122,7 @@ export function contentAssets(content: Content): AssetSpec[] {
     })
   }
   for (const s of content.speakers) {
-    list.push({
+    add({
       path: `portraits/${s.id}.png`,
       kind: 'portrait',
       size: '48×48',
@@ -122,7 +131,7 @@ export function contentAssets(content: Content): AssetSpec[] {
   }
   for (const s of content.stats) {
     if (s.display === 'hidden') continue
-    list.push({
+    add({
       path: `icons/stat-${s.id}.png`,
       kind: 'icon',
       size: '16×16',
@@ -130,7 +139,7 @@ export function contentAssets(content: Content): AssetSpec[] {
     })
   }
   for (const u of content.upgrades) {
-    list.push({
+    add({
       path: `icons/upgrade-${u.id}.png`,
       kind: 'icon',
       size: '16×16',
@@ -139,7 +148,7 @@ export function contentAssets(content: Content): AssetSpec[] {
     })
   }
   for (const l of content.lexicon) {
-    list.push({
+    add({
       path: `illustrations/lexicon-${l.id}.png`,
       kind: 'illustration',
       size: '160×90',

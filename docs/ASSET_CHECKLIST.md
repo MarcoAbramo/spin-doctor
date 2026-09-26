@@ -7,17 +7,17 @@
 
 | | File (under `apps/client/public/assets/`) | Size | Purpose |
 |---|---|---|---|
-| ✅ | `sprites/scene-background.png` | 480×400 | Press room: wall from y=0, floor from y=290; core play area is x 80–400 (320 px) |
-| ✅ | `sprites/scene-podium.png` | 80×64 | Speaker podium with microphone (tap target), bottom-centre anchored |
-| ✅ | `sprites/scene-portrait.png` | 64×80 | Framed, stylised portrait of the fictional President Magnus Rekord |
 | ✅ | `sprites/player.png` | 48×64 per frame | You, the press secretary, behind the podium. Sheet + Aseprite JSON with tags idle, talk (plays on every tap), point |
 | ✅ | `sprites/player.json` | Aseprite JSON | Frame data for player.png (Aseprite: Export Sprite Sheet → JSON Data “Array”, Tags on) |
-| ✅ | `sprites/gen-intern.png` | 48×48 per frame | Generator "intern" in the press room (optional Aseprite JSON with tag idle for animation) |
-| ✅ | `sprites/gen-talkshow.png` | 48×48 per frame | Generator "talkshow-guest" in the press room (optional Aseprite JSON with tag idle for animation) |
-| ✅ | `sprites/gen-botfarm.png` | 48×48 per frame | Generator "bot-farm" in the press room (optional Aseprite JSON with tag idle for animation) |
-| ✅ | `sprites/gen-paper.png` | 48×48 per frame | Generator "court-paper" in the press room (optional Aseprite JSON with tag idle for animation) |
-| ✅ | `sprites/gen-tv.png` | 48×48 per frame | Generator "jubel-tv" in the press room (optional Aseprite JSON with tag idle for animation) |
-| ✅ | `sprites/gen-ministry.png` | 48×48 per frame | Generator "truth-ministry" in the press room (optional Aseprite JSON with tag idle for animation) |
+| ✅ | `sprites/scene-background.png` | 480×400 | Location "press-house": background (core play area x 80–400, see ASSET_GUIDE) |
+| ✅ | `sprites/scene-podium.png` | about 80×64 | Location "press-house": tap target at (160, 400), bottom-centre |
+| ✅ | `sprites/scene-portrait.png` | free | Location "press-house": prop at (160, 150), bottom-centre |
+| ✅ | `sprites/gen-intern.png` | 48×48 per frame | Generator "intern" at location "press-house" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/gen-talkshow.png` | 48×48 per frame | Generator "talkshow-guest" at location "press-house" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/gen-botfarm.png` | 48×48 per frame | Generator "bot-farm" at location "press-house" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/gen-paper.png` | 48×48 per frame | Generator "court-paper" at location "press-house" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/gen-tv.png` | 48×48 per frame | Generator "jubel-tv" at location "press-house" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/gen-ministry.png` | 48×48 per frame | Generator "truth-ministry" at location "press-house" (optional Aseprite JSON with tag idle) |
 
 ## Character portraits
 

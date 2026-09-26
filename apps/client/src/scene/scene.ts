@@ -1,4 +1,4 @@
-import type { GameState } from '@spin-doctor/shared'
+import { type GameState, generatorsAt, getLocation } from '@spin-doctor/shared'
 import { Easing, Group, Tween } from '@tweenjs/tween.js'
 import { Application, Container, Graphics, Text, TextureSource } from 'pixi.js'
 import { content } from '../content'
@@ -14,9 +14,6 @@ export const ART_W = 320
 export const ART_H = 400
 /** Background is wider than the play area so wide screens show more room, not bars. */
 const BG_W = 480
-const FLOOR_Y = 290
-/** The top of the room (ceiling) may be cropped on short screens; this much must stay visible. */
-const VIEW_H = 350
 
 // Endesga 32 colours used by code-drawn effects.
 const PAL = {
@@ -28,8 +25,6 @@ const PAL = {
   blue: 0x0099db,
   cyan: 0x2ce8f5,
   white: 0xffffff,
-  wall: 0x124e89,
-  floor: 0x733e39,
 }
 
 export interface Scene {
@@ -41,35 +36,17 @@ export interface Scene {
   setReducedMotion(on: boolean): void
 }
 
-/** Where generator props stand (art pixels, bottom-centre). Up to 3 copies each. */
-const SLOTS: Record<string, Array<[number, number]>> = {
-  intern: [
-    [44, 384],
-    [76, 396],
-    [108, 388],
-  ],
-  'talkshow-guest': [
-    [276, 318],
-    [300, 332],
-  ],
-  'bot-farm': [
-    [36, 300],
-    [62, 300],
-  ],
-  'court-paper': [
-    [240, 392],
-    [272, 398],
-  ],
-  'jubel-tv': [[60, 150]],
-  'truth-ministry': [[262, 170]],
-}
-
-export async function createScene(host: HTMLElement): Promise<Scene> {
+/** Builds the idle scene of one location from its content definition (`location.scene`). */
+export async function createScene(host: HTMLElement, locationId: string): Promise<Scene> {
+  const location = getLocation(content, locationId)
+  const def = location.scene
+  const wall = Number.parseInt(def.backdrop.top.slice(1), 16)
+  const floor = Number.parseInt(def.backdrop.bottom.slice(1), 16)
   TextureSource.defaultOptions.scaleMode = 'nearest'
   const app = new Application()
   await app.init({
     resizeTo: host,
-    background: PAL.wall,
+    background: wall,
     antialias: false,
     roundPixels: true,
     autoDensity: true,
@@ -87,23 +64,23 @@ export async function createScene(host: HTMLElement): Promise<Scene> {
   const fx = new Container()
   app.stage.addChild(backdrop, root, fx)
 
-  const bg = await loadArt('scene-background', () =>
-    drawPlaceholder('scene-background', BG_W, ART_H),
-  )
+  const bg = await loadArt(def.background, () => drawPlaceholder(def.background, BG_W, ART_H))
   bg.view.position.set(ART_W / 2, ART_H)
   root.addChild(bg.view)
 
-  const portrait = await loadArt('scene-portrait', () => drawPlaceholder('scene-portrait', 64, 80))
-  portrait.view.position.set(ART_W / 2, 150)
-  root.addChild(portrait.view)
+  for (const prop of def.props) {
+    const art = await loadArt(prop.sprite, () => drawPlaceholder(prop.sprite, 48, 48))
+    art.view.position.set(prop.x, prop.y)
+    root.addChild(art.view)
+  }
 
   // Generator props between wall and podium.
   const propsByGenerator = new Map<string, Art[]>()
   const props = new Container()
   root.addChild(props)
-  for (const g of content.generators) {
+  for (const g of generatorsAt(content, location.id)) {
     const name = g.sprite ?? `gen-${g.id}`
-    const slots = SLOTS[g.id] ?? [[ART_W / 2, FLOOR_Y + 40]]
+    const slots = def.slots[g.id] ?? [[ART_W / 2, def.backdrop.splitY + 40]]
     const list: Art[] = []
     for (const [x, y] of slots) {
       const art = await loadArt(name, () => drawPlaceholder(name))
@@ -119,12 +96,13 @@ export async function createScene(host: HTMLElement): Promise<Scene> {
 
   // The player stands behind the podium.
   const player = await loadArt('player', () => drawPlaceholder('player', 24, 56))
-  const PLAYER_Y = 372
-  player.view.position.set(ART_W / 2, PLAYER_Y)
+  const PLAYER_Y = def.player.y
+  player.view.position.set(def.player.x, PLAYER_Y)
   root.addChild(player.view)
 
-  const podium = await loadArt('scene-podium', () => drawPlaceholder('scene-podium', 80, 64))
-  podium.view.position.set(ART_W / 2, ART_H)
+  const target = def.tapTarget
+  const podium = await loadArt(target.sprite, () => drawPlaceholder(target.sprite, 80, 64))
+  podium.view.position.set(target.x, target.y)
   root.addChild(podium.view)
 
   // --- Layout: fit the lower 320×350, anchor at the bottom, snap to device pixels ---
@@ -132,19 +110,19 @@ export async function createScene(host: HTMLElement): Promise<Scene> {
   function layout(): void {
     const { width, height } = app.screen
     const res = app.renderer.resolution
-    const fit = Math.min(width / ART_W, height / VIEW_H)
+    const fit = Math.min(width / ART_W, height / def.viewH)
     // Whole device pixels per art pixel when that doesn't shrink the room by much.
     const snapped = Math.floor(fit * res) / res
     scale = snapped >= 1 / res && snapped / fit > 0.8 ? snapped : fit
     root.scale.set(scale)
     root.position.set(Math.round((width - ART_W * scale) / 2), Math.round(height - ART_H * scale))
-    const floorY = root.position.y + FLOOR_Y * scale
+    const floorY = root.position.y + def.backdrop.splitY * scale
     backdrop
       .clear()
       .rect(0, 0, width, floorY)
-      .fill(PAL.wall)
+      .fill(wall)
       .rect(0, floorY, width, height - floorY)
-      .fill(PAL.floor)
+      .fill(floor)
   }
   layout()
   app.renderer.on('resize', layout)
