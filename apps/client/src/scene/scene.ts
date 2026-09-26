@@ -1,13 +1,36 @@
-import { assetUrl, type GameState } from '@spin-doctor/shared'
+import type { GameState } from '@spin-doctor/shared'
 import { Easing, Group, Tween } from '@tweenjs/tween.js'
-import { Application, Assets, Container, Graphics, Sprite, Text } from 'pixi.js'
-import { assetExists } from '../assets'
+import { Application, Container, Graphics, Text, TextureSource } from 'pixi.js'
 import { content } from '../content'
 import { drawPlaceholder } from './placeholders'
+import { type Art, loadArt } from './sprites'
 
-/** Virtual design space; the scene is scaled to fit the canvas. */
-const W = 400
-const H = 500
+/**
+ * Pixel-art press room. Everything is authored at 320×400 "art pixels" and
+ * scaled up with nearest-neighbour filtering — snapped to whole device pixels
+ * where possible so every art pixel has the same size.
+ */
+export const ART_W = 320
+export const ART_H = 400
+/** Background is wider than the play area so wide screens show more room, not bars. */
+const BG_W = 480
+const FLOOR_Y = 290
+/** The top of the room (ceiling) may be cropped on short screens; this much must stay visible. */
+const VIEW_H = 350
+
+// Endesga 32 colours used by code-drawn effects.
+const PAL = {
+  ink: 0x181425,
+  gold: 0xfeae34,
+  yellow: 0xfee761,
+  red: 0xe43b44,
+  green: 0x63c74d,
+  blue: 0x0099db,
+  cyan: 0x2ce8f5,
+  white: 0xffffff,
+  wall: 0x124e89,
+  floor: 0x733e39,
+}
 
 export interface Scene {
   tap(clientX: number, clientY: number, label: string): void
@@ -18,49 +41,37 @@ export interface Scene {
   setReducedMotion(on: boolean): void
 }
 
-/** Where generator props stand in the room (design coordinates). */
+/** Where generator props stand (art pixels, bottom-centre). Up to 3 copies each. */
 const SLOTS: Record<string, Array<[number, number]>> = {
   intern: [
-    [55, 430],
-    [95, 450],
-    [135, 435],
+    [44, 384],
+    [76, 396],
+    [108, 388],
   ],
   'talkshow-guest': [
-    [335, 345],
-    [365, 370],
+    [276, 318],
+    [300, 332],
   ],
   'bot-farm': [
-    [40, 300],
-    [72, 300],
+    [36, 300],
+    [62, 300],
   ],
   'court-paper': [
-    [310, 440],
-    [350, 455],
+    [240, 392],
+    [272, 398],
   ],
-  'jubel-tv': [[70, 170]],
-  'truth-ministry': [[330, 170]],
-}
-
-async function loadSprite(path: string, fallback: () => Container): Promise<Container> {
-  if (await assetExists(path)) {
-    try {
-      const texture = await Assets.load(assetUrl(path))
-      const sprite = new Sprite(texture)
-      sprite.anchor.set(0.5, 1)
-      return sprite
-    } catch {
-      // fall through to placeholder
-    }
-  }
-  return fallback()
+  'jubel-tv': [[60, 150]],
+  'truth-ministry': [[262, 170]],
 }
 
 export async function createScene(host: HTMLElement): Promise<Scene> {
+  TextureSource.defaultOptions.scaleMode = 'nearest'
   const app = new Application()
   await app.init({
     resizeTo: host,
-    backgroundAlpha: 0,
-    antialias: true,
+    background: PAL.wall,
+    antialias: false,
+    roundPixels: true,
     autoDensity: true,
     resolution: Math.min(window.devicePixelRatio || 1, 2),
     preference: 'webgl',
@@ -71,103 +82,94 @@ export async function createScene(host: HTMLElement): Promise<Scene> {
   const tweens = new Group()
   let reducedMotion = false
 
-  const background = new Container()
+  const backdrop = new Graphics()
   const root = new Container()
   const fx = new Container()
-  app.stage.addChild(background, root, fx)
+  app.stage.addChild(backdrop, root, fx)
 
-  // --- Room --------------------------------------------------------------
-  const room = await loadSprite('sprites/scene-background.png', () =>
-    drawPlaceholder('scene-background'),
+  const bg = await loadArt('scene-background', () =>
+    drawPlaceholder('scene-background', BG_W, ART_H),
   )
-  if (room instanceof Sprite) {
-    room.anchor.set(0.5, 0)
-    room.position.set(W / 2, 0)
-    room.width = W
-    room.height = H
-  }
-  root.addChild(room)
+  bg.view.position.set(ART_W / 2, ART_H)
+  root.addChild(bg.view)
 
-  const portrait = await loadSprite('sprites/scene-portrait.png', () =>
-    drawPlaceholder('scene-portrait'),
-  )
-  portrait.position.set(W / 2, 205)
-  if (portrait instanceof Sprite) portrait.scale.set(170 / portrait.height)
-  root.addChild(portrait)
+  const portrait = await loadArt('scene-portrait', () => drawPlaceholder('scene-portrait', 64, 80))
+  portrait.view.position.set(ART_W / 2, 150)
+  root.addChild(portrait.view)
 
-  // Generator props sit between wall and podium.
+  // Generator props between wall and podium.
+  const propsByGenerator = new Map<string, Art[]>()
   const props = new Container()
   root.addChild(props)
-  const propsByGenerator = new Map<string, Container[]>()
   for (const g of content.generators) {
-    const slots = SLOTS[g.id] ?? [[W / 2 + (Math.random() - 0.5) * 300, 300]]
-    const sprite = g.sprite ?? `gen-${g.id}`
-    const list: Container[] = []
+    const name = g.sprite ?? `gen-${g.id}`
+    const slots = SLOTS[g.id] ?? [[ART_W / 2, FLOOR_Y + 40]]
+    const list: Art[] = []
     for (const [x, y] of slots) {
-      const prop = await loadSprite(`sprites/${sprite}.png`, () => drawPlaceholder(sprite))
-      if (prop instanceof Sprite) prop.scale.set(80 / prop.height)
-      prop.position.set(x, y)
-      prop.visible = false
-      prop.label = sprite
-      props.addChild(prop)
-      list.push(prop)
+      const art = await loadArt(name, () => drawPlaceholder(name))
+      art.view.position.set(x, y)
+      art.view.visible = false
+      props.addChild(art.view)
+      list.push(art)
     }
     propsByGenerator.set(g.id, list)
   }
+  // Props further back (smaller y) are drawn first.
+  props.children.sort((a, b) => a.y - b.y)
 
-  const podium = await loadSprite('sprites/scene-podium.png', () => drawPlaceholder('scene-podium'))
-  podium.position.set(W / 2, 480)
-  if (podium instanceof Sprite) podium.scale.set(170 / podium.height)
-  root.addChild(podium)
+  // The player stands behind the podium.
+  const player = await loadArt('player', () => drawPlaceholder('player', 24, 56))
+  const PLAYER_Y = 372
+  player.view.position.set(ART_W / 2, PLAYER_Y)
+  root.addChild(player.view)
 
-  // --- Layout ------------------------------------------------------------
-  const sky = new Graphics()
-  background.addChild(sky)
+  const podium = await loadArt('scene-podium', () => drawPlaceholder('scene-podium', 80, 64))
+  podium.view.position.set(ART_W / 2, ART_H)
+  root.addChild(podium.view)
+
+  // --- Layout: fit the lower 320×350, anchor at the bottom, snap to device pixels ---
+  let scale = 1
   function layout(): void {
     const { width, height } = app.screen
-    const scale = Math.min(width / W, height / H)
+    const res = app.renderer.resolution
+    const fit = Math.min(width / ART_W, height / VIEW_H)
+    // Whole device pixels per art pixel when that doesn't shrink the room by much.
+    const snapped = Math.floor(fit * res) / res
+    scale = snapped >= 1 / res && snapped / fit > 0.8 ? snapped : fit
     root.scale.set(scale)
-    root.position.set((width - W * scale) / 2, height - H * scale)
-    // Extend wall and floor beyond the design area on wide/tall screens.
-    const floorY = root.position.y + 330 * scale
-    sky
+    root.position.set(Math.round((width - ART_W * scale) / 2), Math.round(height - ART_H * scale))
+    const floorY = root.position.y + FLOOR_Y * scale
+    backdrop
       .clear()
       .rect(0, 0, width, floorY)
-      .fill(0x3d2f78)
+      .fill(PAL.wall)
       .rect(0, floorY, width, height - floorY)
-      .fill(0x5a3a1f)
+      .fill(PAL.floor)
   }
   layout()
   app.renderer.on('resize', layout)
 
-  // --- Animation ------------------------------------------------------------
-  let elapsed = 0
+  // --- Effects -------------------------------------------------------------
   let shakeTime = 0
-  const floaters: Array<{ node: Container; vx: number; vy: number; life: number; spin: number }> =
-    []
+  const floaters: Array<{
+    node: Container
+    vx: number
+    vy: number
+    life: number
+    gravity: number
+  }> = []
 
   app.ticker.add((ticker) => {
     const dt = ticker.deltaMS / 1000
-    elapsed += dt
     tweens.update()
-    if (!reducedMotion) {
-      let i = 0
-      for (const list of propsByGenerator.values()) {
-        for (const p of list) {
-          if (!p.visible) continue
-          p.scale.y = (p instanceof Sprite ? p.scale.x : 1) * (1 + Math.sin(elapsed * 3 + i) * 0.03)
-          i++
-        }
-      }
-    }
     for (let i = floaters.length - 1; i >= 0; i--) {
       const f = floaters[i]!
       f.life -= dt
       f.node.x += f.vx * dt
       f.node.y += f.vy * dt
-      f.vy += 220 * dt * (f.spin ? 1 : 0.2)
-      f.node.rotation += f.spin * dt
-      f.node.alpha = Math.max(0, Math.min(1, f.life * 2))
+      f.vy += f.gravity * dt
+      // Pixel-art friendly fade: blink out instead of alpha ramps.
+      f.node.visible = f.life > 0.25 || Math.floor(f.life * 20) % 2 === 0
       if (f.life <= 0) {
         f.node.destroy()
         floaters.splice(i, 1)
@@ -175,8 +177,8 @@ export async function createScene(host: HTMLElement): Promise<Scene> {
     }
     if (shakeTime > 0) {
       shakeTime -= dt
-      const k = Math.max(0, shakeTime) * 30
-      root.pivot.set((Math.random() - 0.5) * k, (Math.random() - 0.5) * k)
+      const k = Math.round(Math.max(0, shakeTime) * 10)
+      root.pivot.set(Math.round((Math.random() - 0.5) * k), Math.round((Math.random() - 0.5) * k))
       if (shakeTime <= 0) root.pivot.set(0, 0)
     }
   })
@@ -186,62 +188,75 @@ export async function createScene(host: HTMLElement): Promise<Scene> {
     return { x: clientX - rect.left, y: clientY - rect.top }
   }
 
+  function pixel(color: number, size: number): Graphics {
+    return new Graphics().rect(-size / 2, -size / 2, size, size).fill(color)
+  }
+
   return {
     tap(clientX, clientY, label) {
       const { x, y } = toLocal(clientX, clientY)
       const text = new Text({
         text: label,
         style: {
-          fontFamily: 'system-ui, sans-serif',
-          fontSize: 26,
-          fontWeight: '900',
-          fill: 0xffd84d,
-          stroke: { color: 0x1d1440, width: 5 },
+          fontFamily: '"Pixelify Sans", monospace',
+          fontSize: Math.max(14, Math.round(9 * scale)),
+          fontWeight: '700',
+          fill: PAL.yellow,
+          stroke: { color: PAL.ink, width: Math.max(3, Math.round(scale * 1.5)) },
         },
       })
       text.anchor.set(0.5)
-      text.position.set(x, y - 20)
+      text.position.set(Math.round(x), Math.round(y - 10 * scale))
+      text.roundPixels = true
       fx.addChild(text)
-      floaters.push({ node: text, vx: (Math.random() - 0.5) * 60, vy: -140, life: 0.9, spin: 0 })
+      floaters.push({ node: text, vx: 0, vy: -28 * scale, life: 0.8, gravity: 0 })
+
+      // The press secretary talks and gestures on every statement.
+      player.play('talk', true)
       if (!reducedMotion) {
-        for (let i = 0; i < 5; i++) {
-          const star = new Graphics().star(0, 0, 5, 7, 3).fill(0xfff1a8)
-          star.position.set(x, y)
-          fx.addChild(star)
-          const a = Math.random() * Math.PI * 2
+        for (let i = 0; i < 6; i++) {
+          const p = pixel(
+            [PAL.gold, PAL.yellow, PAL.white][i % 3]!,
+            Math.max(2, Math.round(scale * 2)),
+          )
+          p.position.set(x, y)
+          fx.addChild(p)
+          const a = (Math.PI * 2 * i) / 6 + Math.random() * 0.5
           floaters.push({
-            node: star,
-            vx: Math.cos(a) * 160,
-            vy: Math.sin(a) * 160 - 80,
-            life: 0.5,
-            spin: 6,
+            node: p,
+            vx: Math.cos(a) * 60 * scale,
+            vy: Math.sin(a) * 60 * scale - 30 * scale,
+            life: 0.45,
+            gravity: 200 * scale,
           })
         }
-        // Squash & stretch on the podium.
-        const base = podium instanceof Sprite ? 170 / podium.height : 1
-        new Tween({ sx: base * 1.12, sy: base * 0.88 }, tweens)
-          .to({ sx: base, sy: base }, 260)
-          .easing(Easing.Elastic.Out)
-          .onUpdate(({ sx, sy }) => podium.scale.set(sx, sy))
+        // A tiny hop — whole art pixels only.
+        new Tween({ h: 3 }, tweens)
+          .to({ h: 0 }, 220)
+          .easing(Easing.Quadratic.Out)
+          .onUpdate(({ h }) => {
+            player.view.y = PLAYER_Y - Math.round(h)
+          })
           .start()
       }
     },
     update(state) {
       for (const [id, list] of propsByGenerator) {
         const count = state.generators[id] ?? 0
-        // 1 prop from the first unit, more at 10 and 25 units.
         const visible = count === 0 ? 0 : count < 10 ? 1 : count < 25 ? 2 : 3
-        list.forEach((p, i) => {
+        list.forEach((art, i) => {
           const show = i < visible
-          if (show && !p.visible && !reducedMotion) {
-            const target = p.scale.x
-            new Tween({ s: 0 }, tweens)
-              .to({ s: target }, 450)
-              .easing(Easing.Back.Out)
-              .onUpdate(({ s }) => p.scale.set(s))
+          if (show && !art.view.visible && !reducedMotion) {
+            const baseY = art.view.y
+            new Tween({ h: 12 }, tweens)
+              .to({ h: 0 }, 400)
+              .easing(Easing.Bounce.Out)
+              .onUpdate(({ h }) => {
+                art.view.y = baseY - Math.round(h)
+              })
               .start()
           }
-          p.visible = show
+          art.view.visible = show
         })
       }
     },
@@ -249,18 +264,19 @@ export async function createScene(host: HTMLElement): Promise<Scene> {
       if (!reducedMotion) shakeTime = 0.4
     },
     confetti() {
-      const count = reducedMotion ? 0 : 60
-      const colors = [0xffd84d, 0xff5c8a, 0x5ce1e6, 0x8e7cc3, 0x7ed957]
-      for (let i = 0; i < count; i++) {
-        const piece = new Graphics().rect(-4, -2, 8, 4).fill(colors[i % colors.length]!)
-        piece.position.set(Math.random() * app.screen.width, -10)
+      if (reducedMotion) return
+      const colors = [PAL.gold, PAL.red, PAL.green, PAL.blue, PAL.cyan, PAL.white]
+      const size = Math.max(2, Math.round(scale * 2))
+      for (let i = 0; i < 60; i++) {
+        const piece = pixel(colors[i % colors.length]!, size)
+        piece.position.set(Math.random() * app.screen.width, -size)
         fx.addChild(piece)
         floaters.push({
           node: piece,
-          vx: (Math.random() - 0.5) * 80,
-          vy: 60 + Math.random() * 120,
+          vx: (Math.random() - 0.5) * 30 * scale,
+          vy: (20 + Math.random() * 40) * scale,
           life: 2.5,
-          spin: (Math.random() - 0.5) * 12,
+          gravity: 10 * scale,
         })
       }
     },

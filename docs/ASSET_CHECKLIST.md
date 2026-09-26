@@ -7,56 +7,63 @@
 
 | | File (under `apps/client/public/assets/`) | Size | Purpose |
 |---|---|---|---|
-| ⬜ | `sprites/scene-background.png` | 1080×1350 | Press room back wall + floor |
-| ⬜ | `sprites/scene-podium.png` | 480×420 | Speaker podium (tap target), centred |
-| ⬜ | `sprites/scene-portrait.png` | 360×440 | Stylised, fictional portrait of President Magnus Rekord (no real-person likeness!) |
-| ⬜ | `sprites/gen-intern.png` | 256×256 | Generator "intern" in the press room (idle animation optional) |
-| ⬜ | `sprites/gen-talkshow.png` | 256×256 | Generator "talkshow-guest" in the press room (idle animation optional) |
-| ⬜ | `sprites/gen-botfarm.png` | 256×256 | Generator "bot-farm" in the press room (idle animation optional) |
-| ⬜ | `sprites/gen-paper.png` | 256×256 | Generator "court-paper" in the press room (idle animation optional) |
-| ⬜ | `sprites/gen-tv.png` | 256×256 | Generator "jubel-tv" in the press room (idle animation optional) |
-| ⬜ | `sprites/gen-ministry.png` | 256×256 | Generator "truth-ministry" in the press room (idle animation optional) |
+| ✅ | `sprites/scene-background.png` | 480×400 | Press room: wall from y=0, floor from y=290; core play area is x 80–400 (320 px) |
+| ✅ | `sprites/scene-podium.png` | 80×64 | Speaker podium with microphone (tap target), bottom-centre anchored |
+| ✅ | `sprites/scene-portrait.png` | 64×80 | Framed, stylised portrait of the fictional President Magnus Rekord |
+| ✅ | `sprites/player.png` | 48×64 per frame | You, the press secretary, behind the podium. Sheet + Aseprite JSON with tags idle, talk (plays on every tap), point |
+| ✅ | `sprites/player.json` | Aseprite JSON | Frame data for player.png (Aseprite: Export Sprite Sheet → JSON Data “Array”, Tags on) |
+| ✅ | `sprites/gen-intern.png` | 48×48 per frame | Generator "intern" in the press room (optional Aseprite JSON with tag idle for animation) |
+| ✅ | `sprites/gen-talkshow.png` | 48×48 per frame | Generator "talkshow-guest" in the press room (optional Aseprite JSON with tag idle for animation) |
+| ✅ | `sprites/gen-botfarm.png` | 48×48 per frame | Generator "bot-farm" in the press room (optional Aseprite JSON with tag idle for animation) |
+| ✅ | `sprites/gen-paper.png` | 48×48 per frame | Generator "court-paper" in the press room (optional Aseprite JSON with tag idle for animation) |
+| ✅ | `sprites/gen-tv.png` | 48×48 per frame | Generator "jubel-tv" in the press room (optional Aseprite JSON with tag idle for animation) |
+| ✅ | `sprites/gen-ministry.png` | 48×48 per frame | Generator "truth-ministry" in the press room (optional Aseprite JSON with tag idle for animation) |
 
 ## Character portraits
 
 | | File (under `apps/client/public/assets/`) | Size | Purpose |
 |---|---|---|---|
-| ⬜ | `portraits/president.png` | 512×512 | Dialog portrait of speaker "president" |
-| ⬜ | `portraits/konstantin.png` | 512×512 | Dialog portrait of speaker "konstantin" |
-| ⬜ | `portraits/frieda.png` | 512×512 | Dialog portrait of speaker "frieda" |
-| ⬜ | `portraits/you.png` | 512×512 | Dialog portrait of speaker "you" |
+| ✅ | `portraits/president.png` | 48×48 | Dialog portrait of speaker "president" |
+| ✅ | `portraits/konstantin.png` | 48×48 | Dialog portrait of speaker "konstantin" |
+| ✅ | `portraits/frieda.png` | 48×48 | Dialog portrait of speaker "frieda" |
+| ✅ | `portraits/you.png` | 48×48 | Dialog portrait of speaker "you" |
 
 ## Icons
 
 | | File (under `apps/client/public/assets/`) | Size | Purpose |
 |---|---|---|---|
-| ⬜ optional | `icons/generator-intern.png` | 128×128 | Shop icon for generator "intern" (emoji until then) |
-| ⬜ optional | `icons/generator-talkshow-guest.png` | 128×128 | Shop icon for generator "talkshow-guest" (emoji until then) |
-| ⬜ optional | `icons/generator-bot-farm.png` | 128×128 | Shop icon for generator "bot-farm" (emoji until then) |
-| ⬜ optional | `icons/generator-court-paper.png` | 128×128 | Shop icon for generator "court-paper" (emoji until then) |
-| ⬜ optional | `icons/generator-jubel-tv.png` | 128×128 | Shop icon for generator "jubel-tv" (emoji until then) |
-| ⬜ optional | `icons/generator-truth-ministry.png` | 128×128 | Shop icon for generator "truth-ministry" (emoji until then) |
-| ⬜ optional | `icons/stat-spin.png` | 96×96 | HUD icon for stat "spin" |
-| ⬜ optional | `icons/stat-approval.png` | 96×96 | HUD icon for stat "approval" |
-| ⬜ optional | `icons/stat-democracy.png` | 96×96 | HUD icon for stat "democracy" |
-| ⬜ optional | `icons/upgrade-framing-seminar.png` | 128×128 | Icon for upgrade "framing-seminar" |
-| ⬜ optional | `icons/upgrade-whataboutism-course.png` | 128×128 | Icon for upgrade "whataboutism-course" |
-| ⬜ optional | `icons/upgrade-record-claim-generator.png` | 128×128 | Icon for upgrade "record-claim-generator" |
-| ⬜ optional | `icons/upgrade-talkshow-media-training.png` | 128×128 | Icon for upgrade "talkshow-media-training" |
-| ⬜ optional | `icons/upgrade-favourite-journalists.png` | 128×128 | Icon for upgrade "favourite-journalists" |
-| ⬜ optional | `icons/upgrade-emoji-bots.png` | 128×128 | Icon for upgrade "emoji-bots" |
-| ⬜ optional | `icons/upgrade-fact-check-restructuring.png` | 128×128 | Icon for upgrade "fact-check-restructuring" |
-| ⬜ optional | `icons/upgrade-nephew-minister-of-everything.png` | 128×128 | Icon for upgrade "nephew-minister-of-everything" |
-| ⬜ optional | `icons/upgrade-creative-redistricting.png` | 128×128 | Icon for upgrade "creative-redistricting" |
-| ⬜ optional | `icons/upgrade-loyal-judges.png` | 128×128 | Icon for upgrade "loyal-judges" |
+| ✅ | `icons/tab-generators.png` | 16×16 | Tab bar icon "generators" (shown at 32×32) |
+| ✅ | `icons/tab-upgrades.png` | 16×16 | Tab bar icon "upgrades" (shown at 32×32) |
+| ✅ | `icons/tab-quests.png` | 16×16 | Tab bar icon "quests" (shown at 32×32) |
+| ✅ | `icons/tab-lexicon.png` | 16×16 | Tab bar icon "lexicon" (shown at 32×32) |
+| ✅ | `icons/tab-settings.png` | 16×16 | Tab bar icon "settings" (shown at 32×32) |
+| ⬜ optional | `icons/generator-intern.png` | 16×16 | Shop icon for generator "intern" (emoji until then) |
+| ⬜ optional | `icons/generator-talkshow-guest.png` | 16×16 | Shop icon for generator "talkshow-guest" (emoji until then) |
+| ⬜ optional | `icons/generator-bot-farm.png` | 16×16 | Shop icon for generator "bot-farm" (emoji until then) |
+| ⬜ optional | `icons/generator-court-paper.png` | 16×16 | Shop icon for generator "court-paper" (emoji until then) |
+| ⬜ optional | `icons/generator-jubel-tv.png` | 16×16 | Shop icon for generator "jubel-tv" (emoji until then) |
+| ⬜ optional | `icons/generator-truth-ministry.png` | 16×16 | Shop icon for generator "truth-ministry" (emoji until then) |
+| ✅ | `icons/stat-spin.png` | 16×16 | HUD icon for stat "spin" |
+| ✅ | `icons/stat-approval.png` | 16×16 | HUD icon for stat "approval" |
+| ✅ | `icons/stat-democracy.png` | 16×16 | HUD icon for stat "democracy" |
+| ⬜ optional | `icons/upgrade-framing-seminar.png` | 16×16 | Icon for upgrade "framing-seminar" (emoji until then) |
+| ⬜ optional | `icons/upgrade-whataboutism-course.png` | 16×16 | Icon for upgrade "whataboutism-course" (emoji until then) |
+| ⬜ optional | `icons/upgrade-record-claim-generator.png` | 16×16 | Icon for upgrade "record-claim-generator" (emoji until then) |
+| ⬜ optional | `icons/upgrade-talkshow-media-training.png` | 16×16 | Icon for upgrade "talkshow-media-training" (emoji until then) |
+| ⬜ optional | `icons/upgrade-favourite-journalists.png` | 16×16 | Icon for upgrade "favourite-journalists" (emoji until then) |
+| ⬜ optional | `icons/upgrade-emoji-bots.png` | 16×16 | Icon for upgrade "emoji-bots" (emoji until then) |
+| ⬜ optional | `icons/upgrade-fact-check-restructuring.png` | 16×16 | Icon for upgrade "fact-check-restructuring" (emoji until then) |
+| ⬜ optional | `icons/upgrade-nephew-minister-of-everything.png` | 16×16 | Icon for upgrade "nephew-minister-of-everything" (emoji until then) |
+| ⬜ optional | `icons/upgrade-creative-redistricting.png` | 16×16 | Icon for upgrade "creative-redistricting" (emoji until then) |
+| ⬜ optional | `icons/upgrade-loyal-judges.png` | 16×16 | Icon for upgrade "loyal-judges" (emoji until then) |
 
 ## Illustrations
 
 | | File (under `apps/client/public/assets/`) | Size | Purpose |
 |---|---|---|---|
-| ⬜ optional | `illustrations/lexicon-press-freedom.png` | 800×450 | Header image of lexicon card "press-freedom" |
-| ⬜ optional | `illustrations/lexicon-separation-of-powers.png` | 800×450 | Header image of lexicon card "separation-of-powers" |
-| ⬜ optional | `illustrations/lexicon-gerrymandering.png` | 800×450 | Header image of lexicon card "gerrymandering" |
+| ⬜ optional | `illustrations/lexicon-press-freedom.png` | 160×90 | Header image of lexicon card "press-freedom" |
+| ⬜ optional | `illustrations/lexicon-separation-of-powers.png` | 160×90 | Header image of lexicon card "separation-of-powers" |
+| ⬜ optional | `illustrations/lexicon-gerrymandering.png` | 160×90 | Header image of lexicon card "gerrymandering" |
 
 ## Audio
 
@@ -72,4 +79,4 @@
 | ⬜ | `audio/fail.ogg` | < 0.6 s | Wrong swipe / missed post |
 | ⬜ optional | `audio/typing.ogg` | < 0.1 s | Speech bubble typing tick |
 
-**Progress:** 0 / 44 files present, 21 required still missing (placeholders are shown until then).
+**Progress:** 23 / 51 files present, 8 required still missing (placeholders are shown until then).

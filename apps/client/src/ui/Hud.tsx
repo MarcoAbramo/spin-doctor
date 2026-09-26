@@ -32,7 +32,12 @@ export function Hud() {
             return (
               <div class="meter" key={s.id} title={t(`stat.${s.id}.name`)}>
                 <span class="meter-label">
-                  {s.emoji} {t(`stat.${s.id}.name`)} <b>{Math.round(v)}</b>
+                  <AssetIcon
+                    class="chip-icon"
+                    path={`icons/stat-${s.id}.png`}
+                    emoji={s.emoji ?? ''}
+                  />
+                  {t(`stat.${s.id}.name`)} <b>{Math.round(v)}</b>
                 </span>
                 {/* biome-ignore lint/a11y/useSemanticElements: <meter> cannot be styled as a crumbling bar */}
                 <div
@@ -51,7 +56,8 @@ export function Hud() {
           }
           return (
             <div class="chip" key={s.id}>
-              {s.emoji} {t(`stat.${s.id}.name`)}{' '}
+              <AssetIcon class="chip-icon" path={`icons/stat-${s.id}.png`} emoji={s.emoji ?? ''} />
+              {t(`stat.${s.id}.name`)}{' '}
               <b>{s.display === 'percent' ? `${Math.round(v)} %` : formatNumber(v)}</b>
             </div>
           )

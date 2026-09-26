@@ -10,11 +10,9 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
     "size": "node scripts/check-size.mjs",
-    "icons": "pwa-assets-generator",
-    "pixel-placeholders": "node scripts/pixel-placeholders.mjs"
+    "icons": "pwa-assets-generator"
   },
   "dependencies": {
-    "@fontsource/pixelify-sans": "^5.3.0",
     "@spin-doctor/shared": "workspace:*",
     "@tweenjs/tween.js": "^25.0.0",
     "pixi.js": "^8.21.0",

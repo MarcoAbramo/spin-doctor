@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks'
 import { t } from '../i18n'
+import { AssetIcon } from './AssetIcon'
 import { Hud } from './Hud'
 import { OfflineModal } from './modals/OfflineModal'
 import { QuestModal } from './modals/QuestModal'
@@ -44,7 +45,7 @@ export function App() {
             class={`tab ${tab === x.id ? 'tab-active' : ''}`}
             onClick={() => setTab(x.id)}
           >
-            <span aria-hidden="true">{x.icon}</span>
+            <AssetIcon class="tab-icon" path={`icons/tab-${x.id}.png`} emoji={x.icon} />
             <span class="tab-label">{t(`ui.tab.${x.id}`)}</span>
           </button>
         ))}

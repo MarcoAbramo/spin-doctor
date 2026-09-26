@@ -6,6 +6,8 @@ import { getState, onGameEvent, startGame, subscribe } from './store'
 import { App } from './ui/App'
 import { scene } from './ui/SceneView'
 import { pushToast } from './ui/toast-store'
+import '@fontsource/pixelify-sans/400.css'
+import '@fontsource/pixelify-sans/700.css'
 import './ui/styles.css'
 
 startGame()
