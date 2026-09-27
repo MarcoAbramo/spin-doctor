@@ -22,7 +22,11 @@
       },
       "drift": {
         "toward": 45,
-        "perSec": 0.01
+        "perSec": 0.01,
+        "towardFrom": {
+          "stat": "prices",
+          "perPoint": -0.4
+        }
       },
       "perTap": 0.02,
       "emoji": "📊"
@@ -35,6 +39,24 @@
       "display": "bar",
       "order": 20,
       "emoji": "🏛️"
+    },
+    {
+      "id": "prices",
+      "initial": 0,
+      "min": 0,
+      "max": 100,
+      "display": "percent",
+      "order": 30,
+      "emoji": "🏷️",
+      "drift": {
+        "toward": 0,
+        "perSec": 0.01
+      },
+      "visible": {
+        "type": "stat",
+        "stat": "prices",
+        "gte": 0.5
+      }
     }
   ],
   "speakers": [

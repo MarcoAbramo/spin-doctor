@@ -248,6 +248,29 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     signs.set(b.id, sign)
   }
 
+  // --- Building projects from content (e.g. the reflecting pool), staged by count ---
+  const projects: Array<{ id: string; max: number; art: Art }> = []
+  for (const g of content.generators) {
+    if (!g.mapSprite) continue
+    const art = await loadArt(g.mapSprite.sprite, () =>
+      drawPlaceholder(g.mapSprite!.sprite, 32, 16),
+    )
+    art.view.position.set(g.mapSprite.x, g.mapSprite.y)
+    art.view.zIndex = g.mapSprite.y - 1000 // lies on the ground
+    actors.addChild(art.view)
+    projects.push({ id: g.id, max: g.maxCount ?? 10, art })
+  }
+  let lastStages = ''
+  function updateProjects(state: GameState): void {
+    const key = projects.map((p) => state.generators[p.id] ?? 0).join(',')
+    if (key === lastStages) return
+    lastStages = key
+    for (const p of projects) {
+      const count = state.generators[p.id] ?? 0
+      p.art.showFrame(Math.round((count / p.max) * (p.art.frames - 1)))
+    }
+  }
+
   // --- Player ---------------------------------------------------------------------
   const player = await loadArt('player-walk', () => drawPlaceholder('player-walk', 12, 22))
   const spawn = map.layers.find((l) => l.name === 'spawn')?.objects?.[0]
@@ -571,6 +594,7 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
       const now = performance.now()
       if (now - lastSigns < 100) return
       lastSigns = now
+      updateProjects(state)
       updateSigns(state)
       updateTint(state)
     },

@@ -73,6 +73,7 @@ export const conditionSchema: z.ZodType<Condition> = z.lazy(() =>
  * - `production`         – all generators everywhere
  * - `generator:<id>`     – one generator
  * - `location:<id>`      – everything a location produces (news situation, hotspots)
+ * - `location:@here`     – in `modifier` effects: the location where the player is when it applies
  * - `till-cap`           – capacity of every location till
  * - `till-cap:<id>`      – capacity of one location till
  * - `scandal-detection`  – chance that a scandal is noticed (lower is better for you)
@@ -81,7 +82,7 @@ export const conditionSchema: z.ZodType<Condition> = z.lazy(() =>
 const multiplierTarget = z
   .string()
   .regex(
-    /^(tap|production|scandal-detection|till-cap|(generator|location|till-cap|stat-gain):[a-z0-9-]+)$/,
+    /^(tap|production|scandal-detection|till-cap|location:@here|(generator|location|till-cap|stat-gain):[a-z0-9-]+)$/,
   )
 
 const passiveEffect = z.object({
@@ -157,6 +158,8 @@ export const statSchema = z.object({
     .optional(),
   /** Change per manual tap. */
   perTap: z.number().optional(),
+  /** Only shown in the HUD once this holds (e.g. after the first tariff). */
+  visible: conditionSchema.optional(),
   emoji: z.string().optional(),
 })
 export type StatDef = z.infer<typeof statSchema>
@@ -183,6 +186,11 @@ export const generatorSchema = z.object({
   unlock: conditionSchema.optional(),
   /** Placeholder sprite id in the scene (swap for real art later). */
   sprite: z.string().optional(),
+  /**
+   * Building projects shown on the city map (bottom-centre, world pixels). The sheet's
+   * frames are the construction stages; the frame follows owned / maxCount.
+   */
+  mapSprite: z.object({ sprite: z.string(), x: z.number(), y: z.number() }).optional(),
   /** Emoji used as icon until real art exists. */
   emoji: z.string().optional(),
 })

@@ -315,7 +315,10 @@ export function applyEffects(state: GameState, content: Content, effects: Effect
           id: e.id,
           until: state.now + e.durationSec * 1000,
           labelKey: e.labelKey,
-          effects: e.effects,
+          // `location:@here` binds to wherever the player is right now.
+          effects: e.effects.map((m) =>
+            m.target === 'location:@here' ? { ...m, target: `location:${state.location}` } : m,
+          ),
         })
         state.events.push({ type: 'modifier-added', id: e.id })
         break

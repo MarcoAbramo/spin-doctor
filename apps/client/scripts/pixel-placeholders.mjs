@@ -10,6 +10,7 @@
 
 import { generateMap } from './map-placeholders.mjs'
 import { asepriteJson, C, Canvas, rng, save, stats } from './pixel-lib.mjs'
+import { generateRosengarten } from './rosengarten-placeholders.mjs'
 
 // ---------------------------------------------------------------------------
 // Scene: background 480×400 (core play area 320×400 centred, x = 80…400)
@@ -620,6 +621,7 @@ for (const [name, rows] of Object.entries(ICONS)) {
   save(`icons/${name}.png`, c)
 }
 generateMap()
+generateRosengarten()
 console.log(
   `Pixel placeholders: ${stats.written} written, ${stats.skipped} kept (existing files are never overwritten; use --force).`,
 )

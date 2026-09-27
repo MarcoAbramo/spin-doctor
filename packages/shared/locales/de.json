@@ -281,5 +281,19 @@
   "map.building.bear-force-one": "Bear Force One",
   "map.building.jubel-tv": "Jubel-TV",
   "map.building.rally-square": "Kundgebungsplatz",
-  "map.building.city-park": "Stadtpark"
+  "map.building.city-park": "Stadtpark",
+  "ui.framing.start": "Mikro an!",
+  "ui.framing.help": "Die Presse fragt, du spinnst. Wähle die überzeugendste Antwort, bevor die Zeit abläuft. Wie gut du bist, entscheidet über die Nachrichtenlage vor Ort.",
+  "ui.framing.question": "Frage {n}/{total}",
+  "ui.framing.credibility": "Glaubwürdigkeit {value} %",
+  "ui.framing.good": "Überzeugend!",
+  "ui.framing.meh": "Naja …",
+  "ui.framing.bad": "Autsch!",
+  "ui.framing.timeout": "Zu langsam – Schweigen ist auch eine Antwort. Eine schlechte.",
+  "ui.quality.result": "Spin-Güte {value} %",
+  "ui.zoll.help": "Leuchtet ein Land rot auf, streich es mit dem Rekord-Marker durch: +400 % Zölle! Grüne Länder sind Magnus' Freunde – Finger weg.",
+  "ui.zoll.board": "WELTKARTE (Stand: heute Morgen)",
+  "ui.zoll.hit": "+400 %",
+  "ui.zoll.ally": "Freund!",
+  "ui.settings.debugSkipAct1": "Akt 1 überspringen"
 }

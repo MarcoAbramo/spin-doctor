@@ -135,3 +135,29 @@ export function coinStream(count = 12): Promise<void> {
     setTimeout(resolve, 700 + count * 45)
   })
 }
+
+/** Big pixel stamp in the middle of the screen (spin quality, records). */
+export function stamp(text: string, sub = '', tone: 'good' | 'meh' | 'bad' = 'good'): void {
+  const el = document.createElement('div')
+  el.className = `stamp stamp-${tone}`
+  el.innerHTML = `<span class="stamp-text">${text}</span>${sub ? `<span class="stamp-sub">${sub}</span>` : ''}`
+  document.querySelector('.app')?.appendChild(el)
+  setTimeout(() => el.classList.add('stamp-out'), reduced ? 1200 : 1800)
+  setTimeout(() => el.remove(), reduced ? 1500 : 2200)
+}
+
+/** Wind gust: papers fly across the scene (Rosengarten entry). */
+export function paperGust(count = 9): Promise<void> {
+  const scene = document.querySelector('.scene')
+  if (!scene || reduced) return Promise.resolve()
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div')
+    p.className = 'gust-paper'
+    p.style.top = `${10 + Math.random() * 70}%`
+    p.style.animationDelay = `${i * 70}ms`
+    p.style.animationDuration = `${700 + Math.random() * 400}ms`
+    scene.appendChild(p)
+    setTimeout(() => p.remove(), 1400 + i * 70)
+  }
+  return new Promise((resolve) => setTimeout(resolve, 900))
+}

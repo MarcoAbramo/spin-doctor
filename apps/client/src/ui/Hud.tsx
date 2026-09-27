@@ -1,4 +1,4 @@
-import { formatDuration, formatNumber, locationRate } from '@spin-doctor/shared'
+import { check, formatDuration, formatNumber, locationRate } from '@spin-doctor/shared'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { content } from '../content'
 import { t } from '../i18n'
@@ -30,7 +30,9 @@ function useCountUp(target: number): number {
 export function Hud() {
   const state = useGame()
   const currency = content.stats.find((s) => s.id === content.currency)!
-  const others = content.stats.filter((s) => s.id !== content.currency && s.display !== 'hidden')
+  const others = content.stats.filter(
+    (s) => s.id !== content.currency && s.display !== 'hidden' && check(state, content, s.visible),
+  )
   const spin = useCountUp(state.stats[currency.id] ?? 0)
   return (
     <header class="hud">
