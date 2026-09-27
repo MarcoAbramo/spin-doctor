@@ -40,6 +40,17 @@
   - 12: souvenir shop with a P.R.I.C.E. entrance fee.
   - 20: inauguration in the rain; the wall doesn't stop clouds.
 
+### More mega projects (same mechanic as the wall: stages visible on the map)
+- **Reflecting-pool renovation** (with level 2, in front of the Great Dome):
+  - The pool is drained, gilded and refilled so that it reflects only Magnus' statue.
+  - The contract goes to the nephew's firm again, costs double at every stage, and P.R.I.C.E. charges the ducks an entry fee.
+  - Lexicon: public procurement.
+- **The Record Ballroom** (with level 4, at the presidential palace):
+  - A gigantic ballroom, „privately paid“ by secret donors (costs spin **and favours**).
+  - The press wing is demolished for it, and the press corps moves into a container in the car park. Frieda's seat ends up there.
+  - Stages: demolition, a gold chandelier „addendum“, listed-building protection ignored, and a grand opening where Magnus dances alone.
+  - Lexicon: transparency of donations.
+
 ### Extra ideas
 
 1. Record crowd photo.

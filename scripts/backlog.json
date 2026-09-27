@@ -26,7 +26,7 @@
     {
       "title": "M3: Level 2 – Rosengarten der Strafzölle",
       "labels": ["story", "content", "minigame"],
-      "body": "Rose garden press podium with five microphones and the world map easel. Generators, upgrades, price-level meter (tariffs raise production but depress approval), `zoll-tafel` minigame, framing duels (secret language „furbeln“, real-estate diplomacy → cookie tariffs), gate + wind entry animation, hotspots and traits. Lexicon: trade tariffs, independent science. See docs/roadmap.md.",
+      "body": "Rose garden press podium with five microphones and the world map easel. Generators, upgrades, price-level meter (tariffs raise production but depress approval), `zoll-tafel` minigame, framing duels (secret language „furbeln“, real-estate diplomacy → cookie tariffs), gate + wind entry animation, hotspots and traits. Lexicon: trade tariffs, independent science. See docs/roadmap.md. Mega project „Spiegelteich-Sanierung“ (reflecting pool before the Great Dome: drained, gilded, reflects only Magnus' statue; nephew's firm; ducks pay P.R.I.C.E. entry fees). Lexicon: public procurement.",
       "acceptance": [
         "Level unlock after act 1",
         "Framing quality changes the location's yield",
@@ -48,7 +48,7 @@
     {
       "title": "M5: Level 4 – Golf resort „Rekord Links“",
       "labels": ["story", "content", "minigame"],
-      "body": "Favours currency (back-room deals), `golf-cheat` and `abort-countdown` minigames, nuclear weather control event with framing („climate protection, Nobel-worthy“), pardon vending machine. Golf cart entry animation, weekend trait. Lexicon: pardon power, conflicts of interest. See docs/roadmap.md.",
+      "body": "Favours currency (back-room deals), `golf-cheat` and `abort-countdown` minigames, nuclear weather control event with framing („climate protection, Nobel-worthy“), pardon vending machine. Golf cart entry animation, weekend trait. Lexicon: pardon power, conflicts of interest. See docs/roadmap.md. Mega project „Rekord-Ballsaal“ at the presidential palace, paid by secret donors (spin + favours); the press wing is demolished and the press corps moves to a container in the car park. Lexicon: transparency of donations.",
       "acceptance": ["Favours earned and spent", "Both minigames scale rewards with score"]
     },
     {
