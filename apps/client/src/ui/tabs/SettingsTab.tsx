@@ -116,6 +116,19 @@ export function SettingsTab() {
             >
               +1 Mio. Spin
             </button>
+            <button
+              type="button"
+              class="btn btn-small"
+              onClick={() =>
+                dispatch((s) => {
+                  const d = draft(s)
+                  if (!d.flags.includes('debug-map')) d.flags.push('debug-map')
+                  return d
+                })
+              }
+            >
+              🗺 {t('ui.settings.debugMap')}
+            </button>
             {content.quests.map((q) => (
               <button
                 key={q.id}

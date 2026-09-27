@@ -403,12 +403,20 @@ export type PoolDef = z.infer<typeof poolSchema>
 export const speakerSchema = z.object({ id, nameKey: i18nKey, color: z.string().optional() })
 export type SpeakerDef = z.infer<typeof speakerSchema>
 
+/** World-wide settings (the last pack that defines it wins). */
+export const worldSchema = z.object({
+  /** When the city map becomes available. Without it the map is always open. */
+  mapUnlock: conditionSchema.optional(),
+})
+export type WorldDef = z.infer<typeof worldSchema>
+
 // ---------------------------------------------------------------------------
 // Pack
 // ---------------------------------------------------------------------------
 
 export const contentPackSchema = z.object({
   $schema: z.string().optional(),
+  world: worldSchema.optional(),
   stats: z.array(statSchema).default([]),
   locations: z.array(locationSchema).default([]),
   generators: z.array(generatorSchema).default([]),

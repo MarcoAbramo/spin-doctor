@@ -1,13 +1,37 @@
 import { formatDuration, formatNumber, locationRate } from '@spin-doctor/shared'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import { content } from '../content'
 import { t } from '../i18n'
 import { AssetIcon } from './AssetIcon'
 import { useGame } from './hooks'
 
+/** Counts smoothly towards the real value, so collected tills visibly tick up. */
+function useCountUp(target: number): number {
+  const [shown, setShown] = useState(target)
+  const ref = useRef(target)
+  useEffect(() => {
+    let raf = 0
+    const step = () => {
+      const diff = target - ref.current
+      if (Math.abs(diff) < Math.max(0.5, Math.abs(target) * 1e-4) || diff < 0) {
+        ref.current = target
+      } else {
+        ref.current += diff * 0.18
+        raf = requestAnimationFrame(step)
+      }
+      setShown(ref.current)
+    }
+    step()
+    return () => cancelAnimationFrame(raf)
+  }, [target])
+  return shown
+}
+
 export function Hud() {
   const state = useGame()
   const currency = content.stats.find((s) => s.id === content.currency)!
   const others = content.stats.filter((s) => s.id !== content.currency && s.display !== 'hidden')
+  const spin = useCountUp(state.stats[currency.id] ?? 0)
   return (
     <header class="hud">
       <div class="hud-main">
@@ -17,7 +41,7 @@ export function Hud() {
             path={`icons/stat-${currency.id}.png`}
             emoji={currency.emoji ?? ''}
           />
-          <strong>{formatNumber(state.stats[currency.id] ?? 0)}</strong>
+          <strong>{formatNumber(spin)}</strong>
           <span class="hud-label">{t(`stat.${currency.id}.name`)}</span>
         </div>
         <div class="hud-rate">

@@ -34,6 +34,9 @@ export interface Scene {
   confetti(): void
   setPaused(paused: boolean): void
   setReducedMotion(on: boolean): void
+  /** Entry performance: the player walks in from the side to their spot. */
+  playEnter(): Promise<void>
+  destroy(): void
 }
 
 /** Builds the idle scene of one location from its content definition (`location.scene`). */
@@ -126,6 +129,11 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   }
   layout()
   app.renderer.on('resize', layout)
+  const observer = new ResizeObserver(() => {
+    app.resize()
+    layout()
+  })
+  observer.observe(host)
 
   // --- Effects -------------------------------------------------------------
   let shakeTime = 0
@@ -260,10 +268,40 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     },
     setPaused(paused) {
       if (paused) app.ticker.stop()
-      else app.ticker.start()
+      else {
+        app.resize()
+        layout()
+        app.ticker.start()
+      }
     },
     setReducedMotion(on) {
       reducedMotion = on
+    },
+    playEnter() {
+      if (reducedMotion) return Promise.resolve()
+      const toX = def.player.x
+      const fromX = toX < ART_W / 2 ? toX + 200 : toX - 200
+      player.view.x = fromX
+      return new Promise<void>((resolve) => {
+        new Tween({ x: fromX, t: 0 }, tweens)
+          .to({ x: toX, t: 1 }, 650)
+          .easing(Easing.Quadratic.Out)
+          .onUpdate(({ x, t }) => {
+            player.view.x = Math.round(x)
+            // Two-pixel step bob while walking in.
+            player.view.y =
+              PLAYER_Y - (t < 1 ? Math.round(Math.abs(Math.sin(t * Math.PI * 6)) * 2) : 0)
+          })
+          .onComplete(() => {
+            player.play('talk', true)
+            resolve()
+          })
+          .start()
+      })
+    },
+    destroy() {
+      observer.disconnect()
+      app.destroy(true, { children: true })
     },
   }
 }

@@ -6,7 +6,7 @@
  *   pnpm assets            # regenerate the checklist
  *   pnpm assets --check    # exit 1 if a required (non-optional) asset is missing
  */
-import { existsSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { type AssetSpec, contentAssets, STATIC_ASSETS } from '../src/assets'
 import { loadContentFromDisk } from './load-content'
@@ -16,6 +16,31 @@ const out = fileURLToPath(new URL('../../../docs/ASSET_CHECKLIST.md', import.met
 
 const content = loadContentFromDisk()
 const all: AssetSpec[] = [...STATIC_ASSETS, ...contentAssets(content)]
+
+// Building sprites are defined in the Tiled map (object layer "buildings", property "sprite").
+const mapFile = `${publicAssets}maps/superbia.json`
+if (existsSync(mapFile)) {
+  const map = JSON.parse(readFileSync(mapFile, 'utf8')) as {
+    layers: Array<{
+      name: string
+      objects?: Array<{
+        name: string
+        width: number
+        height: number
+        properties?: Array<{ name: string; value: unknown }>
+      }>
+    }>
+  }
+  for (const o of map.layers.find((l) => l.name === 'buildings')?.objects ?? []) {
+    const sprite = String(o.properties?.find((p) => p.name === 'sprite')?.value ?? `map-${o.name}`)
+    all.push({
+      path: `sprites/${sprite}.png`,
+      kind: 'sprite',
+      size: `${o.width}×${o.height} footprint (+ roof above)`,
+      purpose: `Map building "${o.name}", bottom-centre on its footprint; optional tag "open" for the door`,
+    })
+  }
+}
 const groups: Record<AssetSpec['kind'], string> = {
   sprite: 'Scene sprites',
   portrait: 'Character portraits',

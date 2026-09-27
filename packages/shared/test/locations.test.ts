@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { loadContentFromDisk } from '../scripts/load-content'
 import {
   acknowledgeEnding,
+  answerDialog,
   answerFraming,
   applyOffline,
   buyGenerator,
@@ -11,8 +12,10 @@ import {
   focusedQuest,
   type GameState,
   isLocationUnlocked,
+  isMapUnlocked,
   loadContent,
   locationRate,
+  openMap,
   productionPerSecond,
   SAVE_VERSION,
   serialize,
@@ -349,5 +352,21 @@ describe('save v2', () => {
     expect(loaded.location).toBe('press-house')
     expect(loaded.generators.intern).toBe(3)
     expect(loaded.locations['press-house']).toBeDefined()
+  })
+})
+
+describe('city map', () => {
+  it('unlocks after act 1 and the map tutorial completes when the map is opened', () => {
+    const real = loadContentFromDisk()
+    let s = createInitialState(real, T0, 3)
+    expect(isMapUnlocked(s, real)).toBe(false)
+    s = { ...s, quests: { ...s.quests, completed: ['act1-intro', 'act1-first-100-days'] } }
+    expect(isMapUnlocked(s, real)).toBe(true)
+    s = tick(s, real, 0, ctx(T0))
+    const intro = focusedQuest(s, real)
+    expect(intro?.quest.id).toBe('act2-city-intro')
+    s = answerDialog(s, real, 'act2-city-intro')
+    s = openMap(s, real)
+    expect(s.quests.completed).toContain('act2-city-intro')
   })
 })

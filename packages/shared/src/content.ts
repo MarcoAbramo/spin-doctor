@@ -15,6 +15,7 @@ import {
   type StatDef,
   type Step,
   type UpgradeDef,
+  type WorldDef,
 } from './schema'
 
 /** A generator with its defaults resolved by the loader. */
@@ -24,6 +25,7 @@ export type Upgrade = UpgradeDef & { location: string; costStat: string }
 
 /** Merged, validated content from all packs. */
 export interface Content {
+  world: WorldDef
   stats: StatDef[]
   /** Sorted by `order`; the first one is the starting location. */
   locations: LocationDef[]
@@ -93,6 +95,7 @@ export function loadContent(packs: RawPack[]): Content {
   const home = locations[0]!.id
 
   const content: Content = {
+    world: parsed.reduce<WorldDef>((w, p) => p.world ?? w, {}),
     stats,
     locations,
     generators: parsed
@@ -234,6 +237,7 @@ function checkReferences(c: Content): string[] {
     }
   }
 
+  checkCondition('world mapUnlock', c.world.mapUnlock)
   for (const s of c.stats) {
     if (s.min !== undefined && s.max !== undefined && s.min > s.max)
       problems.push(`stat ${s.id}: min > max`)

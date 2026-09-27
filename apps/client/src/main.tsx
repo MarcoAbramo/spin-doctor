@@ -1,11 +1,13 @@
 import { registerSW } from 'virtual:pwa-register'
 import { render } from 'preact'
+import { content } from './content'
 import { t } from './i18n'
 import { play, setSoundEnabled, setVibrationEnabled, vibrate } from './juice/audio'
 import { getState, onGameEvent, startGame, subscribe } from './store'
 import { App } from './ui/App'
-import { scene } from './ui/SceneView'
+import { locationName, scene, world } from './ui/SceneView'
 import { pushToast } from './ui/toast-store'
+import { setTransitionReducedMotion } from './ui/transitions'
 import '@fontsource/pixelify-sans/400.css'
 import '@fontsource/pixelify-sans/700.css'
 import './ui/styles.css'
@@ -40,6 +42,20 @@ onGameEvent((e) => {
       play('success')
       pushToast(t('ui.toast.daily'), 'good')
       break
+    case 'till-full':
+      pushToast(t('ui.toast.tillFull', { name: locationName(e.location) }), 'info')
+      break
+    case 'hotspot': {
+      const label = content.locations
+        .find((l) => l.id === e.location)
+        ?.hotspots?.events.find((h) => h.id === e.id)?.labelKey
+      play('notify')
+      pushToast(
+        t('ui.toast.hotspot', { name: locationName(e.location), label: label ? t(label) : '' }),
+        e.multiplier >= 1 ? 'good' : 'bad',
+      )
+      break
+    }
     case 'quest-started':
       play('notify')
       break
@@ -59,9 +75,11 @@ function syncSettings(): void {
   const { settings } = getState()
   setSoundEnabled(settings.sound)
   setVibrationEnabled(settings.vibration)
-  scene.current?.setReducedMotion(
-    settings.reducedMotion || window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  )
+  const reduced =
+    settings.reducedMotion || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  scene.current?.setReducedMotion(reduced)
+  world.map?.setReducedMotion(reduced)
+  setTransitionReducedMotion(reduced)
 }
 subscribe(syncSettings)
 syncSettings()

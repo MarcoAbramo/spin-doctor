@@ -31,6 +31,26 @@ export const STATIC_ASSETS: AssetSpec[] = [
     purpose:
       'Frame data for player.png (Aseprite: Export Sprite Sheet → JSON Data “Array”, Tags on)',
   },
+  {
+    path: 'maps/superbia.json',
+    kind: 'sprite',
+    size: '48×48 tiles à 16 px',
+    purpose:
+      'City map, edit in Tiled: layers ground, deco, collision (any tile = blocked), objects "buildings" (props location, sprite, doorX, doorY) and "spawn"',
+  },
+  {
+    path: 'maps/superbia-tiles.png',
+    kind: 'sprite',
+    size: '128×48 (8×3 tiles à 16×16)',
+    purpose: 'Map tileset: grass, roads, plaza, water, trees, roses, golf green, …',
+  },
+  {
+    path: 'sprites/player-walk.png',
+    kind: 'sprite',
+    size: '16×24 per frame',
+    purpose:
+      'You on the map: Aseprite sheet + JSON with tags walk-down/up/left/right and idle-down/up/left/right',
+  },
   ...['generators', 'upgrades', 'quests', 'lexicon', 'settings'].map(
     (tab): AssetSpec => ({
       path: `icons/tab-${tab}.png`,

@@ -10,6 +10,10 @@ export function isLocationUnlocked(state: GameState, content: Content, id: strin
   return check(state, content, content.locations[index]!.unlock)
 }
 
+export function isMapUnlocked(state: GameState, content: Content): boolean {
+  return check(state, content, content.world.mapUnlock)
+}
+
 export function check(state: GameState, content: Content, cond: Condition | undefined): boolean {
   if (!cond) return true
   switch (cond.type) {

@@ -1,0 +1,11 @@
+{
+  "world": {
+    "mapUnlock": {
+      "type": "any",
+      "of": [
+        { "type": "quest", "quest": "act1-first-100-days" },
+        { "type": "flag", "flag": "debug-map" }
+      ]
+    }
+  }
+}
