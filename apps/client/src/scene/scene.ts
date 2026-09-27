@@ -40,6 +40,8 @@ export interface Scene {
   confetti(): void
   setPaused(paused: boolean): void
   setReducedMotion(on: boolean): void
+  /** Height (CSS px) covered by the open menu drawer at the bottom. */
+  setInset(px: number): void
   /** Entry performance: the player walks in from the side to their spot. */
   playEnter(): Promise<void>
   destroy(): void
@@ -120,17 +122,22 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   const podium = await loadArt(target.sprite, () => drawPlaceholder(target.sprite, 80, 64))
   place(podium, target.x, target.y, 2)
 
-  // --- Layout: fit the lower 320×350, anchor at the bottom, snap to device pixels ---
+  // --- Layout: `viewH` art pixels above `coverY` fit above the open menu drawer ---
   let scale = 1
+  let inset = 0
   function layout(): void {
     const { width, height } = app.screen
     const res = app.renderer.resolution
-    const fit = Math.min(width / ART_W, height / def.viewH)
+    const visible = Math.max(height / 3, height - inset)
+    const fit = Math.min(width / ART_W, visible / def.viewH)
     // Whole device pixels per art pixel when that doesn't shrink the room by much.
     const snapped = Math.floor(fit * res) / res
     scale = snapped >= 1 / res && snapped / fit > 0.8 ? snapped : fit
     root.scale.set(scale)
-    root.position.set(Math.round((width - ART_W * scale) / 2), Math.round(height - ART_H * scale))
+    root.position.set(
+      Math.round((width - ART_W * scale) / 2),
+      Math.round(visible - def.coverY * scale),
+    )
     const floorY = root.position.y + def.backdrop.splitY * scale
     backdrop
       .clear()
@@ -289,6 +296,11 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     },
     setReducedMotion(on) {
       reducedMotion = on
+    },
+    setInset(px) {
+      if (px === inset) return
+      inset = px
+      layout()
     },
     playEnter() {
       if (reducedMotion) return Promise.resolve()

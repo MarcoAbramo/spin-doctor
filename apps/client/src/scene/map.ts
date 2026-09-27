@@ -84,6 +84,8 @@ export interface MapScene {
   zoomTo(id: string, ms: number): Promise<void>
   resetZoom(): void
   setReducedMotion(on: boolean): void
+  /** Height (CSS px) covered by the open menu drawer at the bottom. */
+  setInset(px: number): void
 }
 
 const prop = (o: TiledObject, name: string) => o.properties?.find((p) => p.name === name)?.value
@@ -319,6 +321,7 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
   let scale = 1
   let zoom = 1
   let focus: { x: number; y: number } | null = null
+  let inset = 0
   function layout(): void {
     const { width } = app.screen
     const res = app.renderer.resolution
@@ -341,10 +344,12 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     const { width, height } = app.screen
     const cx = focus?.x ?? pos.x
     const cy = focus?.y ?? pos.y - 12
+    // Centre in the part of the canvas that the menu drawer leaves visible.
+    const visible = Math.max(height / 3, height - inset)
     const maxX = W * TILE - width / s
-    const maxY = H * TILE - height / s
+    const maxY = H * TILE - visible / s
     const left = Math.min(Math.max(cx - width / s / 2, 0), Math.max(0, maxX))
-    const top = Math.min(Math.max(cy - height / s / 2, 0), Math.max(0, maxY))
+    const top = Math.min(Math.max(cy - visible / s / 2, 0), Math.max(0, maxY))
     world.position.set(-Math.round(left * s), -Math.round(top * s))
   }
 
@@ -643,6 +648,10 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     setReducedMotion(on) {
       reducedMotion = on
       for (const c of clouds) c.visible = !on
+    },
+    setInset(px) {
+      inset = px
+      camera()
     },
   }
 }

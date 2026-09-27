@@ -31,6 +31,14 @@ let locHost: HTMLDivElement | null = null
 let mapHost: HTMLDivElement | null = null
 let setViewUi: (v: View) => void = () => undefined
 let openInfo: (b: Building | null) => void = () => undefined
+let drawerInset = 0
+
+/** The open menu drawer covers this many CSS px at the bottom of the scene. */
+export function setSceneInset(px: number): void {
+  drawerInset = px
+  scene.current?.setInset(px)
+  world.map?.setInset(px)
+}
 
 function reducedMotion(): boolean {
   return getState().settings.reducedMotion || prefersReducedMotion()
@@ -52,6 +60,7 @@ async function showLocation(id: string): Promise<void> {
   const { createScene } = await import('../scene/scene')
   const s = await createScene(locHost, id)
   s.setReducedMotion(reducedMotion())
+  s.setInset(drawerInset)
   s.update(getState())
   scene.current = s
   sceneLocation = id
@@ -68,6 +77,7 @@ async function ensureMap(): Promise<MapScene | null> {
     onInfo: (b) => openInfo(b),
   })
   world.map.setReducedMotion(reducedMotion())
+  world.map.setInset(drawerInset)
   world.map.update(getState())
   return world.map
 }

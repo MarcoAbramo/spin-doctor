@@ -220,11 +220,27 @@ textarea {
 }
 
 /* ---------------- Scene ---------------- */
-.scene {
+.stage {
   position: relative;
   flex: 1 1 auto;
-  min-height: 40dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+.scene {
+  position: absolute;
+  inset: 0;
   background: #124e89;
+}
+/* Menu drawer over the bottom of the scene; slides down when folded away. */
+.drawer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.24s steps(6);
 }
 .scene canvas {
   position: absolute;
@@ -893,6 +909,9 @@ progress::-moz-progress-bar {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .drawer {
+    transition: none;
+  }
   *,
   *::before,
   *::after {
