@@ -17,111 +17,358 @@
       },
       "scene": {
         "background": "scene-background",
-        "viewH": 250,
-        "coverY": 300,
+        "height": 600,
+        "viewH": 256,
+        "coverY": 304,
         "backdrop": {
           "top": "#124e89",
           "bottom": "#262b44",
-          "splitY": 236
+          "splitY": 200
         },
         "props": [
           {
             "sprite": "scene-plaque",
             "x": 160,
-            "y": 150
-          },
-          {
-            "sprite": "reporter-c",
-            "x": 28,
-            "y": 340,
-            "react": "react"
+            "y": 120
           },
           {
             "sprite": "reporter-a",
-            "x": 76,
-            "y": 340,
+            "x": 14,
+            "y": 276,
             "react": "react"
           },
           {
-            "sprite": "reporter-frieda",
-            "x": 124,
-            "y": 340,
+            "sprite": "reporter-c",
+            "x": 38,
+            "y": 276,
             "react": "react"
           },
           {
             "sprite": "reporter-b",
-            "x": 196,
-            "y": 340,
+            "x": 62,
+            "y": 276,
             "react": "react"
           },
           {
             "sprite": "reporter-d",
-            "x": 244,
-            "y": 340,
+            "x": 86,
+            "y": 276,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 110,
+            "y": 276,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-frieda",
+            "x": 134,
+            "y": 276,
             "react": "react"
           },
           {
             "sprite": "reporter-a",
-            "x": 292,
-            "y": 340,
+            "x": 186,
+            "y": 276,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 210,
+            "y": 276,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 234,
+            "y": 276,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 258,
+            "y": 276,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 282,
+            "y": 276,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 306,
+            "y": 276,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 14,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 38,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 62,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 86,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 110,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 134,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 186,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 210,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 234,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 258,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 282,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 306,
+            "y": 300,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 14,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 38,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 62,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 86,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 110,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 134,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 186,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 210,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 234,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 258,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 282,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 306,
+            "y": 324,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 14,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 38,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 62,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 86,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 110,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 134,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 186,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 210,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 234,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 258,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 282,
+            "y": 348,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 306,
+            "y": 348,
             "react": "react"
           }
         ],
         "player": {
           "x": 160,
-          "y": 276
+          "y": 228
         },
         "tapTarget": {
           "sprite": "scene-podium",
           "x": 160,
-          "y": 300
+          "y": 252
         },
         "slots": {
-          "intern": [[44, 296], [76, 288]],
-          "talkshow-guest": [[266, 296]],
-          "bot-farm": [[24, 240]],
-          "court-paper": [
-            [124, 370],
-            [196, 370],
-            [76, 370],
-            [244, 370],
-            [28, 370],
-            [292, 370],
-            [124, 400],
-            [196, 400],
-            [76, 400],
-            [244, 400],
-            [28, 400],
-            [292, 400]
-          ],
-          "jubel-tv": [[288, 234]],
-          "truth-ministry": [[44, 132]]
+          "intern": [[40, 248], [68, 244]],
+          "talkshow-guest": [[266, 250]],
+          "bot-farm": [[22, 204]],
+          "jubel-tv": [[292, 206]],
+          "truth-ministry": [[44, 108]]
         },
         "crowds": {
           "intern": {
-            "area": [12, 258, 84, 38],
+            "area": [10, 210, 80, 38],
             "max": 9,
             "spacing": 14
           },
           "talkshow-guest": {
-            "area": [232, 264, 76, 32],
-            "max": 5,
+            "area": [232, 224, 76, 26],
+            "max": 4,
             "spacing": 22
           },
           "bot-farm": {
-            "area": [8, 236, 88, 6],
+            "area": [8, 200, 76, 4],
             "max": 4,
             "spacing": 20
           },
           "jubel-tv": {
-            "area": [256, 228, 48, 6],
+            "area": [262, 202, 40, 4],
             "max": 2,
             "spacing": 26
           },
           "truth-ministry": {
-            "area": [20, 120, 56, 12],
+            "area": [20, 96, 56, 12],
             "max": 2,
             "spacing": 30
+          },
+          "court-paper": {
+            "grid": {
+              "xs": [14, 38, 62, 86, 110, 134, 186, 210, 234, 258, 282, 306],
+              "ys": [372, 396, 420, 444, 468, 492, 516, 540, 564, 588]
+            },
+            "max": 120,
+            "exponent": 0.8
           }
         }
       }
