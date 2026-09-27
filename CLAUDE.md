@@ -40,8 +40,11 @@ The original spec is `HACKATHON_PROMPT.md`.
 - Mobile: touch targets ≥ 44 px, no hover-only UI, `prefers-reduced-motion`, DPR ≤ 2.
 
 ## Satire guardrails (binding)
-1. Everything fictional — no real persons, parties, brands, quotes, likenesses.
+1. The game world is fictional — no real persons, parties, brands, quotes, likenesses in scenes,
+   dialogues or art. Exception: „Realitäts-Check“ cards (`realityChecks`, ADR 0006) may name real
+   public figures in a neutral, attributed summary with ≥ 2 reputable, verified news sources.
 2. Target techniques of power and the dismantling of institutions.
 3. Punch up, never down — no jokes about voter groups, minorities, origin, religion, appearance, disability.
-4. Current events may inspire but are always fictionalised and generalised.
+4. Current events may inspire; in the game they are always fictionalised — the real event goes on
+   a reality-check card.
 5. Lexicon cards: factual, neutral, with a source; new cards get the `needs-fact-check` label.

@@ -56,6 +56,7 @@ export type GameEvent =
   | { type: 'quest-started'; quest: string }
   | { type: 'quest-completed'; quest: string }
   | { type: 'lexicon-unlocked'; card: string }
+  | { type: 'reality-unlocked'; card: string }
   | { type: 'daily-completed'; daily: string }
   | { type: 'modifier-added'; id: string }
   | { type: 'travelled'; from: string; to: string }
@@ -79,6 +80,8 @@ export interface GameState {
   upgrades: string[]
   flags: string[]
   lexicon: string[]
+  /** Unlocked „Realitäts-Check“ cards. */
+  realityChecks: string[]
   counters: Record<string, number>
   modifiers: ActiveModifier[]
   /** Where the player currently is. */
@@ -123,6 +126,7 @@ export function createInitialState(content: Content, now: number, seed = now): G
     upgrades: [],
     flags: [],
     lexicon: [],
+    realityChecks: [],
     counters: {},
     modifiers: [],
     location: content.locations[0]!.id,

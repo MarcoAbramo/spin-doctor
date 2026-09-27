@@ -34,6 +34,7 @@ export const saveSchema = z.object({
   upgrades: z.array(z.string()),
   flags: z.array(z.string()),
   lexicon: z.array(z.string()),
+  realityChecks: z.array(z.string()).default([]),
   counters: record,
   clock: z.object({ hour: num, weekday: num }),
   location: z.string(),

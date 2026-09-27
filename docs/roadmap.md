@@ -5,7 +5,7 @@
 
 ## Satire guardrails for this roadmap (binding, see CONTRIBUTING.md)
 
-- **Only fictional versions go into the repo.** Ideas may be inspired by widely reported events, but texts, content and docs contain only the fictional version: no real names, brands, quotes or places.
+- **Only fictional versions go into the game.** Scenes, dialogues, content and art contain only the fictional version: no real names, brands, quotes or places. The real event behind an episode goes on a **„Realitäts-Check“ card** (ADR 0006): neutral, attributed, ≥ 2 verified news sources. Every milestone ships the cards for its episodes.
   - Rekord-Marker instead of a brand-name marker, **Bear Force One**, **P.R.I.C.E.**, **the Great Dome** (parliament), **Uranistan**.
 - **P.R.I.C.E.** (*Patriotic Revenue & Import Curbing Enforcement*, motto *„Alles hat seinen Preis – vor allem die Einreise.“*) satirises tariff mania and red tape.
   - Examples: cookie tariffs, entry fees for migratory birds, the president's own imported golf balls confiscated.
