@@ -186,6 +186,45 @@
           "flag": "act1-complete"
         }
       ]
+    },
+    {
+      "id": "act2-city-intro",
+      "category": "story",
+      "act": 2,
+      "titleKey": "quest.act2-city-intro.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "quest",
+        "quest": "act1-first-100-days"
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": [
+            "quest.act2-city-intro.s0.l1",
+            "quest.act2-city-intro.s0.l2",
+            "quest.act2-city-intro.s0.l3"
+          ]
+        },
+        {
+          "type": "objective",
+          "textKey": "quest.act2-city-intro.s1.goal",
+          "condition": {
+            "type": "counter",
+            "counter": "map-opened",
+            "gte": 1
+          }
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 120
+        }
+      ]
     }
   ]
 }

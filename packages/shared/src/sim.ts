@@ -177,6 +177,15 @@ export function travel(state: GameState, content: Content, locationId: string): 
   return s
 }
 
+/** The player opened the city map (drives the map tutorial and statistics). */
+export function openMap(state: GameState, content: Content): GameState {
+  const s = draft(state)
+  addCounter(s, 'map-opened')
+  updateQuests(s, content)
+  updateDailies(s, content)
+  return s
+}
+
 /** Starts the clock of a framing duel (after the player has read the intro). */
 export function startFraming(state: GameState, content: Content, questId: string): GameState {
   const s = draft(state)

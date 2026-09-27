@@ -9,6 +9,9 @@
 |---|---|---|---|
 | ✅ | `sprites/player.png` | 48×64 per frame | You, the press secretary, behind the podium. Sheet + Aseprite JSON with tags idle, talk (plays on every tap), point |
 | ✅ | `sprites/player.json` | Aseprite JSON | Frame data for player.png (Aseprite: Export Sprite Sheet → JSON Data “Array”, Tags on) |
+| ✅ | `maps/superbia.json` | 48×48 tiles à 16 px | City map, edit in Tiled: layers ground, deco, collision (any tile = blocked), objects "buildings" (props location, sprite, doorX, doorY) and "spawn" |
+| ✅ | `maps/superbia-tiles.png` | 128×48 (8×3 tiles à 16×16) | Map tileset: grass, roads, plaza, water, trees, roses, golf green, … |
+| ✅ | `sprites/player-walk.png` | 16×24 per frame | You on the map: Aseprite sheet + JSON with tags walk-down/up/left/right and idle-down/up/left/right |
 | ✅ | `sprites/scene-background.png` | 480×400 | Location "press-house": background (core play area x 80–400, see ASSET_GUIDE) |
 | ✅ | `sprites/scene-podium.png` | about 80×64 | Location "press-house": tap target at (160, 400), bottom-centre |
 | ✅ | `sprites/scene-portrait.png` | free | Location "press-house": prop at (160, 150), bottom-centre |
@@ -18,6 +21,16 @@
 | ✅ | `sprites/gen-paper.png` | 48×48 per frame | Generator "court-paper" at location "press-house" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-tv.png` | 48×48 per frame | Generator "jubel-tv" at location "press-house" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-ministry.png` | 48×48 per frame | Generator "truth-ministry" at location "press-house" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/map-great-dome.png` | 128×80 footprint (+ roof above) | Map building "great-dome", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-press-house.png` | 128×64 footprint (+ roof above) | Map building "press-house", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-rosengarten.png` | 80×80 footprint (+ roof above) | Map building "rosengarten", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-finance-ministry.png` | 80×64 footprint (+ roof above) | Map building "finance-ministry", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-jubel-tv.png` | 64×96 footprint (+ roof above) | Map building "jubel-tv", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-golf-resort.png` | 96×64 footprint (+ roof above) | Map building "golf-resort", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-price.png` | 112×64 footprint (+ roof above) | Map building "price", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-bear-force-one.png` | 112×64 footprint (+ roof above) | Map building "bear-force-one", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-rally-square.png` | 80×48 footprint (+ roof above) | Map building "rally-square", bottom-centre on its footprint; optional tag "open" for the door |
+| ✅ | `sprites/map-city-park.png` | 48×48 footprint (+ roof above) | Map building "city-park", bottom-centre on its footprint; optional tag "open" for the door |
 
 ## Character portraits
 
@@ -79,4 +92,4 @@
 | ⬜ | `audio/fail.ogg` | < 0.6 s | Wrong swipe / missed post |
 | ⬜ optional | `audio/typing.ogg` | < 0.1 s | Speech bubble typing tick |
 
-**Progress:** 23 / 51 files present, 8 required still missing (placeholders are shown until then).
+**Progress:** 36 / 64 files present, 8 required still missing (placeholders are shown until then).

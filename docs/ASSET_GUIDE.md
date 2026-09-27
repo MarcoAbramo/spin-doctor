@@ -59,6 +59,25 @@ Export in Aseprite via *File → Export Sprite Sheet*:
 
 Without a JSON file, the PNG is shown as a single static frame.
 
+## The city map (Tiled)
+
+The map is a normal **Tiled** map in JSON format: `apps/client/public/assets/maps/superbia.json`.
+Open it in [Tiled](https://www.mapeditor.org) (free), paint, save, and reload the game.
+
+- **Grid:** 48×48 tiles of 16×16 px. The tileset is `maps/superbia-tiles.png` (8×3 tiles; add rows as needed and keep the image path relative).
+- **Layers:**
+  - `ground`: floor tiles.
+  - `deco`: trees, lamps, benches, drawn above the ground.
+  - `collision`: any tile here makes the cell unwalkable. The layer is hidden in the game.
+  - Object layer `buildings`: one rectangle per building footprint in pixels. Each needs these properties:
+    - `location`: location id; unknown ids show „Demnächst“
+    - `sprite`: e.g. `map-press-house`
+    - `doorX` / `doorY`: the door tile below the footprint, which must be walkable
+  - Object layer `spawn`: a point where you start.
+- **Building sprites** (`sprites/map-*.png`) are bottom-centre anchored on the footprint and may be taller than it (roof, tower). An optional Aseprite tag `open` is reserved for the door animation.
+- **You on the map:** `sprites/player-walk.png`, 16×24 per frame, with tags `walk-down|up|left|right` and `idle-down|up|left|right`.
+- Every building gets a **live sign** in the game (till, fill bar, status), so no text is needed in the art.
+
 ## What is needed
 
 ### Scene, `assets/sprites/`

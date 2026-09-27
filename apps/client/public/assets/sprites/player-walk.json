@@ -1,0 +1,228 @@
+{
+  "frames": [
+    {
+      "filename": "player-walk.png 0",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 1",
+      "frame": {
+        "x": 16,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 2",
+      "frame": {
+        "x": 32,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 3",
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 4",
+      "frame": {
+        "x": 64,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 5",
+      "frame": {
+        "x": 80,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 6",
+      "frame": {
+        "x": 96,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 7",
+      "frame": {
+        "x": 112,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 8",
+      "frame": {
+        "x": 128,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 9",
+      "frame": {
+        "x": 144,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 10",
+      "frame": {
+        "x": 160,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 11",
+      "frame": {
+        "x": 176,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 12",
+      "frame": {
+        "x": 192,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 13",
+      "frame": {
+        "x": 208,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 14",
+      "frame": {
+        "x": 224,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    },
+    {
+      "filename": "player-walk.png 15",
+      "frame": {
+        "x": 240,
+        "y": 0,
+        "w": 16,
+        "h": 24
+      },
+      "duration": 120
+    }
+  ],
+  "meta": {
+    "app": "spin-doctor pixel-placeholders",
+    "image": "player-walk.png",
+    "size": {
+      "w": 256,
+      "h": 24
+    },
+    "frameTags": [
+      {
+        "name": "walk-down",
+        "from": 0,
+        "to": 3,
+        "direction": "forward"
+      },
+      {
+        "name": "walk-up",
+        "from": 4,
+        "to": 7,
+        "direction": "forward"
+      },
+      {
+        "name": "walk-left",
+        "from": 8,
+        "to": 11,
+        "direction": "forward"
+      },
+      {
+        "name": "walk-right",
+        "from": 12,
+        "to": 15,
+        "direction": "forward"
+      },
+      {
+        "name": "idle-down",
+        "from": 0,
+        "to": 0,
+        "direction": "forward"
+      },
+      {
+        "name": "idle-up",
+        "from": 4,
+        "to": 4,
+        "direction": "forward"
+      },
+      {
+        "name": "idle-left",
+        "from": 8,
+        "to": 8,
+        "direction": "forward"
+      },
+      {
+        "name": "idle-right",
+        "from": 12,
+        "to": 12,
+        "direction": "forward"
+      },
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 0,
+        "direction": "forward"
+      }
+    ]
+  }
+}

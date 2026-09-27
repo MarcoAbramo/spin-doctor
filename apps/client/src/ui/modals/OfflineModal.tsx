@@ -4,6 +4,7 @@ import { t } from '../../i18n'
 import { play } from '../../juice/audio'
 import { takeOfflineReport } from '../../store'
 import { useGame } from '../hooks'
+import { locationName } from '../SceneView'
 
 export function OfflineModal() {
   useGame()
@@ -25,6 +26,19 @@ export function OfflineModal() {
             spin: formatNumber(report.gained),
           })}
         </p>
+        {Object.keys(report.tills).length > 0 && (
+          <div class="card-meta">
+            {t('ui.offline.tills')}
+            <ul class="effects">
+              {Object.entries(report.tills).map(([id, value]) => (
+                <li key={id}>
+                  {locationName(id)}: +{formatNumber(value)}
+                  {report.full.includes(id) ? ` (${t('ui.map.full')})` : ''}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         {report.capped && <p class="card-meta">{t('ui.offline.capped')}</p>}
         <button
           type="button"
