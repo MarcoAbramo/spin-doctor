@@ -1,3 +1,4 @@
+import { check } from './conditions'
 import type { Content } from './content'
 import { ensureDailies, updateDailies } from './dailies'
 import {
@@ -177,6 +178,24 @@ export function travel(state: GameState, content: Content, locationId: string): 
     updateDailies(s, content)
   }
   return s
+}
+
+/** The player has read the explanation of a HUD value (stat tutorial). */
+export function markExplained(state: GameState, statId: string): GameState {
+  const s = draft(state)
+  const flag = `explained-${statId}`
+  if (!s.flags.includes(flag)) s.flags.push(flag)
+  return s
+}
+
+/** The next HUD value to explain: visible, in HUD order, not explained yet. */
+export function nextStatToExplain(state: GameState, content: Content): string | null {
+  const stats = [...content.stats].sort((a, b) => a.order - b.order)
+  for (const stat of stats) {
+    if (stat.display === 'hidden' || !check(state, content, stat.visible)) continue
+    if (!state.flags.includes(`explained-${stat.id}`)) return stat.id
+  }
+  return null
 }
 
 /** The player opened the city map (drives the map tutorial and statistics). */
