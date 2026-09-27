@@ -613,7 +613,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.price-welcome.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.price-welcome.s1.q1",
@@ -782,7 +782,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.cookie-crisis.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.cookie-crisis.s1.q1",
@@ -1006,7 +1006,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.reform-questionnaire.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.reform-questionnaire.s1.q1",
@@ -1249,7 +1249,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.office-panic.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.office-panic.s1.q1",
@@ -1514,7 +1514,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.wall-announcement.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.wall-announcement.s1.q1",
@@ -1673,7 +1673,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.wall-stage-3.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.wall-stage-3.s1.q1",
@@ -1811,7 +1811,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.wall-stage-5.s2.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.wall-stage-5.s2.q1",
@@ -2065,7 +2065,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.wall-stage-20.s2.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.wall-stage-20.s2.q1",
@@ -2208,7 +2208,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.shark-moat-1.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.shark-moat-1.s1.q1",

@@ -375,7 +375,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.rosengarten-welcome.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.rosengarten-welcome.s1.q1",
@@ -612,7 +612,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.secret-language.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.secret-language.s1.q1",
@@ -785,7 +785,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.real-estate-diplomacy.s3.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.real-estate-diplomacy.s3.q1",
@@ -983,7 +983,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.weather-decree.s2.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.weather-decree.s2.q1",
@@ -1143,7 +1143,7 @@
           "type": "framing",
           "speaker": "frieda",
           "introKey": "quest.pool-stage-4.s1.intro",
-          "timePerQuestionSec": 9,
+          "timePerQuestionSec": 15,
           "questions": [
             {
               "textKey": "quest.pool-stage-4.s1.q1",

@@ -152,7 +152,8 @@ export function recordFramingAnswer(
   active.scores = scores
   if (picked) applyEffects(state, content, picked.effects)
   const questionEnd = active.stepStartedAt + step.timePerQuestionSec * 1000
-  active.stepStartedAt = answer === null ? questionEnd : state.now
+  // The next question's clock starts after a short reading pause.
+  active.stepStartedAt = (answer === null ? questionEnd : state.now) + step.pauseBetweenSec * 1000
   if (scores.length < step.questions.length) return
 
   const total = scores.reduce((a, b) => a + b, 0)
