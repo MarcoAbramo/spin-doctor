@@ -23,6 +23,7 @@ import {
   startQuestMut,
   updateQuests,
 } from './quests'
+import { updateRealityChecks } from './reality'
 import { draft, type GameState } from './state'
 
 /** Inputs from the outside world. The simulation never reads clocks itself. */
@@ -57,6 +58,7 @@ export function tick(
   ensureDailies(s, content, ctx.localDate)
   updateQuests(s, content)
   updateDailies(s, content)
+  updateRealityChecks(s, content)
   return s
 }
 

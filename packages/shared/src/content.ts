@@ -11,6 +11,7 @@ import {
   type PoolDef,
   type QualityTier,
   type QuestDef,
+  type RealityCheckDef,
   type SpeakerDef,
   type StatDef,
   type Step,
@@ -32,6 +33,7 @@ export interface Content {
   generators: Generator[]
   upgrades: Upgrade[]
   lexicon: LexiconDef[]
+  realityChecks: RealityCheckDef[]
   quests: QuestDef[]
   dailies: DailyDef[]
   pools: PoolDef[]
@@ -112,6 +114,7 @@ export function loadContent(packs: RawPack[]): Content {
       .map((u) => ({ ...u, location: u.location ?? home, costStat: u.costStat ?? currency }))
       .sort((a, b) => a.cost - b.cost),
     lexicon: parsed.flatMap((p) => p.lexicon),
+    realityChecks: parsed.flatMap((p) => p.realityChecks),
     quests: parsed.flatMap((p) => p.quests),
     dailies: parsed.flatMap((p) => p.dailies),
     pools: parsed.flatMap((p) => p.pools),
@@ -149,6 +152,7 @@ function checkReferences(c: Content): string[] {
   const pools = ids('pool', c.pools)
   const speakers = ids('speaker', c.speakers)
   ids('daily', c.dailies)
+  ids('reality check', c.realityChecks)
 
   const need = (where: string, set: Set<string>, kind: string, ref: string | undefined) => {
     if (ref !== undefined && !set.has(ref)) problems.push(`${where}: unknown ${kind} "${ref}"`)
@@ -239,6 +243,7 @@ function checkReferences(c: Content): string[] {
   }
 
   checkCondition('world mapUnlock', c.world.mapUnlock)
+  for (const r of c.realityChecks) checkCondition(`reality check ${r.id}`, r.unlock)
   for (const s of c.stats) {
     if (s.min !== undefined && s.max !== undefined && s.min > s.max)
       problems.push(`stat ${s.id}: min > max`)
@@ -308,6 +313,11 @@ export function requiredTextKeys(c: Content): string[] {
   for (const l of c.lexicon) {
     keys.add(`lexicon.${l.id}.title`)
     keys.add(`lexicon.${l.id}.body`)
+  }
+  for (const r of c.realityChecks) {
+    keys.add(`reality.${r.id}.title`)
+    keys.add(`reality.${r.id}.episode`)
+    keys.add(`reality.${r.id}.body`)
   }
   for (const sp of c.speakers) keys.add(sp.nameKey)
   const addEffects = (effects: Effect[]) => {

@@ -19,24 +19,40 @@ Setup: Node 24, `corepack enable`, `pnpm install`, `pnpm dev`. See the [README](
 
 ## Satire guardrails (binding)
 
-1. **Everything is fictional:** country, president, parties, media and characters. No real names,
-   photos, caricatures or invented quotes of real persons; no real parties or brands.
+1. **The game world is fictional:** country, president, parties, media and characters. No real
+   names, photos, caricatures or invented quotes of real persons in scenes, dialogues or art; no
+   real parties or brands. The only exception are **„Realitäts-Check“ cards** (see below).
 2. **The target is techniques of power and the dismantling of institutions:** distraction,
    loyalty tests, media as the enemy, record claims, nepotism, decrees, packing the courts —
    techniques known from the news worldwide.
 3. **Punch up, never down:** no jokes about groups of voters, minorities, origin, religion,
    appearance or disabilities.
-4. **Current events may inspire**, but are always fictionalised and generalised.
+4. **Current events may inspire.** In the game they are always fictionalised; the real event goes
+   on a reality-check card.
 5. **Lexicon cards** are factual, non-partisan and cite a source. Every new card gets the label
    `needs-fact-check`.
 
 Reviewers will reject content that breaks these rules, however funny it is.
 
+### Proposing a „Realitäts-Check“ card (ADR 0006)
+
+A card explains the real event behind an in-game episode. Add it to
+`packages/shared/content/reality/checks.json` and its texts `reality.<id>.title`, `.episode` and
+`.body` to `packages/shared/locales/de.json`.
+
+- **Neutral and attributed:** 3–5 sentences, facts only („laut NPR …“), no jokes, no judgement.
+  Quote only what a cited source quotes. When in doubt, leave the detail out.
+- **At least two reputable sources** (public broadcasters, wire services, major newspapers), each
+  with `outlet`, `title`, `url` and publication `date`. Open every link before you submit.
+- `unlock` is the condition of the episode (usually `quest` or `upgrade`).
+- Label the PR `needs-fact-check`; set `factChecked: true` only after a second person checked it.
+- Corrections to existing cards always take priority — open an issue if you find a mistake.
+
 ## Writing a new quest (no code needed)
 
 All content lives in **content packs**: any JSON file under `packages/shared/content/**`. Packs are
 merged at startup and validated by Zod (`packages/shared/src/schema.ts`). A pack can contain
-`stats`, `generators`, `upgrades`, `lexicon`, `quests`, `dailies`, `pools`, `speakers` and its own
+`stats`, `generators`, `upgrades`, `lexicon`, `realityChecks`, `quests`, `dailies`, `pools`, `speakers` and its own
 texts in `i18n`.
 
 Example — a new side quest in `packages/shared/content/quests/opposition-basement.json`:

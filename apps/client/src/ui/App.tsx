@@ -4,6 +4,7 @@ import { AssetIcon } from './AssetIcon'
 import { Hud } from './Hud'
 import { OfflineModal } from './modals/OfflineModal'
 import { QuestModal } from './modals/QuestModal'
+import { RealityModal } from './modals/RealityCard'
 import { ObjectiveBar } from './ObjectiveBar'
 import { SceneView } from './SceneView'
 import { Toasts } from './Toasts'
@@ -52,6 +53,7 @@ export function App() {
       </div>
       <QuestModal />
       <OfflineModal />
+      <RealityModal />
       <Toasts />
     </div>
   )

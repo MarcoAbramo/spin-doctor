@@ -217,6 +217,29 @@ export const lexiconSchema = z.object({
 })
 export type LexiconDef = z.infer<typeof lexiconSchema>
 
+/**
+ * „Realitäts-Check“: the real, reported event that inspired an in-game episode (ADR 0006).
+ * Texts: `reality.<id>.title`, `.episode` (which game moment), `.body` (neutral summary).
+ * Unlocks once `unlock` holds — usually the linked quest or upgrade.
+ */
+export const realityCheckSchema = z.object({
+  id,
+  unlock: conditionSchema,
+  sources: z
+    .array(
+      z.object({
+        outlet: z.string().min(1),
+        title: z.string().min(1),
+        url: z.url(),
+        /** Publication date, YYYY-MM-DD. */
+        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      }),
+    )
+    .min(2, 'reality checks need at least two independent sources'),
+  factChecked: z.boolean().default(false),
+})
+export type RealityCheckDef = z.infer<typeof realityCheckSchema>
+
 // ---------------------------------------------------------------------------
 // Locations (levels on the map)
 // ---------------------------------------------------------------------------
@@ -430,6 +453,7 @@ export const contentPackSchema = z.object({
   generators: z.array(generatorSchema).default([]),
   upgrades: z.array(upgradeSchema).default([]),
   lexicon: z.array(lexiconSchema).default([]),
+  realityChecks: z.array(realityCheckSchema).default([]),
   quests: z.array(questSchema).default([]),
   dailies: z.array(dailySchema).default([]),
   pools: z.array(poolSchema).default([]),

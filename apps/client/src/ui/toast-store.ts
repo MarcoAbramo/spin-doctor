@@ -17,7 +17,7 @@ export function pushToast(
   const toast: Toast = { id: nextId++, text, tone, ...(action ? { action } : {}) }
   toasts = [...toasts.slice(-1), toast]
   for (const l of listeners) l()
-  if (!action) setTimeout(() => dismissToast(toast.id), 2600)
+  setTimeout(() => dismissToast(toast.id), action ? 7000 : 2600)
 }
 
 export function dismissToast(id: number): void {

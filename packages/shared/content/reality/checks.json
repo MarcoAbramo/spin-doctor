@@ -1,0 +1,220 @@
+{
+  "realityChecks": [
+    {
+      "id": "birthday-parade",
+      "unlock": { "type": "quest", "quest": "act1-intro" },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Fireworks and parachutists: Army celebrates its 250th year, Trump celebrates his 79th",
+          "url": "https://www.npr.org/2025/06/14/nx-s1-5429660/military-parade-trump-army-anniversary-birthday",
+          "date": "2025-06-14"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "Army anniversary parade on Trump's birthday could cost up to $45 million",
+          "url": "https://www.cbsnews.com/news/trump-military-parade-birthday-45-million-dollars/",
+          "date": "2025-05-15"
+        }
+      ]
+    },
+    {
+      "id": "alternative-facts",
+      "unlock": { "type": "upgrade", "upgrade": "record-claim-generator" },
+      "sources": [
+        {
+          "outlet": "NBC News",
+          "title": "Kellyanne Conway: WH Spokesman Gave 'Alternative Facts' on Inauguration Crowd",
+          "url": "https://www.nbcnews.com/storyline/meet-the-press-70-years/wh-spokesman-gave-alternative-facts-inauguration-crowd-n710466",
+          "date": "2017-01-22"
+        },
+        {
+          "outlet": "NPR",
+          "title": "Delusions Or Deceptions? White House 'Alternative Facts' Rile Press",
+          "url": "https://www.npr.org/sections/thetwo-way/2017/01/23/511160267/delusions-or-deceptions-white-house-alternative-facts-rile-press",
+          "date": "2017-01-23"
+        }
+      ]
+    },
+    {
+      "id": "press-pool",
+      "unlock": { "type": "upgrade", "upgrade": "favourite-journalists" },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "AP sues Trump White House for denying access over 'Gulf of Mexico' row",
+          "url": "https://www.npr.org/2025/02/21/nx-s1-5305226/ap-sues-white-house-gulf-of-america-mexico-trump",
+          "date": "2025-02-21"
+        },
+        {
+          "outlet": "NPR",
+          "title": "Trump White House tightens grip on press access",
+          "url": "https://www.npr.org/2025/02/26/nx-s1-5308628/trump-white-house-press-access-voa",
+          "date": "2025-02-26"
+        }
+      ]
+    },
+    {
+      "id": "statistics-chief",
+      "unlock": { "type": "upgrade", "upgrade": "fact-check-restructuring" },
+      "sources": [
+        {
+          "outlet": "PBS News",
+          "title": "Trump fires Bureau of Labor Statistics commissioner after dismal employment report",
+          "url": "https://www.pbs.org/newshour/politics/trump-seeks-to-fire-bureau-of-labor-statistics-director-after-release-of-weak-jobs-report",
+          "date": "2025-08-01"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "Trump fires Bureau of Labor Statistics commissioner after disappointing job numbers",
+          "url": "https://www.cbsnews.com/news/trump-fires-commissioner-of-labor-statistics-july-jobs-report-erika-mcentarfer/",
+          "date": "2025-08-01"
+        }
+      ]
+    },
+    {
+      "id": "son-in-law",
+      "unlock": { "type": "upgrade", "upgrade": "nephew-minister-of-everything" },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Jared Kushner, Donald Trump's Son-In-Law, Named Senior Adviser To Incoming President",
+          "url": "https://www.npr.org/2017/01/09/508990297/trump-to-reportedly-name-son-in-law-jared-kushner-as-senior-advisor",
+          "date": "2017-01-09"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "Justice Department says Trump can legally hire son-in-law Jared Kushner",
+          "url": "https://www.cbsnews.com/news/donald-trump-jared-kushner-work-in-the-white-house-justice-department/",
+          "date": "2017-01-21"
+        }
+      ]
+    },
+    {
+      "id": "texas-map",
+      "unlock": { "type": "upgrade", "upgrade": "creative-redistricting" },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Texas passes midterm redistricting sought by Trump as California plans to counter",
+          "url": "https://www.npr.org/2025/08/21/nx-s1-5496659/texas-congressional-redistricting-trump",
+          "date": "2025-08-21"
+        },
+        {
+          "outlet": "NPR",
+          "title": "Supreme Court lets Texas use gerrymandered U.S. House map",
+          "url": "https://www.npr.org/2025/12/04/nx-s1-5619692/supreme-court-texas-redistricting-map",
+          "date": "2025-12-04"
+        }
+      ]
+    },
+    {
+      "id": "liberation-day",
+      "unlock": { "type": "quest", "quest": "zoll-tafel" },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump announces reciprocal tariffs on dozens of nations and sweeping 10% tariff",
+          "url": "https://www.npr.org/2025/04/02/nx-s1-5345802/trump-tariffs-liberation-day",
+          "date": "2025-04-02"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "Trump announces new tariffs on what he calls \"Liberation Day\" amid fears of higher prices",
+          "url": "https://www.cbsnews.com/news/trump-liberation-day-new-tariffs-us/",
+          "date": "2025-04-02"
+        }
+      ]
+    },
+    {
+      "id": "penguin-tariffs",
+      "unlock": { "type": "upgrade", "upgrade": "tariffs-on-everything" },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump tariffs hit uninhabited islands like Heard, McDonald",
+          "url": "https://www.npr.org/2025/04/03/nx-s1-5350897/trump-tariffs-heard-mcdonald-remote-islands",
+          "date": "2025-04-03"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "Trump's tariffs target Heard Island and McDonald Islands, Australian territory inhabited by penguins",
+          "url": "https://www.cbsnews.com/news/trump-tariffs-heard-mcdonald-island-norfolk-australia/",
+          "date": "2025-04-03"
+        }
+      ]
+    },
+    {
+      "id": "covfefe",
+      "unlock": { "type": "quest", "quest": "secret-language" },
+      "sources": [
+        {
+          "outlet": "PBS News",
+          "title": "President Trump stumps Twitter with 'covfefe'",
+          "url": "https://www.pbs.org/newshour/politics/president-trump-stumps-twitter-covfefe",
+          "date": "2017-05-31"
+        },
+        {
+          "outlet": "NPR",
+          "title": "'Covfefe' Kerfuffle: Trump's Typo Sparks A Search For Meaning, And Humor",
+          "url": "https://www.npr.org/sections/thetwo-way/2017/05/31/530861002/trump-asks-who-can-figure-out-covfefe-and-the-internets-hands-shoot-up",
+          "date": "2017-05-31"
+        }
+      ]
+    },
+    {
+      "id": "greenland",
+      "unlock": { "type": "quest", "quest": "real-estate-diplomacy" },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump Skips Visit To Denmark, Calls Danish Leader 'Nasty' For Greenland Sale Rebuff",
+          "url": "https://www.npr.org/2019/08/21/752989771/trump-to-skip-visiting-denmark-after-prime-minister-says-greenland-not-for-sale",
+          "date": "2019-08-21"
+        },
+        {
+          "outlet": "PBS News",
+          "title": "Trump cancels Denmark visit after prime minister dismisses Greenland talk",
+          "url": "https://www.pbs.org/newshour/world/trump-cancels-denmark-visit-after-prime-minister-dismisses-greenland-talk",
+          "date": "2019-08-21"
+        }
+      ]
+    },
+    {
+      "id": "sharpiegate",
+      "unlock": { "type": "quest", "quest": "weather-decree" },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump Shows Altered Map of Hurricane Dorian's Path",
+          "url": "https://www.npr.org/2019/09/04/757586936/trump-displays-altered-map-of-hurricane-dorians-path-to-include-alabama",
+          "date": "2019-09-04"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "'Crazy in the middle of the night' texts: Watchdog details storm of political pressure in Sharpiegate",
+          "url": "https://www.nbcnews.com/politics/white-house/crazy-middle-night-texts-watchdog-details-storm-political-pressure-sharpiegate-n1233413",
+          "date": "2020-07-10"
+        }
+      ]
+    },
+    {
+      "id": "reflecting-pool",
+      "unlock": { "type": "quest", "quest": "pool-stage-1" },
+      "sources": [
+        {
+          "outlet": "PBS News",
+          "title": "Trump says Reflecting Pool work is done and it's set to be filled with water",
+          "url": "https://www.pbs.org/newshour/politics/trump-says-reflecting-pool-work-is-done-and-its-set-to-be-filled-with-water",
+          "date": "2026-06-04"
+        },
+        {
+          "outlet": "NPR",
+          "title": "Reflecting Pool refills after Trump's repaint",
+          "url": "https://www.npr.org/2026/06/05/nx-s1-5847818/reflecting-pool-repaint-refill",
+          "date": "2026-06-05"
+        }
+      ]
+    }
+  ]
+}

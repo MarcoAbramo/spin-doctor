@@ -5,6 +5,7 @@ import { t } from './i18n'
 import { play, setSoundEnabled, setVibrationEnabled, vibrate } from './juice/audio'
 import { getState, onGameEvent, startGame, subscribe } from './store'
 import { App } from './ui/App'
+import { openReality } from './ui/modals/RealityCard'
 import { locationName, scene, world } from './ui/SceneView'
 import { pushToast } from './ui/toast-store'
 import { setTransitionReducedMotion, stamp } from './ui/transitions'
@@ -38,6 +39,14 @@ onGameEvent((e) => {
       play('upgrade')
       pushToast(t('ui.toast.lexicon', { name: t(`lexicon.${e.card}.title`) }), 'good')
       break
+    case 'reality-unlocked': {
+      const card = e.card
+      pushToast(t('ui.reality.unlocked', { title: t(`reality.${card}.title`) }), 'info', {
+        label: t('ui.reality.open'),
+        run: () => openReality(card),
+      })
+      break
+    }
     case 'daily-completed':
       play('success')
       pushToast(t('ui.toast.daily'), 'good')

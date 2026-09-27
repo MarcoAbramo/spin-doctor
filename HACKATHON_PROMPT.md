@@ -25,10 +25,10 @@ Die Pointe ist die Mechanik selbst: Das Spiel belohnt dich für genau die Machtt
 
 ## 2. Leitplanken für die Satire (verbindlich, gehören auch in CONTRIBUTING.md)
 
-1. **Alles ist fiktiv:** Land, Präsident, Parteien, Medien und Figuren. Keine echten Namen, Fotos, Karikaturen oder erfundenen Zitate realer Personen, keine echten Parteien oder Marken.
+1. **Die Spielwelt ist fiktiv:** Land, Präsident, Parteien, Medien und Figuren. In Szenen, Dialogen und Grafiken keine echten Namen, Fotos, Karikaturen oder erfundenen Zitate realer Personen, keine echten Parteien oder Marken. Ausnahme: **„Realitäts-Check“-Karten** (ADR 0006) fassen das reale Ereignis hinter einer Episode sachlich zusammen und nennen dabei reale Amtsträger – neutral, mit Quellenangabe und mindestens zwei seriösen, geprüften Nachrichtenquellen.
 2. **Ziel der Satire sind Machttechniken und der Abbau von Institutionen:** Ablenkungsmanöver, Loyalitätstests, Medien als Feindbild, Rekordbehauptungen, Vetternwirtschaft, Dekrete, Umbesetzung von Gerichten. Das sind Techniken, die man weltweit aus den Nachrichten kennt.
 3. **Nach oben treten, nie nach unten:** keine Witze über Wählergruppen, Minderheiten, Herkunft, Religion, Aussehen oder Behinderungen.
-4. **Aktuelles darf inspirieren**, wird aber immer fiktionalisiert und verallgemeinert.
+4. **Aktuelles darf inspirieren.** Im Spiel wird es immer fiktionalisiert; das reale Vorbild steht auf einer Realitäts-Check-Karte.
 5. **Lexikon-Karten** (siehe 4.5) sind sachlich, parteipolitisch neutral und nennen eine Quelle. Jede neue Karte bekommt das Label `needs-fact-check`.
 
 ---
