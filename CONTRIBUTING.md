@@ -112,12 +112,15 @@ Example — a new side quest in `packages/shared/content/quests/opposition-basem
   `president-post`; new handlers need code, see `apps/client/src/ui/modals/QuestModal.tsx`).
 - **Conditions:** `stat` (gte/lte), `lifetime`, `generator`, `upgrade`, `flag`, `quest` (completed),
   `counter`, `all`, `any`, `not`.
-- **Effects:** `addStat`, `multiplier` (upgrades), `productionSeconds`, `setFlag`, `unlockLexicon`,
-  `counter`, `modifier` (timed buff/debuff), `scandal`.
+- **Effects:** `addStat`, `multiplier`, `productionSeconds`, `setFlag`, `unlockLexicon`,
+  `counter`, `modifier` (timed buff/debuff), `scandal`. A passive `multiplier` works only where it
+  is owned permanently — upgrades, generator `perUnitEffects` (per unit, e.g. per wall section)
+  and quest `rewards`; everywhere else use a `modifier` (`validate:content` checks this).
 - **Locations** (levels on the map) live in `locations[]`: scene layout (background, props,
   player, tap target, generator slots, backdrop colours), `onSiteBonus`, till capacity
-  (`till.capMinutes`), time-based `traits` (`hour`/`weekday` conditions), random `hotspots` and
-  `enter`/`exit` transition presets. Generators and upgrades name their `location`; generators
+  (`till.capMinutes`), an optional `entryFee`, time-based `traits` (`hour`/`weekday` conditions),
+  random `hotspots` and `enter`/`exit` transition presets (`door`, `gate`, `stamp` with a
+  `labelKey`). Generators and upgrades name their `location`; generators
   may `produce` and cost other stats (`produces`, `costStat`), have a `maxCount` (building
   projects) and `perUnitEffects`.
 - **Framing duels** (`"type": "framing"` step): press questions with 2–4 answers scored 0…1, a

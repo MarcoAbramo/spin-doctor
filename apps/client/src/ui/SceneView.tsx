@@ -17,7 +17,7 @@ import { dispatch, getState, subscribe } from '../store'
 import { useGame } from './hooks'
 import { LocationCard } from './modals/LocationCard'
 import { pushToast } from './toast-store'
-import { banner, coinStream, cover, flashes, paperGust, reveal } from './transitions'
+import { banner, coinStream, cover, flashes, paperGust, reveal, stamp } from './transitions'
 
 /** Shared handles so game events (shake, confetti) can reach the lazily loaded scenes. */
 export const scene: { current: Scene | null } = { current: null }
@@ -95,6 +95,7 @@ export async function enterBuilding(b: Building): Promise<void> {
     const collected = getState().events.find((e) => e.type === 'till-collected')
     const amount =
       collected?.type === 'till-collected' ? (collected.amounts[content.currency] ?? 0) : 0
+    const fee = getState().events.find((e) => e.type === 'entry-fee')
     await showLocation(b.location)
     world.map?.setActive(false)
     world.map?.resetZoom()
@@ -106,6 +107,17 @@ export async function enterBuilding(b: Building): Promise<void> {
     const show = scene.current?.playEnter()
     if (preset === 'doors') await flashes(3)
     if (preset === 'gate') await paperGust()
+    if (preset === 'stamp') {
+      play('scandal')
+      vibrate([30, 20, 60])
+      stamp(
+        t(loc.enter?.labelKey ?? 'ui.enter.stamp'),
+        fee?.type === 'entry-fee' && fee.amount > 0
+          ? t('ui.enter.fee', { value: formatNumber(fee.amount) })
+          : '',
+        'meh',
+      )
+    }
     await show
     if (amount > 0) {
       play('milestone')

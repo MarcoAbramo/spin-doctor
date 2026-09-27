@@ -1,0 +1,70 @@
+{
+  "frames": [
+    {
+      "filename": "map-shark-moat.png 0",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 112,
+        "h": 96
+      },
+      "duration": 1000
+    },
+    {
+      "filename": "map-shark-moat.png 1",
+      "frame": {
+        "x": 112,
+        "y": 0,
+        "w": 112,
+        "h": 96
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-shark-moat.png 2",
+      "frame": {
+        "x": 224,
+        "y": 0,
+        "w": 112,
+        "h": 96
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-shark-moat.png 3",
+      "frame": {
+        "x": 336,
+        "y": 0,
+        "w": 112,
+        "h": 96
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-shark-moat.png 4",
+      "frame": {
+        "x": 448,
+        "y": 0,
+        "w": 112,
+        "h": 96
+      },
+      "duration": 100
+    }
+  ],
+  "meta": {
+    "app": "spin-doctor pixel-placeholders",
+    "image": "map-shark-moat.png",
+    "size": {
+      "w": 560,
+      "h": 96
+    },
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 0,
+        "direction": "forward"
+      }
+    ]
+  }
+}

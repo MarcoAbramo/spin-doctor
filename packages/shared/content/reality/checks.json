@@ -2,7 +2,10 @@
   "realityChecks": [
     {
       "id": "birthday-parade",
-      "unlock": { "type": "quest", "quest": "act1-intro" },
+      "unlock": {
+        "type": "quest",
+        "quest": "act1-intro"
+      },
       "sources": [
         {
           "outlet": "NPR",
@@ -20,7 +23,10 @@
     },
     {
       "id": "alternative-facts",
-      "unlock": { "type": "upgrade", "upgrade": "record-claim-generator" },
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "record-claim-generator"
+      },
       "sources": [
         {
           "outlet": "NBC News",
@@ -38,7 +44,10 @@
     },
     {
       "id": "press-pool",
-      "unlock": { "type": "upgrade", "upgrade": "favourite-journalists" },
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "favourite-journalists"
+      },
       "sources": [
         {
           "outlet": "NPR",
@@ -56,7 +65,10 @@
     },
     {
       "id": "statistics-chief",
-      "unlock": { "type": "upgrade", "upgrade": "fact-check-restructuring" },
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "fact-check-restructuring"
+      },
       "sources": [
         {
           "outlet": "PBS News",
@@ -74,7 +86,10 @@
     },
     {
       "id": "son-in-law",
-      "unlock": { "type": "upgrade", "upgrade": "nephew-minister-of-everything" },
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "nephew-minister-of-everything"
+      },
       "sources": [
         {
           "outlet": "NPR",
@@ -92,7 +107,10 @@
     },
     {
       "id": "texas-map",
-      "unlock": { "type": "upgrade", "upgrade": "creative-redistricting" },
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "creative-redistricting"
+      },
       "sources": [
         {
           "outlet": "NPR",
@@ -110,7 +128,10 @@
     },
     {
       "id": "liberation-day",
-      "unlock": { "type": "quest", "quest": "zoll-tafel" },
+      "unlock": {
+        "type": "quest",
+        "quest": "zoll-tafel"
+      },
       "sources": [
         {
           "outlet": "NPR",
@@ -128,7 +149,10 @@
     },
     {
       "id": "penguin-tariffs",
-      "unlock": { "type": "upgrade", "upgrade": "tariffs-on-everything" },
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "tariffs-on-everything"
+      },
       "sources": [
         {
           "outlet": "NPR",
@@ -146,7 +170,10 @@
     },
     {
       "id": "covfefe",
-      "unlock": { "type": "quest", "quest": "secret-language" },
+      "unlock": {
+        "type": "quest",
+        "quest": "secret-language"
+      },
       "sources": [
         {
           "outlet": "PBS News",
@@ -164,7 +191,10 @@
     },
     {
       "id": "greenland",
-      "unlock": { "type": "quest", "quest": "real-estate-diplomacy" },
+      "unlock": {
+        "type": "quest",
+        "quest": "real-estate-diplomacy"
+      },
       "sources": [
         {
           "outlet": "NPR",
@@ -182,7 +212,10 @@
     },
     {
       "id": "sharpiegate",
-      "unlock": { "type": "quest", "quest": "weather-decree" },
+      "unlock": {
+        "type": "quest",
+        "quest": "weather-decree"
+      },
       "sources": [
         {
           "outlet": "NPR",
@@ -200,7 +233,10 @@
     },
     {
       "id": "reflecting-pool",
-      "unlock": { "type": "quest", "quest": "pool-stage-1" },
+      "unlock": {
+        "type": "quest",
+        "quest": "pool-stage-1"
+      },
       "sources": [
         {
           "outlet": "PBS News",
@@ -213,6 +249,195 @@
           "title": "Reflecting Pool refills after Trump's repaint",
           "url": "https://www.npr.org/2026/06/05/nx-s1-5847818/reflecting-pool-repaint-refill",
           "date": "2026-06-05"
+        }
+      ]
+    },
+    {
+      "id": "external-revenue-service",
+      "unlock": {
+        "type": "quest",
+        "quest": "price-founding"
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Trump says he'll create \"External Revenue Service\" to collect tariffs",
+          "url": "https://www.cbsnews.com/news/external-revenue-service-trump-tariffs/",
+          "date": "2025-01-14"
+        },
+        {
+          "outlet": "PBS News",
+          "title": "These Trump tariff threats never materialized in 2025",
+          "url": "https://www.pbs.org/newshour/politics/these-trump-tariff-threats-never-materialized-in-2025",
+          "date": "2025-12-31"
+        }
+      ]
+    },
+    {
+      "id": "loyalty-essay",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "loyalty-questionnaire"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Firing federal employees to get easier under White House proposal",
+          "url": "https://www.npr.org/2025/06/23/nx-s1-5431871/federal-employees-fired-hiring-trump-civil-service",
+          "date": "2025-06-23"
+        },
+        {
+          "outlet": "NPR",
+          "title": "Trump removes civil service protections with Schedule F plan",
+          "url": "https://www.npr.org/2025/04/18/nx-s1-5369550/trump-federal-workers-schedule-f",
+          "date": "2025-04-18"
+        }
+      ]
+    },
+    {
+      "id": "inspectors-general",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "inspectors-early-retirement"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump fires independent inspectors general at several agencies",
+          "url": "https://www.npr.org/2025/01/25/g-s1-44771/trump-fires-inspectors-general",
+          "date": "2025-01-25"
+        },
+        {
+          "outlet": "PBS News",
+          "title": "Trump fires more than a dozen independent inspectors general at government agencies",
+          "url": "https://www.pbs.org/newshour/politics/trump-fires-more-than-a-dozen-independent-inspectors-general-at-government-agencies",
+          "date": "2025-01-25"
+        }
+      ]
+    },
+    {
+      "id": "schedule-f",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "category-l"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump removes civil service protections with Schedule F plan",
+          "url": "https://www.npr.org/2025/04/18/nx-s1-5369550/trump-federal-workers-schedule-f",
+          "date": "2025-04-18"
+        },
+        {
+          "outlet": "NPR",
+          "title": "New rule expands Trump's power to fire federal workers",
+          "url": "https://www.npr.org/2026/02/06/nx-s1-5704171/trump-fire-federal-employees-schedule-f",
+          "date": "2026-02-06"
+        }
+      ]
+    },
+    {
+      "id": "probationary-firings",
+      "unlock": {
+        "type": "quest",
+        "quest": "office-panic"
+      },
+      "sources": [
+        {
+          "outlet": "NBC News",
+          "title": "Trump administration starts mass layoffs across government",
+          "url": "https://www.nbcnews.com/politics/doge/government-layoffs-trump-firings-department-probationary-employees-rcna192307",
+          "date": "2025-02-14"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "Trump administration fires and then tries to rehire nuclear weapons workers in DOGE reversal",
+          "url": "https://www.cbsnews.com/news/doge-firings-us-nuclear-weapons-workers-reversing/",
+          "date": "2025-02-17"
+        }
+      ]
+    },
+    {
+      "id": "wall-mexico-pays",
+      "unlock": {
+        "type": "quest",
+        "quest": "wall-stage-3"
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Trump claims he \"never meant\" Mexico would \"write a check\" to pay for the wall",
+          "url": "https://www.cbsnews.com/news/trump-claims-he-never-meant-mexico-would-write-a-check-to-pay-for-the-wall/",
+          "date": "2019-01-10"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "Fact check: Mexico never paid for it. But what about Trump's other border wall promises?",
+          "url": "https://www.nbcnews.com/politics/donald-trump/fact-check-mexico-never-paid-it-what-about-trump-s-n1253983",
+          "date": "2021-01-13"
+        }
+      ]
+    },
+    {
+      "id": "wall-emergency",
+      "unlock": {
+        "type": "quest",
+        "quest": "wall-stage-5"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump Declares National Emergency For Southern Border Wall Funding",
+          "url": "https://www.npr.org/2019/02/15/695270876/trump-declares-national-emergency-for-southern-border-wall-funding",
+          "date": "2019-02-15"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "Judge rules Trump violated the law on wall funding with national emergency",
+          "url": "https://www.nbcnews.com/politics/immigration/judge-rules-trump-violated-law-wall-funding-national-emergency-n1065216",
+          "date": "2019-10-11"
+        }
+      ]
+    },
+    {
+      "id": "wall-wind",
+      "unlock": {
+        "type": "quest",
+        "quest": "wall-stage-20"
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Part of U.S. border wall in California falls over into Mexico",
+          "url": "https://www.cbsnews.com/news/border-wall-falls-wind-calemexico-california-mexicali-mexico-01-30-2020/",
+          "date": "2020-01-30"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "Portions of California border wall wilt and fall into Mexico after high winds",
+          "url": "https://www.nbcnews.com/news/us-news/portions-california-border-wall-wilt-fall-mexico-after-high-winds-n1126911",
+          "date": "2020-01-30"
+        }
+      ]
+    },
+    {
+      "id": "border-moat",
+      "unlock": {
+        "type": "quest",
+        "quest": "shark-moat-1"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "'Border Wars' Reporters Reveal Trump's Extreme Border Proposals",
+          "url": "https://www.npr.org/2019/10/03/766423762/from-snakes-to-spikes-border-wars-reveals-the-extremes-of-trump-s-immigration-pr",
+          "date": "2019-10-02"
+        },
+        {
+          "outlet": "PBS News",
+          "title": "'Border Wars' examines what motivated Trump's focus on immigration",
+          "url": "https://www.pbs.org/newshour/show/border-wars-examines-what-motivated-trumps-focus-on-immigration",
+          "date": "2019-10-03"
         }
       ]
     }

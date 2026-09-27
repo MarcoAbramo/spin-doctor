@@ -1,0 +1,130 @@
+{
+  "frames": [
+    {
+      "filename": "map-record-wall.png 0",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 1000
+    },
+    {
+      "filename": "map-record-wall.png 1",
+      "frame": {
+        "x": 176,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 2",
+      "frame": {
+        "x": 352,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 3",
+      "frame": {
+        "x": 528,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 4",
+      "frame": {
+        "x": 704,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 5",
+      "frame": {
+        "x": 880,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 6",
+      "frame": {
+        "x": 1056,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 7",
+      "frame": {
+        "x": 1232,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 8",
+      "frame": {
+        "x": 1408,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 9",
+      "frame": {
+        "x": 1584,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-record-wall.png 10",
+      "frame": {
+        "x": 1760,
+        "y": 0,
+        "w": 176,
+        "h": 24
+      },
+      "duration": 100
+    }
+  ],
+  "meta": {
+    "app": "spin-doctor pixel-placeholders",
+    "image": "map-record-wall.png",
+    "size": {
+      "w": 1936,
+      "h": 24
+    },
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 0,
+        "direction": "forward"
+      }
+    ]
+  }
+}

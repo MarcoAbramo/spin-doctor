@@ -1,0 +1,2394 @@
+{
+  "locations": [
+    {
+      "id": "price",
+      "order": 20,
+      "emoji": "🛂",
+      "mapEntrance": "price",
+      "unlock": {
+        "type": "quest",
+        "quest": "price-founding"
+      },
+      "onSiteBonus": 1.5,
+      "entryFee": {
+        "amount": 1
+      },
+      "till": {
+        "capMinutes": 60
+      },
+      "tap": {
+        "multiplier": 8
+      },
+      "traits": [
+        {
+          "id": "office-hours",
+          "condition": {
+            "type": "all",
+            "of": [
+              {
+                "type": "weekday",
+                "days": [1, 2, 3, 4, 5]
+              },
+              {
+                "type": "hour",
+                "from": 9,
+                "to": 17
+              }
+            ]
+          },
+          "multiplier": 1.5,
+          "labelKey": "trait.price.office-hours"
+        },
+        {
+          "id": "friday-afternoon",
+          "condition": {
+            "type": "all",
+            "of": [
+              {
+                "type": "weekday",
+                "days": [5]
+              },
+              {
+                "type": "hour",
+                "from": 13,
+                "to": 24
+              }
+            ]
+          },
+          "multiplier": 0.6,
+          "labelKey": "trait.price.friday-afternoon"
+        }
+      ],
+      "hotspots": {
+        "minSec": 240,
+        "maxSec": 600,
+        "events": [
+          {
+            "id": "cookie-smuggling",
+            "labelKey": "hotspot.price.cookie-smuggling",
+            "multiplier": 3,
+            "durationSec": 90,
+            "weight": 2
+          },
+          {
+            "id": "bird-swarm",
+            "labelKey": "hotspot.price.bird-swarm",
+            "multiplier": 2,
+            "durationSec": 120
+          },
+          {
+            "id": "stamp-strike",
+            "labelKey": "hotspot.price.stamp-strike",
+            "multiplier": 0.5,
+            "durationSec": 90
+          },
+          {
+            "id": "server-down",
+            "labelKey": "hotspot.price.server-down",
+            "multiplier": 0.7,
+            "durationSec": 60
+          }
+        ]
+      },
+      "enter": {
+        "preset": "stamp",
+        "labelKey": "location.price.stamp"
+      },
+      "exit": {
+        "preset": "stamp"
+      },
+      "scene": {
+        "background": "scene-price",
+        "viewH": 350,
+        "backdrop": {
+          "top": "#5a6988",
+          "bottom": "#8b9bb4",
+          "splitY": 262
+        },
+        "props": [
+          {
+            "sprite": "price-turnstile",
+            "x": 44,
+            "y": 384
+          },
+          {
+            "sprite": "price-sign",
+            "x": 160,
+            "y": 118
+          }
+        ],
+        "player": {
+          "x": 176,
+          "y": 372
+        },
+        "tapTarget": {
+          "sprite": "price-counter",
+          "x": 176,
+          "y": 400
+        },
+        "slots": {
+          "entry-till": [[248, 396], [276, 392], [304, 398]],
+          "cookie-sniffer": [[96, 398], [120, 394]],
+          "form-labyrinth": [[292, 330], [30, 330]],
+          "stamp-robot": [[92, 330]],
+          "record-wall": [],
+          "shark-moat": []
+        }
+      }
+    }
+  ],
+  "stats": [
+    {
+      "id": "loyalists",
+      "initial": 0,
+      "min": 0,
+      "max": 100,
+      "display": "percent",
+      "order": 40,
+      "emoji": "🫡",
+      "productionMultiplier": {
+        "base": 1,
+        "perPoint": 0.005
+      },
+      "visible": {
+        "type": "stat",
+        "stat": "loyalists",
+        "gte": 0.5
+      }
+    }
+  ],
+  "generators": [
+    {
+      "id": "entry-till",
+      "location": "price",
+      "baseCost": 40000,
+      "rate": 250,
+      "sprite": "gen-entry-till",
+      "emoji": "💳"
+    },
+    {
+      "id": "cookie-sniffer",
+      "location": "price",
+      "baseCost": 400000,
+      "rate": 2200,
+      "sprite": "gen-cookie-sniffer",
+      "emoji": "🐕",
+      "unlock": {
+        "type": "generator",
+        "generator": "entry-till",
+        "gte": 5
+      }
+    },
+    {
+      "id": "form-labyrinth",
+      "location": "price",
+      "baseCost": 4000000,
+      "rate": 19000,
+      "sprite": "gen-form-labyrinth",
+      "emoji": "🗂️",
+      "unlock": {
+        "type": "generator",
+        "generator": "cookie-sniffer",
+        "gte": 5
+      }
+    },
+    {
+      "id": "stamp-robot",
+      "location": "price",
+      "baseCost": 40000000,
+      "rate": 160000,
+      "sprite": "gen-stamp-robot",
+      "emoji": "🤖",
+      "unlock": {
+        "type": "generator",
+        "generator": "form-labyrinth",
+        "gte": 5
+      }
+    },
+    {
+      "id": "record-wall",
+      "location": "price",
+      "baseCost": 2000000,
+      "costFactor": 1.45,
+      "rate": 1500,
+      "maxCount": 20,
+      "milestones": [],
+      "perUnitEffects": [
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -1
+        },
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 1.02
+        }
+      ],
+      "emoji": "🧱",
+      "unlock": {
+        "type": "quest",
+        "quest": "wall-announcement"
+      },
+      "mapSprite": {
+        "sprite": "map-record-wall",
+        "x": 680,
+        "y": 478
+      }
+    },
+    {
+      "id": "shark-moat",
+      "location": "price",
+      "baseCost": 800000,
+      "costFactor": 2.5,
+      "rate": 900,
+      "maxCount": 4,
+      "milestones": [],
+      "perUnitEffects": [
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -1
+        }
+      ],
+      "emoji": "🦈",
+      "unlock": {
+        "type": "all",
+        "of": [
+          {
+            "type": "quest",
+            "quest": "price-welcome"
+          },
+          {
+            "type": "generator",
+            "generator": "cookie-sniffer",
+            "gte": 3
+          }
+        ]
+      },
+      "mapSprite": {
+        "sprite": "map-shark-moat",
+        "x": 248,
+        "y": 250
+      }
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "golden-stamp-pad",
+      "location": "price",
+      "cost": 200000,
+      "emoji": "🟡",
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "tap",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "loyalty-questionnaire",
+      "location": "price",
+      "cost": 500000,
+      "dark": true,
+      "emoji": "📝",
+      "unlock": {
+        "type": "quest",
+        "quest": "price-welcome"
+      },
+      "effects": [
+        {
+          "type": "addStat",
+          "stat": "loyalists",
+          "value": 20
+        },
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 1.15
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -3
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "civil-service"
+        }
+      ]
+    },
+    {
+      "id": "sniffer-treats",
+      "location": "price",
+      "cost": 900000,
+      "emoji": "🍪",
+      "unlock": {
+        "type": "generator",
+        "generator": "cookie-sniffer",
+        "gte": 5
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:cookie-sniffer",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "entry-fee-for-birds",
+      "location": "price",
+      "cost": 1500000,
+      "dark": true,
+      "emoji": "🐦",
+      "unlock": {
+        "type": "generator",
+        "generator": "cookie-sniffer",
+        "gte": 3
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "location:price",
+          "value": 1.5
+        },
+        {
+          "type": "addStat",
+          "stat": "prices",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "inspectors-early-retirement",
+      "location": "price",
+      "cost": 2500000,
+      "dark": true,
+      "emoji": "🏖️",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "loyalty-questionnaire"
+      },
+      "effects": [
+        {
+          "type": "addStat",
+          "stat": "loyalists",
+          "value": 20
+        },
+        {
+          "type": "multiplier",
+          "target": "scandal-detection",
+          "value": 0.7
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -5
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "audit-office"
+        }
+      ]
+    },
+    {
+      "id": "numbered-account",
+      "location": "price",
+      "cost": 3000000,
+      "emoji": "🏔️",
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "till-cap",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "form-in-triplicate",
+      "location": "price",
+      "cost": 8000000,
+      "emoji": "📑",
+      "unlock": {
+        "type": "generator",
+        "generator": "form-labyrinth",
+        "gte": 5
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:form-labyrinth",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "category-l",
+      "location": "price",
+      "cost": 10000000,
+      "dark": true,
+      "emoji": "🅻",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "inspectors-early-retirement"
+      },
+      "effects": [
+        {
+          "type": "addStat",
+          "stat": "loyalists",
+          "value": 30
+        },
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 1.3
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -6
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "political-civil-servants"
+        }
+      ]
+    },
+    {
+      "id": "wall-emergency",
+      "location": "price",
+      "cost": 12000000,
+      "dark": true,
+      "emoji": "🚨",
+      "unlock": {
+        "type": "quest",
+        "quest": "wall-stage-5"
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:record-wall",
+          "value": 3
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -8
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "budget-power"
+        }
+      ]
+    },
+    {
+      "id": "efficiency-chainsaw",
+      "location": "price",
+      "cost": 30000000,
+      "dark": true,
+      "emoji": "🪚",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "category-l"
+      },
+      "effects": [
+        {
+          "type": "addStat",
+          "stat": "loyalists",
+          "value": 30
+        },
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 1.25
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -5
+        }
+      ]
+    },
+    {
+      "id": "wall-souvenir-shop",
+      "location": "price",
+      "cost": 60000000,
+      "emoji": "🧲",
+      "unlock": {
+        "type": "quest",
+        "quest": "wall-stage-12"
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "location:price",
+          "value": 1.5
+        },
+        {
+          "type": "multiplier",
+          "target": "generator:record-wall",
+          "value": 2
+        }
+      ]
+    }
+  ],
+  "quests": [
+    {
+      "id": "price-founding",
+      "category": "story",
+      "act": 2,
+      "titleKey": "quest.price-founding.title",
+      "location": "rosengarten",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "all",
+        "of": [
+          {
+            "type": "quest",
+            "quest": "rosengarten-welcome"
+          },
+          {
+            "type": "generator",
+            "generator": "tariff-press",
+            "gte": 1
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": [
+            "quest.price-founding.s0.l1",
+            "quest.price-founding.s0.l2",
+            "quest.price-founding.s0.l3"
+          ]
+        },
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.price-founding.s1.l1", "quest.price-founding.s1.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "hebesatz",
+          "lines": ["quest.price-founding.s2.l1", "quest.price-founding.s2.l2"]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 120
+        }
+      ]
+    },
+    {
+      "id": "price-welcome",
+      "category": "story",
+      "act": 2,
+      "titleKey": "quest.price-welcome.title",
+      "location": "price",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "quest",
+        "quest": "price-founding"
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "hebesatz",
+          "lines": [
+            "quest.price-welcome.s0.l1",
+            "quest.price-welcome.s0.l2",
+            "quest.price-welcome.s0.l3"
+          ]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.price-welcome.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.price-welcome.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.price-welcome.s1.q1.a1",
+                  "replyKey": "quest.price-welcome.s1.q1.r1",
+                  "score": 0.2
+                },
+                {
+                  "textKey": "quest.price-welcome.s1.q1.a2",
+                  "replyKey": "quest.price-welcome.s1.q1.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.price-welcome.s1.q1.a3",
+                  "replyKey": "quest.price-welcome.s1.q1.r3",
+                  "score": 0.5
+                }
+              ]
+            },
+            {
+              "textKey": "quest.price-welcome.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.price-welcome.s1.q2.a1",
+                  "replyKey": "quest.price-welcome.s1.q2.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.price-welcome.s1.q2.a2",
+                  "replyKey": "quest.price-welcome.s1.q2.r2",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.price-welcome.s1.q2.a3",
+                  "replyKey": "quest.price-welcome.s1.q2.r3",
+                  "score": 0.6
+                }
+              ]
+            },
+            {
+              "textKey": "quest.price-welcome.s1.q3",
+              "answers": [
+                {
+                  "textKey": "quest.price-welcome.s1.q3.a1",
+                  "replyKey": "quest.price-welcome.s1.q3.r1",
+                  "score": 0.4
+                },
+                {
+                  "textKey": "quest.price-welcome.s1.q3.a2",
+                  "replyKey": "quest.price-welcome.s1.q3.r2",
+                  "score": 0.1
+                },
+                {
+                  "textKey": "quest.price-welcome.s1.q3.a3",
+                  "replyKey": "quest.price-welcome.s1.q3.r3",
+                  "score": 1
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "price-welcome-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "price-welcome-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "price-welcome-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        }
+      ]
+    },
+    {
+      "id": "cookie-crisis",
+      "category": "side",
+      "titleKey": "quest.cookie-crisis.title",
+      "location": "price",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "all",
+        "of": [
+          {
+            "type": "flag",
+            "flag": "cookie-tariffs"
+          },
+          {
+            "type": "generator",
+            "generator": "cookie-sniffer",
+            "gte": 1
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "hebesatz",
+          "lines": ["quest.cookie-crisis.s0.l1", "quest.cookie-crisis.s0.l2"]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.cookie-crisis.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.cookie-crisis.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.cookie-crisis.s1.q1.a1",
+                  "replyKey": "quest.cookie-crisis.s1.q1.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.cookie-crisis.s1.q1.a2",
+                  "replyKey": "quest.cookie-crisis.s1.q1.r2",
+                  "score": 0.3
+                },
+                {
+                  "textKey": "quest.cookie-crisis.s1.q1.a3",
+                  "replyKey": "quest.cookie-crisis.s1.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.cookie-crisis.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.cookie-crisis.s1.q2.a1",
+                  "replyKey": "quest.cookie-crisis.s1.q2.r1",
+                  "score": 0.5
+                },
+                {
+                  "textKey": "quest.cookie-crisis.s1.q2.a2",
+                  "replyKey": "quest.cookie-crisis.s1.q2.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.cookie-crisis.s1.q2.a3",
+                  "replyKey": "quest.cookie-crisis.s1.q2.r3",
+                  "score": 0.2
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "cookie-crisis-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "cookie-crisis-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "cookie-crisis-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "addStat",
+          "stat": "prices",
+          "value": 5
+        },
+        {
+          "type": "productionSeconds",
+          "seconds": 240
+        }
+      ]
+    },
+    {
+      "id": "migratory-birds",
+      "category": "side",
+      "titleKey": "quest.migratory-birds.title",
+      "location": "price",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "upgrade",
+        "upgrade": "entry-fee-for-birds"
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "hebesatz",
+          "lines": ["quest.migratory-birds.s0.l1", "quest.migratory-birds.s0.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "dr-wolke",
+          "lines": ["quest.migratory-birds.s1.l1", "quest.migratory-birds.s1.l2"],
+          "choices": [
+            {
+              "textKey": "quest.migratory-birds.s1.c1",
+              "replyKey": "quest.migratory-birds.s1.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -2
+                }
+              ]
+            },
+            {
+              "textKey": "quest.migratory-birds.s1.c2",
+              "replyKey": "quest.migratory-birds.s1.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.migratory-birds.s1.c3",
+              "replyKey": "quest.migratory-birds.s1.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 2
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 240
+        }
+      ]
+    },
+    {
+      "id": "reform-questionnaire",
+      "category": "side",
+      "titleKey": "quest.reform-questionnaire.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "stat",
+        "stat": "loyalists",
+        "gte": 20
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": [
+            "quest.reform-questionnaire.s0.l1",
+            "quest.reform-questionnaire.s0.l2",
+            "quest.reform-questionnaire.s0.l3"
+          ]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.reform-questionnaire.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.reform-questionnaire.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q1.a1",
+                  "replyKey": "quest.reform-questionnaire.s1.q1.r1",
+                  "score": 0.1
+                },
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q1.a2",
+                  "replyKey": "quest.reform-questionnaire.s1.q1.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q1.a3",
+                  "replyKey": "quest.reform-questionnaire.s1.q1.r3",
+                  "score": 0.5
+                }
+              ]
+            },
+            {
+              "textKey": "quest.reform-questionnaire.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q2.a1",
+                  "replyKey": "quest.reform-questionnaire.s1.q2.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q2.a2",
+                  "replyKey": "quest.reform-questionnaire.s1.q2.r2",
+                  "score": 0.4
+                },
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q2.a3",
+                  "replyKey": "quest.reform-questionnaire.s1.q2.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.reform-questionnaire.s1.q3",
+              "answers": [
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q3.a1",
+                  "replyKey": "quest.reform-questionnaire.s1.q3.r1",
+                  "score": 0.6
+                },
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q3.a2",
+                  "replyKey": "quest.reform-questionnaire.s1.q3.r2",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.reform-questionnaire.s1.q3.a3",
+                  "replyKey": "quest.reform-questionnaire.s1.q3.r3",
+                  "score": 1
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "reform-questionnaire-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "reform-questionnaire-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "reform-questionnaire-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 300
+        }
+      ]
+    },
+    {
+      "id": "reform-watchdogs",
+      "category": "side",
+      "titleKey": "quest.reform-watchdogs.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "stat",
+        "stat": "loyalists",
+        "gte": 40
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "hebesatz",
+          "lines": ["quest.reform-watchdogs.s0.l1", "quest.reform-watchdogs.s0.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "frieda",
+          "lines": ["quest.reform-watchdogs.s1.l1", "quest.reform-watchdogs.s1.l2"],
+          "choices": [
+            {
+              "textKey": "quest.reform-watchdogs.s1.c1",
+              "replyKey": "quest.reform-watchdogs.s1.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -3
+                }
+              ]
+            },
+            {
+              "textKey": "quest.reform-watchdogs.s1.c2",
+              "replyKey": "quest.reform-watchdogs.s1.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 1
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.reform-watchdogs.s1.c3",
+              "replyKey": "quest.reform-watchdogs.s1.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 300
+        }
+      ]
+    },
+    {
+      "id": "office-panic",
+      "category": "side",
+      "titleKey": "quest.office-panic.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "upgrade",
+        "upgrade": "efficiency-chainsaw"
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": [
+            "quest.office-panic.s0.l1",
+            "quest.office-panic.s0.l2",
+            "quest.office-panic.s0.l3"
+          ]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.office-panic.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.office-panic.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.office-panic.s1.q1.a1",
+                  "replyKey": "quest.office-panic.s1.q1.r1",
+                  "score": 0.3
+                },
+                {
+                  "textKey": "quest.office-panic.s1.q1.a2",
+                  "replyKey": "quest.office-panic.s1.q1.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.office-panic.s1.q1.a3",
+                  "replyKey": "quest.office-panic.s1.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.office-panic.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.office-panic.s1.q2.a1",
+                  "replyKey": "quest.office-panic.s1.q2.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.office-panic.s1.q2.a2",
+                  "replyKey": "quest.office-panic.s1.q2.r2",
+                  "score": 0.2
+                },
+                {
+                  "textKey": "quest.office-panic.s1.q2.a3",
+                  "replyKey": "quest.office-panic.s1.q2.r3",
+                  "score": 0.6
+                }
+              ]
+            },
+            {
+              "textKey": "quest.office-panic.s1.q3",
+              "answers": [
+                {
+                  "textKey": "quest.office-panic.s1.q3.a1",
+                  "replyKey": "quest.office-panic.s1.q3.r1",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.office-panic.s1.q3.a2",
+                  "replyKey": "quest.office-panic.s1.q3.r2",
+                  "score": 0.5
+                },
+                {
+                  "textKey": "quest.office-panic.s1.q3.a3",
+                  "replyKey": "quest.office-panic.s1.q3.r3",
+                  "score": 1
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "office-panic-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "office-panic-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "office-panic-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 600
+        }
+      ]
+    },
+    {
+      "id": "regime-complete",
+      "category": "story",
+      "act": 2,
+      "titleKey": "quest.regime-complete.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "stat",
+        "stat": "loyalists",
+        "gte": 100
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.regime-complete.s0.l1", "quest.regime-complete.s0.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.regime-complete.s1.l1", "quest.regime-complete.s1.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "frieda",
+          "lines": ["quest.regime-complete.s2.l1", "quest.regime-complete.s2.l2"],
+          "choices": [
+            {
+              "textKey": "quest.regime-complete.s2.c1",
+              "replyKey": "quest.regime-complete.s2.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -5
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 3
+                }
+              ]
+            },
+            {
+              "textKey": "quest.regime-complete.s2.c2",
+              "replyKey": "quest.regime-complete.s2.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -2
+                }
+              ]
+            },
+            {
+              "textKey": "quest.regime-complete.s2.c3",
+              "replyKey": "quest.regime-complete.s2.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -4
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "setFlag",
+          "flag": "regime-complete"
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -5
+        },
+        {
+          "type": "productionSeconds",
+          "seconds": 900
+        }
+      ]
+    },
+    {
+      "id": "wall-announcement",
+      "category": "story",
+      "act": 2,
+      "titleKey": "quest.wall-announcement.title",
+      "location": "price",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "all",
+        "of": [
+          {
+            "type": "quest",
+            "quest": "price-welcome"
+          },
+          {
+            "type": "generator",
+            "generator": "entry-till",
+            "gte": 5
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": [
+            "quest.wall-announcement.s0.l1",
+            "quest.wall-announcement.s0.l2",
+            "quest.wall-announcement.s0.l3"
+          ]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.wall-announcement.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.wall-announcement.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.wall-announcement.s1.q1.a1",
+                  "replyKey": "quest.wall-announcement.s1.q1.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.wall-announcement.s1.q1.a2",
+                  "replyKey": "quest.wall-announcement.s1.q1.r2",
+                  "score": 0.4
+                },
+                {
+                  "textKey": "quest.wall-announcement.s1.q1.a3",
+                  "replyKey": "quest.wall-announcement.s1.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.wall-announcement.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.wall-announcement.s1.q2.a1",
+                  "replyKey": "quest.wall-announcement.s1.q2.r1",
+                  "score": 0.2
+                },
+                {
+                  "textKey": "quest.wall-announcement.s1.q2.a2",
+                  "replyKey": "quest.wall-announcement.s1.q2.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.wall-announcement.s1.q2.a3",
+                  "replyKey": "quest.wall-announcement.s1.q2.r3",
+                  "score": 0
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-announcement-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-announcement-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-announcement-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:price",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 180
+        }
+      ]
+    },
+    {
+      "id": "wall-stage-1",
+      "category": "side",
+      "titleKey": "quest.wall-stage-1.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "record-wall",
+        "gte": 1
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.wall-stage-1.s0.l1", "quest.wall-stage-1.s0.l2"]
+        }
+      ]
+    },
+    {
+      "id": "wall-stage-3",
+      "category": "side",
+      "titleKey": "quest.wall-stage-3.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "record-wall",
+        "gte": 3
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.wall-stage-3.s0.l1", "quest.wall-stage-3.s0.l2"]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.wall-stage-3.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.wall-stage-3.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.wall-stage-3.s1.q1.a1",
+                  "replyKey": "quest.wall-stage-3.s1.q1.r1",
+                  "score": 0.3
+                },
+                {
+                  "textKey": "quest.wall-stage-3.s1.q1.a2",
+                  "replyKey": "quest.wall-stage-3.s1.q1.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.wall-stage-3.s1.q1.a3",
+                  "replyKey": "quest.wall-stage-3.s1.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.wall-stage-3.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.wall-stage-3.s1.q2.a1",
+                  "replyKey": "quest.wall-stage-3.s1.q2.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.wall-stage-3.s1.q2.a2",
+                  "replyKey": "quest.wall-stage-3.s1.q2.r2",
+                  "score": 0.5
+                },
+                {
+                  "textKey": "quest.wall-stage-3.s1.q2.a3",
+                  "replyKey": "quest.wall-stage-3.s1.q2.r3",
+                  "score": 0.1
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-3-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-3-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-3-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wall-stage-5",
+      "category": "side",
+      "titleKey": "quest.wall-stage-5.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "record-wall",
+        "gte": 5
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.wall-stage-5.s0.l1", "quest.wall-stage-5.s0.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.wall-stage-5.s1.l1", "quest.wall-stage-5.s1.l2"]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.wall-stage-5.s2.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.wall-stage-5.s2.q1",
+              "answers": [
+                {
+                  "textKey": "quest.wall-stage-5.s2.q1.a1",
+                  "replyKey": "quest.wall-stage-5.s2.q1.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.wall-stage-5.s2.q1.a2",
+                  "replyKey": "quest.wall-stage-5.s2.q1.r2",
+                  "score": 0.2
+                },
+                {
+                  "textKey": "quest.wall-stage-5.s2.q1.a3",
+                  "replyKey": "quest.wall-stage-5.s2.q1.r3",
+                  "score": 0.5
+                }
+              ]
+            },
+            {
+              "textKey": "quest.wall-stage-5.s2.q2",
+              "answers": [
+                {
+                  "textKey": "quest.wall-stage-5.s2.q2.a1",
+                  "replyKey": "quest.wall-stage-5.s2.q2.r1",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.wall-stage-5.s2.q2.a2",
+                  "replyKey": "quest.wall-stage-5.s2.q2.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.wall-stage-5.s2.q2.a3",
+                  "replyKey": "quest.wall-stage-5.s2.q2.r3",
+                  "score": 0.4
+                }
+              ]
+            },
+            {
+              "textKey": "quest.wall-stage-5.s2.q3",
+              "answers": [
+                {
+                  "textKey": "quest.wall-stage-5.s2.q3.a1",
+                  "replyKey": "quest.wall-stage-5.s2.q3.r1",
+                  "score": 0.6
+                },
+                {
+                  "textKey": "quest.wall-stage-5.s2.q3.a2",
+                  "replyKey": "quest.wall-stage-5.s2.q3.r2",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.wall-stage-5.s2.q3.a3",
+                  "replyKey": "quest.wall-stage-5.s2.q3.r3",
+                  "score": 1
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-5-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-5-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-5-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "unlockLexicon",
+          "card": "state-of-emergency"
+        }
+      ]
+    },
+    {
+      "id": "wall-stage-8",
+      "category": "side",
+      "titleKey": "quest.wall-stage-8.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "record-wall",
+        "gte": 8
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "frieda",
+          "lines": ["quest.wall-stage-8.s0.l1", "quest.wall-stage-8.s0.l2"],
+          "choices": [
+            {
+              "textKey": "quest.wall-stage-8.s0.c1",
+              "replyKey": "quest.wall-stage-8.s0.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -2
+                }
+              ]
+            },
+            {
+              "textKey": "quest.wall-stage-8.s0.c2",
+              "replyKey": "quest.wall-stage-8.s0.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.wall-stage-8.s0.c3",
+              "replyKey": "quest.wall-stage-8.s0.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wall-stage-12",
+      "category": "side",
+      "titleKey": "quest.wall-stage-12.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "record-wall",
+        "gte": 12
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "hebesatz",
+          "lines": ["quest.wall-stage-12.s0.l1", "quest.wall-stage-12.s0.l2"]
+        }
+      ]
+    },
+    {
+      "id": "wall-stage-20",
+      "category": "story",
+      "act": 2,
+      "titleKey": "quest.wall-stage-20.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "record-wall",
+        "gte": 20
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": [
+            "quest.wall-stage-20.s0.l1",
+            "quest.wall-stage-20.s0.l2",
+            "quest.wall-stage-20.s0.l3"
+          ]
+        },
+        {
+          "type": "dialog",
+          "speaker": "dr-wolke",
+          "lines": ["quest.wall-stage-20.s1.l1"]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.wall-stage-20.s2.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.wall-stage-20.s2.q1",
+              "answers": [
+                {
+                  "textKey": "quest.wall-stage-20.s2.q1.a1",
+                  "replyKey": "quest.wall-stage-20.s2.q1.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.wall-stage-20.s2.q1.a2",
+                  "replyKey": "quest.wall-stage-20.s2.q1.r2",
+                  "score": 0.3
+                },
+                {
+                  "textKey": "quest.wall-stage-20.s2.q1.a3",
+                  "replyKey": "quest.wall-stage-20.s2.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.wall-stage-20.s2.q2",
+              "answers": [
+                {
+                  "textKey": "quest.wall-stage-20.s2.q2.a1",
+                  "replyKey": "quest.wall-stage-20.s2.q2.r1",
+                  "score": 0.4
+                },
+                {
+                  "textKey": "quest.wall-stage-20.s2.q2.a2",
+                  "replyKey": "quest.wall-stage-20.s2.q2.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.wall-stage-20.s2.q2.a3",
+                  "replyKey": "quest.wall-stage-20.s2.q2.r3",
+                  "score": 0.1
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-20-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-20-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "wall-stage-20-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "setFlag",
+          "flag": "wall-complete"
+        },
+        {
+          "type": "productionSeconds",
+          "seconds": 1800
+        }
+      ]
+    },
+    {
+      "id": "shark-moat-1",
+      "category": "side",
+      "titleKey": "quest.shark-moat-1.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "shark-moat",
+        "gte": 1
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.shark-moat-1.s0.l1", "quest.shark-moat-1.s0.l2"]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.shark-moat-1.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.shark-moat-1.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.shark-moat-1.s1.q1.a1",
+                  "replyKey": "quest.shark-moat-1.s1.q1.r1",
+                  "score": 0.4
+                },
+                {
+                  "textKey": "quest.shark-moat-1.s1.q1.a2",
+                  "replyKey": "quest.shark-moat-1.s1.q1.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.shark-moat-1.s1.q1.a3",
+                  "replyKey": "quest.shark-moat-1.s1.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.shark-moat-1.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.shark-moat-1.s1.q2.a1",
+                  "replyKey": "quest.shark-moat-1.s1.q2.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.shark-moat-1.s1.q2.a2",
+                  "replyKey": "quest.shark-moat-1.s1.q2.r2",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.shark-moat-1.s1.q2.a3",
+                  "replyKey": "quest.shark-moat-1.s1.q2.r3",
+                  "score": 0.4
+                }
+              ]
+            },
+            {
+              "textKey": "quest.shark-moat-1.s1.q3",
+              "answers": [
+                {
+                  "textKey": "quest.shark-moat-1.s1.q3.a1",
+                  "replyKey": "quest.shark-moat-1.s1.q3.r1",
+                  "score": 0.3
+                },
+                {
+                  "textKey": "quest.shark-moat-1.s1.q3.a2",
+                  "replyKey": "quest.shark-moat-1.s1.q3.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.shark-moat-1.s1.q3.a3",
+                  "replyKey": "quest.shark-moat-1.s1.q3.r3",
+                  "score": 0.6
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "shark-moat-1-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "shark-moat-1-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "shark-moat-1-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "multiplier",
+          "target": "scandal-detection",
+          "value": 0.9
+        }
+      ]
+    }
+  ],
+  "speakers": [
+    {
+      "id": "hebesatz",
+      "nameKey": "speaker.hebesatz",
+      "color": "#f77622"
+    }
+  ],
+  "lexicon": [
+    {
+      "id": "civil-service",
+      "source": {
+        "label": "bpb.de – Politiklexikon: Beamte",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/politiklexikon/17160/beamte/"
+      }
+    },
+    {
+      "id": "audit-office",
+      "source": {
+        "label": "bpb.de – Politiklexikon: Rechnungshof",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/politiklexikon/18103/rechnungshof/"
+      }
+    },
+    {
+      "id": "political-civil-servants",
+      "source": {
+        "label": "bpb.de – Politiklexikon: Politische Beamte",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/politiklexikon/18027/politische-beamte/"
+      }
+    },
+    {
+      "id": "budget-power",
+      "source": {
+        "label": "bpb.de – Das junge Politik-Lexikon: Budgetrecht",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/das-junge-politik-lexikon/319971/budgetrecht/"
+      }
+    },
+    {
+      "id": "state-of-emergency",
+      "source": {
+        "label": "bpb.de – Das junge Politik-Lexikon: Ausnahmezustand",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/das-junge-politik-lexikon/319884/ausnahmezustand/"
+      }
+    }
+  ]
+}

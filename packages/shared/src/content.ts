@@ -197,11 +197,19 @@ function checkReferences(c: Content): string[] {
     if ((kind === 'location' && ref !== '@here') || kind === 'till-cap')
       need(where, locations, 'location', ref)
   }
-  const checkEffects = (where: string, effects: Effect[]): void => {
+  /**
+   * Passive `multiplier` effects only work where they are owned permanently: upgrades,
+   * generator `perUnitEffects` and quest `rewards`. Elsewhere they must be a `modifier`.
+   */
+  const checkEffects = (where: string, effects: Effect[], passiveOk = false): void => {
     for (const e of effects) {
       if (e.type === 'addStat') need(where, stats, 'stat', e.stat)
       if (e.type === 'unlockLexicon') need(where, lexicon, 'lexicon card', e.card)
-      if (e.type === 'multiplier') checkTarget(where, e.target)
+      if (e.type === 'multiplier') {
+        checkTarget(where, e.target)
+        if (!passiveOk)
+          problems.push(`${where}: a passive multiplier has no effect here, use a modifier`)
+      }
       if (e.type === 'modifier') for (const m of e.effects) checkTarget(where, m.target)
       if (e.type === 'scandal') checkEffects(where, e.effects)
     }
@@ -254,6 +262,7 @@ function checkReferences(c: Content): string[] {
     const where = `location ${l.id}`
     checkCondition(where, l.unlock)
     need(where, stats, 'stat', l.tap.stat)
+    need(where, stats, 'stat', l.entryFee?.stat)
     for (const t of l.traits) checkCondition(`${where} trait ${t.id}`, t.condition)
     if (l.hotspots && l.hotspots.minSec > l.hotspots.maxSec)
       problems.push(`${where}: hotspots minSec > maxSec`)
@@ -270,14 +279,14 @@ function checkReferences(c: Content): string[] {
     need(where, stats, 'stat', g.costStat)
     need(where, stats, 'stat', g.produces)
     checkCondition(where, g.unlock)
-    checkEffects(where, g.perUnitEffects)
+    checkEffects(where, g.perUnitEffects, true)
   }
   for (const u of c.upgrades) {
     const where = `upgrade ${u.id}`
     need(where, locations, 'location', u.location)
     need(where, stats, 'stat', u.costStat)
     checkCondition(where, u.unlock)
-    checkEffects(where, u.effects)
+    checkEffects(where, u.effects, true)
   }
   for (const q of c.quests) {
     need(`quest ${q.id}`, locations, 'location', q.location)
@@ -285,7 +294,7 @@ function checkReferences(c: Content): string[] {
     q.steps.forEach((s, i) => {
       checkStep(`quest ${q.id} step ${i}`, s)
     })
-    checkEffects(`quest ${q.id} rewards`, q.rewards)
+    checkEffects(`quest ${q.id} rewards`, q.rewards, true)
     if (q.trigger.type === 'random' && q.trigger.minSec > q.trigger.maxSec)
       problems.push(`quest ${q.id}: random trigger minSec > maxSec`)
   }
@@ -301,6 +310,7 @@ export function requiredTextKeys(c: Content): string[] {
     keys.add(`location.${l.id}.name`)
     for (const t of l.traits) keys.add(t.labelKey)
     for (const h of l.hotspots?.events ?? []) keys.add(h.labelKey)
+    for (const tr of [l.enter, l.exit]) if (tr?.labelKey) keys.add(tr.labelKey)
   }
   for (const g of c.generators) {
     keys.add(`generator.${g.id}.name`)

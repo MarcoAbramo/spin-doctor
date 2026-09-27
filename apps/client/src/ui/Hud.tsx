@@ -1,4 +1,10 @@
-import { check, formatDuration, formatNumber, locationRate } from '@spin-doctor/shared'
+import {
+  check,
+  formatDuration,
+  formatNumber,
+  type GameState,
+  locationRate,
+} from '@spin-doctor/shared'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { content } from '../content'
 import { t } from '../i18n'
@@ -88,17 +94,31 @@ export function Hud() {
             </div>
           )
         })}
-        {state.modifiers
-          .filter((m) => m.until > state.now)
-          .map((m) => (
-            <div
-              class={`chip ${m.effects.every((e) => e.value >= 1) ? 'chip-good' : 'chip-bad'}`}
-              key={m.id}
-            >
-              {t(m.labelKey)} · {formatDuration((m.until - state.now) / 1000)}
-            </div>
-          ))}
+        {groupModifiers(state.modifiers.filter((m) => m.until > state.now)).map((g) => (
+          <div class={`chip ${g.good ? 'chip-good' : 'chip-bad'}`} key={`${g.labelKey}:${g.good}`}>
+            {t(g.labelKey)}
+            {g.count > 1 ? ` ×${g.count}` : ''} · {formatDuration((g.until - state.now) / 1000)}
+          </div>
+        ))}
       </div>
     </header>
   )
+}
+
+/** Same label (e.g. several „ruhig“ news situations) → one chip with a count. */
+function groupModifiers(mods: GameState['modifiers']) {
+  const groups = new Map<
+    string,
+    { labelKey: string; count: number; until: number; good: boolean }
+  >()
+  for (const m of mods) {
+    const good = m.effects.every((e) => e.value >= 1)
+    const key = `${m.labelKey}:${good}`
+    const g = groups.get(key)
+    if (g) {
+      g.count += 1
+      g.until = Math.max(g.until, m.until)
+    } else groups.set(key, { labelKey: m.labelKey, count: 1, until: m.until, good })
+  }
+  return [...groups.values()]
 }
