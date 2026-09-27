@@ -9,13 +9,13 @@ import type { StepViewProps } from './types'
 
 type DialogStep = Extract<Step, { type: 'dialog' }>
 
-function speakerName(id: string): string {
+export function speakerName(id: string): string {
   if (id === 'you') return getState().playerName || t('speaker.you')
   const sp = content.speakers.find((s) => s.id === id)
   return sp ? t(sp.nameKey) : id
 }
 
-function Portrait({ id }: { id: string }) {
+export function Portrait({ id }: { id: string }) {
   const hasArt = useAsset(`portraits/${id}.png`)
   const color = content.speakers.find((s) => s.id === id)?.color ?? '#888'
   if (hasArt) return <img class="portrait" src={`assets/portraits/${id}.png`} alt="" />

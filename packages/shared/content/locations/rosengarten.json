@@ -1,0 +1,1378 @@
+{
+  "locations": [
+    {
+      "id": "rosengarten",
+      "order": 10,
+      "emoji": "🌹",
+      "mapEntrance": "rosengarten",
+      "unlock": {
+        "type": "quest",
+        "quest": "act2-city-intro"
+      },
+      "onSiteBonus": 1.5,
+      "till": {
+        "capMinutes": 60
+      },
+      "tap": {
+        "multiplier": 3
+      },
+      "traits": [
+        {
+          "id": "tariff-monday",
+          "condition": {
+            "type": "weekday",
+            "days": [1]
+          },
+          "multiplier": 1.5,
+          "labelKey": "trait.rosengarten.tariff-monday"
+        },
+        {
+          "id": "golden-hour",
+          "condition": {
+            "type": "hour",
+            "from": 17,
+            "to": 20
+          },
+          "multiplier": 1.3,
+          "labelKey": "trait.rosengarten.golden-hour"
+        }
+      ],
+      "hotspots": {
+        "minSec": 240,
+        "maxSec": 600,
+        "events": [
+          {
+            "id": "state-visit",
+            "labelKey": "hotspot.rosengarten.state-visit",
+            "multiplier": 3,
+            "durationSec": 90,
+            "weight": 2
+          },
+          {
+            "id": "rain",
+            "labelKey": "hotspot.rosengarten.rain",
+            "multiplier": 0.5,
+            "durationSec": 120
+          },
+          {
+            "id": "marker-empty",
+            "labelKey": "hotspot.rosengarten.marker-empty",
+            "multiplier": 0.7,
+            "durationSec": 60
+          }
+        ]
+      },
+      "enter": {
+        "preset": "gate"
+      },
+      "exit": {
+        "preset": "gate"
+      },
+      "scene": {
+        "background": "scene-rosengarten",
+        "viewH": 350,
+        "backdrop": {
+          "top": "#0099db",
+          "bottom": "#3e8948",
+          "splitY": 262
+        },
+        "props": [
+          {
+            "sprite": "rosengarten-easel",
+            "x": 252,
+            "y": 352
+          }
+        ],
+        "player": {
+          "x": 140,
+          "y": 372
+        },
+        "tapTarget": {
+          "sprite": "rosengarten-podium",
+          "x": 140,
+          "y": 400
+        },
+        "slots": {
+          "easel-setter": [[34, 384], [62, 396], [88, 388]],
+          "marker-pack": [[206, 398], [236, 394]],
+          "wind-machine": [[298, 372], [22, 330]],
+          "tariff-press": [[296, 318]],
+          "reflecting-pool-renovation": []
+        }
+      }
+    }
+  ],
+  "generators": [
+    {
+      "id": "easel-setter",
+      "location": "rosengarten",
+      "baseCost": 4000,
+      "rate": 27,
+      "sprite": "gen-easel-setter",
+      "emoji": "🖼️"
+    },
+    {
+      "id": "marker-pack",
+      "location": "rosengarten",
+      "baseCost": 40000,
+      "rate": 240,
+      "sprite": "gen-marker-pack",
+      "emoji": "🖊️",
+      "unlock": {
+        "type": "generator",
+        "generator": "easel-setter",
+        "gte": 5
+      }
+    },
+    {
+      "id": "wind-machine",
+      "location": "rosengarten",
+      "baseCost": 400000,
+      "rate": 2000,
+      "sprite": "gen-wind-machine",
+      "emoji": "🌬️",
+      "unlock": {
+        "type": "generator",
+        "generator": "marker-pack",
+        "gte": 5
+      }
+    },
+    {
+      "id": "tariff-press",
+      "location": "rosengarten",
+      "baseCost": 4000000,
+      "rate": 17000,
+      "sprite": "gen-tariff-press",
+      "emoji": "🖨️",
+      "unlock": {
+        "type": "generator",
+        "generator": "wind-machine",
+        "gte": 5
+      }
+    },
+    {
+      "id": "reflecting-pool-renovation",
+      "location": "rosengarten",
+      "baseCost": 150000,
+      "costFactor": 2.2,
+      "rate": 300,
+      "maxCount": 8,
+      "milestones": [],
+      "perUnitEffects": [
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -1
+        }
+      ],
+      "emoji": "🪞",
+      "unlock": {
+        "type": "generator",
+        "generator": "easel-setter",
+        "gte": 3
+      },
+      "mapSprite": {
+        "sprite": "map-reflecting-pool",
+        "x": 368,
+        "y": 160
+      }
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "five-microphones",
+      "location": "rosengarten",
+      "cost": 20000,
+      "emoji": "🎤",
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "tap",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "gold-leaf-easels",
+      "location": "rosengarten",
+      "cost": 60000,
+      "emoji": "✨",
+      "unlock": {
+        "type": "generator",
+        "generator": "easel-setter",
+        "gte": 5
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:easel-setter",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "tariffs-on-everything",
+      "location": "rosengarten",
+      "cost": 150000,
+      "dark": true,
+      "emoji": "💯",
+      "unlock": {
+        "type": "quest",
+        "quest": "rosengarten-welcome"
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "location:rosengarten",
+          "value": 2
+        },
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 1.2
+        },
+        {
+          "type": "addStat",
+          "stat": "prices",
+          "value": 25
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "trade-tariffs"
+        }
+      ]
+    },
+    {
+      "id": "vault-extension",
+      "location": "rosengarten",
+      "cost": 250000,
+      "emoji": "🔐",
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "till-cap",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "repaint-weather-map",
+      "location": "rosengarten",
+      "cost": 400000,
+      "dark": true,
+      "emoji": "🗺️",
+      "unlock": {
+        "type": "generator",
+        "generator": "marker-pack",
+        "gte": 3
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "production",
+          "value": 1.3
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -5
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "independent-science"
+        }
+      ]
+    },
+    {
+      "id": "tariff-board-in-pressroom",
+      "location": "rosengarten",
+      "cost": 800000,
+      "emoji": "📋",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "tariffs-on-everything"
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "location:press-house",
+          "value": 1.5
+        }
+      ]
+    },
+    {
+      "id": "marker-bulk-discount",
+      "location": "rosengarten",
+      "cost": 1500000,
+      "emoji": "📦",
+      "unlock": {
+        "type": "generator",
+        "generator": "marker-pack",
+        "gte": 10
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:marker-pack",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "no-bid-contracts",
+      "location": "rosengarten",
+      "cost": 2000000,
+      "dark": true,
+      "emoji": "🤝",
+      "unlock": {
+        "type": "generator",
+        "generator": "reflecting-pool-renovation",
+        "gte": 1
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:reflecting-pool-renovation",
+          "value": 3
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -5
+        },
+        {
+          "type": "unlockLexicon",
+          "card": "public-procurement"
+        }
+      ]
+    }
+  ],
+  "quests": [
+    {
+      "id": "rosengarten-welcome",
+      "category": "story",
+      "act": 2,
+      "titleKey": "quest.rosengarten-welcome.title",
+      "location": "rosengarten",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "quest",
+        "quest": "act2-city-intro"
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": [
+            "quest.rosengarten-welcome.s0.l1",
+            "quest.rosengarten-welcome.s0.l2",
+            "quest.rosengarten-welcome.s0.l3"
+          ]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.rosengarten-welcome.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.rosengarten-welcome.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q1.a1",
+                  "replyKey": "quest.rosengarten-welcome.s1.q1.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q1.a2",
+                  "replyKey": "quest.rosengarten-welcome.s1.q1.r2",
+                  "score": 0.4
+                },
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q1.a3",
+                  "replyKey": "quest.rosengarten-welcome.s1.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.rosengarten-welcome.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q2.a1",
+                  "replyKey": "quest.rosengarten-welcome.s1.q2.r1",
+                  "score": 0.2
+                },
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q2.a2",
+                  "replyKey": "quest.rosengarten-welcome.s1.q2.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q2.a3",
+                  "replyKey": "quest.rosengarten-welcome.s1.q2.r3",
+                  "score": 0.5
+                }
+              ]
+            },
+            {
+              "textKey": "quest.rosengarten-welcome.s1.q3",
+              "answers": [
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q3.a1",
+                  "replyKey": "quest.rosengarten-welcome.s1.q3.r1",
+                  "score": 0.6
+                },
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q3.a2",
+                  "replyKey": "quest.rosengarten-welcome.s1.q3.r2",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.rosengarten-welcome.s1.q3.a3",
+                  "replyKey": "quest.rosengarten-welcome.s1.q3.r3",
+                  "score": 1
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "rosengarten-welcome-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "rosengarten-welcome-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "rosengarten-welcome-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 120
+        }
+      ]
+    },
+    {
+      "id": "zoll-tafel",
+      "category": "minigame",
+      "titleKey": "quest.zoll-tafel.title",
+      "location": "rosengarten",
+      "trigger": {
+        "type": "manual",
+        "cooldownSec": 150
+      },
+      "repeatable": true,
+      "conditions": {
+        "type": "quest",
+        "quest": "rosengarten-welcome"
+      },
+      "steps": [
+        {
+          "type": "minigame",
+          "handler": "zoll-tafel",
+          "durationSec": 20,
+          "pool": "countries",
+          "productionSecondsPerPoint": 3,
+          "effects": [
+            {
+              "type": "addStat",
+              "stat": "prices",
+              "value": 2
+            }
+          ],
+          "qualityEffects": [
+            {
+              "minScore": 15,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "zoll-tafel-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.tariff-rush",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 8,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "zoll-tafel-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 1.3
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "secret-language",
+      "category": "event",
+      "titleKey": "quest.secret-language.title",
+      "trigger": {
+        "type": "random",
+        "minSec": 420,
+        "maxSec": 900
+      },
+      "repeatable": true,
+      "conditions": {
+        "type": "quest",
+        "quest": "rosengarten-welcome"
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.secret-language.s0.l1"]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.secret-language.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.secret-language.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.secret-language.s1.q1.a1",
+                  "replyKey": "quest.secret-language.s1.q1.r1",
+                  "score": 0.3
+                },
+                {
+                  "textKey": "quest.secret-language.s1.q1.a2",
+                  "replyKey": "quest.secret-language.s1.q1.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.secret-language.s1.q1.a3",
+                  "replyKey": "quest.secret-language.s1.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.secret-language.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.secret-language.s1.q2.a1",
+                  "replyKey": "quest.secret-language.s1.q2.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.secret-language.s1.q2.a2",
+                  "replyKey": "quest.secret-language.s1.q2.r2",
+                  "score": 0.5
+                },
+                {
+                  "textKey": "quest.secret-language.s1.q2.a3",
+                  "replyKey": "quest.secret-language.s1.q2.r3",
+                  "score": 0.1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.secret-language.s1.q3",
+              "answers": [
+                {
+                  "textKey": "quest.secret-language.s1.q3.a1",
+                  "replyKey": "quest.secret-language.s1.q3.r1",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.secret-language.s1.q3.a2",
+                  "replyKey": "quest.secret-language.s1.q3.r2",
+                  "score": 0.6
+                },
+                {
+                  "textKey": "quest.secret-language.s1.q3.a3",
+                  "replyKey": "quest.secret-language.s1.q3.r3",
+                  "score": 1
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 15,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "secret-language-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "secret-language-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "secret-language-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:@here",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "real-estate-diplomacy",
+      "category": "side",
+      "titleKey": "quest.real-estate-diplomacy.title",
+      "location": "rosengarten",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "all",
+        "of": [
+          {
+            "type": "quest",
+            "quest": "rosengarten-welcome"
+          },
+          {
+            "type": "generator",
+            "generator": "easel-setter",
+            "gte": 10
+          }
+        ]
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.real-estate-diplomacy.s0.l1", "quest.real-estate-diplomacy.s0.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.real-estate-diplomacy.s1.l1"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.real-estate-diplomacy.s2.l1", "quest.real-estate-diplomacy.s2.l2"]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.real-estate-diplomacy.s3.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.real-estate-diplomacy.s3.q1",
+              "answers": [
+                {
+                  "textKey": "quest.real-estate-diplomacy.s3.q1.a1",
+                  "replyKey": "quest.real-estate-diplomacy.s3.q1.r1",
+                  "score": 0.2
+                },
+                {
+                  "textKey": "quest.real-estate-diplomacy.s3.q1.a2",
+                  "replyKey": "quest.real-estate-diplomacy.s3.q1.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.real-estate-diplomacy.s3.q1.a3",
+                  "replyKey": "quest.real-estate-diplomacy.s3.q1.r3",
+                  "score": 0.5
+                }
+              ]
+            },
+            {
+              "textKey": "quest.real-estate-diplomacy.s3.q2",
+              "answers": [
+                {
+                  "textKey": "quest.real-estate-diplomacy.s3.q2.a1",
+                  "replyKey": "quest.real-estate-diplomacy.s3.q2.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.real-estate-diplomacy.s3.q2.a2",
+                  "replyKey": "quest.real-estate-diplomacy.s3.q2.r2",
+                  "score": 0
+                },
+                {
+                  "textKey": "quest.real-estate-diplomacy.s3.q2.a3",
+                  "replyKey": "quest.real-estate-diplomacy.s3.q2.r3",
+                  "score": 0.5
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "real-estate-diplomacy-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "real-estate-diplomacy-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "real-estate-diplomacy-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "setFlag",
+          "flag": "cookie-tariffs"
+        },
+        {
+          "type": "addStat",
+          "stat": "prices",
+          "value": 10
+        },
+        {
+          "type": "productionSeconds",
+          "seconds": 300
+        }
+      ]
+    },
+    {
+      "id": "weather-decree",
+      "category": "side",
+      "titleKey": "quest.weather-decree.title",
+      "location": "rosengarten",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "upgrade",
+        "upgrade": "repaint-weather-map"
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "dr-wolke",
+          "lines": ["quest.weather-decree.s0.l1", "quest.weather-decree.s0.l2"]
+        },
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": ["quest.weather-decree.s1.l1", "quest.weather-decree.s1.l2"],
+          "choices": [
+            {
+              "textKey": "quest.weather-decree.s1.c1",
+              "replyKey": "quest.weather-decree.s1.r1",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": -2
+                }
+              ]
+            },
+            {
+              "textKey": "quest.weather-decree.s1.c2",
+              "replyKey": "quest.weather-decree.s1.r2",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": 1
+                }
+              ]
+            },
+            {
+              "textKey": "quest.weather-decree.s1.c3",
+              "replyKey": "quest.weather-decree.s1.r3",
+              "effects": [
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -2
+                },
+                {
+                  "type": "addStat",
+                  "stat": "democracy",
+                  "value": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.weather-decree.s2.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.weather-decree.s2.q1",
+              "answers": [
+                {
+                  "textKey": "quest.weather-decree.s2.q1.a1",
+                  "replyKey": "quest.weather-decree.s2.q1.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.weather-decree.s2.q1.a2",
+                  "replyKey": "quest.weather-decree.s2.q1.r2",
+                  "score": 0.3
+                },
+                {
+                  "textKey": "quest.weather-decree.s2.q1.a3",
+                  "replyKey": "quest.weather-decree.s2.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.weather-decree.s2.q2",
+              "answers": [
+                {
+                  "textKey": "quest.weather-decree.s2.q2.a1",
+                  "replyKey": "quest.weather-decree.s2.q2.r1",
+                  "score": 0.5
+                },
+                {
+                  "textKey": "quest.weather-decree.s2.q2.a2",
+                  "replyKey": "quest.weather-decree.s2.q2.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.weather-decree.s2.q2.a3",
+                  "replyKey": "quest.weather-decree.s2.q2.r3",
+                  "score": 0
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "weather-decree-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "weather-decree-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "weather-decree-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 240
+        }
+      ]
+    },
+    {
+      "id": "pool-stage-1",
+      "category": "side",
+      "titleKey": "quest.pool-stage-1.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "reflecting-pool-renovation",
+        "gte": 1
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "konstantin",
+          "lines": ["quest.pool-stage-1.s0.l1", "quest.pool-stage-1.s0.l2"]
+        }
+      ],
+      "rewards": []
+    },
+    {
+      "id": "pool-stage-4",
+      "category": "side",
+      "titleKey": "quest.pool-stage-4.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "reflecting-pool-renovation",
+        "gte": 4
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "frieda",
+          "lines": ["quest.pool-stage-4.s0.l1", "quest.pool-stage-4.s0.l2"]
+        },
+        {
+          "type": "framing",
+          "speaker": "frieda",
+          "introKey": "quest.pool-stage-4.s1.intro",
+          "timePerQuestionSec": 9,
+          "questions": [
+            {
+              "textKey": "quest.pool-stage-4.s1.q1",
+              "answers": [
+                {
+                  "textKey": "quest.pool-stage-4.s1.q1.a1",
+                  "replyKey": "quest.pool-stage-4.s1.q1.r1",
+                  "score": 0.4
+                },
+                {
+                  "textKey": "quest.pool-stage-4.s1.q1.a2",
+                  "replyKey": "quest.pool-stage-4.s1.q1.r2",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.pool-stage-4.s1.q1.a3",
+                  "replyKey": "quest.pool-stage-4.s1.q1.r3",
+                  "score": 0
+                }
+              ]
+            },
+            {
+              "textKey": "quest.pool-stage-4.s1.q2",
+              "answers": [
+                {
+                  "textKey": "quest.pool-stage-4.s1.q2.a1",
+                  "replyKey": "quest.pool-stage-4.s1.q2.r1",
+                  "score": 1
+                },
+                {
+                  "textKey": "quest.pool-stage-4.s1.q2.a2",
+                  "replyKey": "quest.pool-stage-4.s1.q2.r2",
+                  "score": 0.2
+                },
+                {
+                  "textKey": "quest.pool-stage-4.s1.q2.a3",
+                  "replyKey": "quest.pool-stage-4.s1.q2.r3",
+                  "score": 0.6
+                }
+              ]
+            }
+          ],
+          "productionSecondsPerPoint": 20,
+          "qualityEffects": [
+            {
+              "minScore": 0.75,
+              "labelKey": "quality.masterful",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "pool-stage-4-mood",
+                  "durationSec": 600,
+                  "labelKey": "mood.boom",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 2.5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0.4,
+              "labelKey": "quality.solid",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "pool-stage-4-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.okay",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 1.2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "minScore": 0,
+              "labelKey": "quality.disaster",
+              "effects": [
+                {
+                  "type": "modifier",
+                  "id": "pool-stage-4-mood",
+                  "durationSec": 300,
+                  "labelKey": "mood.slump",
+                  "effects": [
+                    {
+                      "type": "multiplier",
+                      "target": "location:rosengarten",
+                      "value": 0.6
+                    }
+                  ]
+                },
+                {
+                  "type": "addStat",
+                  "stat": "approval",
+                  "value": -3
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "rewards": []
+    },
+    {
+      "id": "pool-stage-8",
+      "category": "side",
+      "titleKey": "quest.pool-stage-8.title",
+      "trigger": {
+        "type": "auto"
+      },
+      "conditions": {
+        "type": "generator",
+        "generator": "reflecting-pool-renovation",
+        "gte": 8
+      },
+      "steps": [
+        {
+          "type": "dialog",
+          "speaker": "president",
+          "lines": [
+            "quest.pool-stage-8.s0.l1",
+            "quest.pool-stage-8.s0.l2",
+            "quest.pool-stage-8.s0.l3"
+          ]
+        }
+      ],
+      "rewards": [
+        {
+          "type": "productionSeconds",
+          "seconds": 600
+        },
+        {
+          "type": "setFlag",
+          "flag": "pool-done"
+        }
+      ]
+    }
+  ],
+  "pools": [
+    {
+      "id": "countries",
+      "entries": [
+        {
+          "key": "pool.countries.target1",
+          "tag": "target"
+        },
+        {
+          "key": "pool.countries.target2",
+          "tag": "target"
+        },
+        {
+          "key": "pool.countries.target3",
+          "tag": "target"
+        },
+        {
+          "key": "pool.countries.target4",
+          "tag": "target"
+        },
+        {
+          "key": "pool.countries.target5",
+          "tag": "target"
+        },
+        {
+          "key": "pool.countries.target6",
+          "tag": "target"
+        },
+        {
+          "key": "pool.countries.target7",
+          "tag": "target"
+        },
+        {
+          "key": "pool.countries.target8",
+          "tag": "target"
+        },
+        {
+          "key": "pool.countries.ally1",
+          "tag": "ally"
+        },
+        {
+          "key": "pool.countries.ally2",
+          "tag": "ally"
+        },
+        {
+          "key": "pool.countries.ally3",
+          "tag": "ally"
+        },
+        {
+          "key": "pool.countries.ally4",
+          "tag": "ally"
+        }
+      ]
+    }
+  ],
+  "speakers": [
+    {
+      "id": "dr-wolke",
+      "nameKey": "speaker.dr-wolke",
+      "color": "#2ce8f5"
+    }
+  ],
+  "lexicon": [
+    {
+      "id": "trade-tariffs",
+      "source": {
+        "label": "bpb.de – Lexikon der Wirtschaft: Zoll",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/lexikon-der-wirtschaft/21282/zoll/"
+      }
+    },
+    {
+      "id": "independent-science",
+      "source": {
+        "label": "bpb.de – APuZ: Wissenschaftsfreiheit. Normative Grundlagen und aktuelle Herausforderungen",
+        "url": "https://www.bpb.de/shop/zeitschriften/apuz/wissenschaftsfreiheit-2021/343220/wissenschaftsfreiheit-normative-grundlagen-und-aktuelle-herausforderungen/"
+      }
+    },
+    {
+      "id": "public-procurement",
+      "source": {
+        "label": "bpb.de – Lexikon der Wirtschaft: öffentliche Auftragsvergabe",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/lexikon-der-wirtschaft/20241/oeffentliche-auftragsvergabe/"
+      }
+    }
+  ]
+}

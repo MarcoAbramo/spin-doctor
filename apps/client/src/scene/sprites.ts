@@ -12,6 +12,10 @@ export interface Art {
   /** Plays a tagged animation; `once` returns to `idle` afterwards. */
   play(tag: string, once?: boolean): void
   has(tag: string): boolean
+  /** Number of frames in the sheet (1 for static sprites). */
+  frames: number
+  /** Stops on one frame (e.g. a building project's construction stage). */
+  showFrame(index: number): void
 }
 
 interface AsepriteJson {
@@ -65,6 +69,12 @@ export async function loadArt(name: string, fallback: () => Container): Promise<
   return {
     view: sprite,
     has: (tag) => tags.has(tag),
+    frames: frames.length,
+    showFrame(index) {
+      sprite.textures = frames
+      current = ''
+      sprite.gotoAndStop(Math.max(0, Math.min(frames.length - 1, index)))
+    },
     play(tag, once = false) {
       const next = tags.get(tag)
       if (!next) return
@@ -87,5 +97,5 @@ export async function loadArt(name: string, fallback: () => Container): Promise<
 }
 
 function staticArt(view: Container): Art {
-  return { view, play: () => undefined, has: () => false }
+  return { view, play: () => undefined, has: () => false, frames: 1, showFrame: () => undefined }
 }

@@ -127,12 +127,21 @@ export function contentAssets(content: Content): AssetSpec[] {
       })
   }
   for (const g of content.generators) {
-    add({
-      path: `sprites/${g.sprite ?? `gen-${g.id}`}.png`,
-      kind: 'sprite',
-      size: '48×48 per frame',
-      purpose: `Generator "${g.id}" at location "${g.location}" (optional Aseprite JSON with tag idle)`,
-    })
+    const slots = content.locations.find((l) => l.id === g.location)?.scene.slots[g.id]
+    if (g.mapSprite)
+      add({
+        path: `sprites/${g.mapSprite.sprite}.png`,
+        kind: 'sprite',
+        size: `free; one frame per construction stage (up to ${g.maxCount ?? 10})`,
+        purpose: `Building project "${g.id}" on the city map at (${g.mapSprite.x}, ${g.mapSprite.y}); frames = stages`,
+      })
+    if (!slots || slots.length > 0)
+      add({
+        path: `sprites/${g.sprite ?? `gen-${g.id}`}.png`,
+        kind: 'sprite',
+        size: '48×48 per frame',
+        purpose: `Generator "${g.id}" at location "${g.location}" (optional Aseprite JSON with tag idle)`,
+      })
     add({
       path: `icons/generator-${g.id}.png`,
       kind: 'icon',

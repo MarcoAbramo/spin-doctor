@@ -6,6 +6,7 @@ import {
   answerFraming,
   applyOffline,
   buyGenerator,
+  buyUpgrade,
   createInitialState,
   debugStartQuest,
   deserialize,
@@ -368,5 +369,42 @@ describe('city map', () => {
     s = answerDialog(s, real, 'act2-city-intro')
     s = openMap(s, real)
     expect(s.quests.completed).toContain('act2-city-intro')
+  })
+})
+
+describe('location:@here', () => {
+  it('binds a modifier to the location where the player is', () => {
+    const c = loadContent([
+      {
+        source: 'here.json',
+        data: {
+          stats: [{ id: 'spin', role: 'currency', initial: 0 }],
+          locations: [
+            { id: 'a', order: 0, scene },
+            { id: 'b', order: 1, scene },
+          ],
+          generators: [{ id: 'g', location: 'b', baseCost: 1, rate: 1 }],
+          upgrades: [
+            {
+              id: 'boost',
+              cost: 0,
+              effects: [
+                {
+                  type: 'modifier',
+                  id: 'm',
+                  durationSec: 60,
+                  labelKey: 'x',
+                  effects: [{ type: 'multiplier', target: 'location:@here', value: 3 }],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ])
+    let s = createInitialState(c, T0)
+    s = travel(s, c, 'b')
+    s = buyUpgrade(s, c, 'boost')
+    expect(s.modifiers[0]?.effects[0]?.target).toBe('location:b')
   })
 })

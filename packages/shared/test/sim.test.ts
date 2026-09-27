@@ -56,9 +56,10 @@ function finishIntro(start: GameState): GameState {
 describe('content', () => {
   it('loads all packs with exactly one currency', () => {
     expect(content.currency).toBe('spin')
-    expect(content.generators).toHaveLength(6)
+    expect(content.generators.filter((g) => g.location === 'press-house')).toHaveLength(6)
     expect(content.upgrades.length).toBeGreaterThanOrEqual(8)
-    expect(content.lexicon).toHaveLength(3)
+    expect(content.lexicon.length).toBeGreaterThanOrEqual(3)
+    expect(content.locations[0]?.id).toBe('press-house')
   })
 
   it('reports broken references', () => {

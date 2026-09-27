@@ -48,7 +48,7 @@ export class ContentError extends Error {
 }
 
 /** Handler ids the client knows how to render. Keep in sync with the client registry. */
-export const KNOWN_HANDLERS = ['headline-swipe', 'president-post'] as const
+export const KNOWN_HANDLERS = ['headline-swipe', 'president-post', 'zoll-tafel'] as const
 
 export interface RawPack {
   /** File name, used in error messages. */
@@ -190,7 +190,8 @@ function checkReferences(c: Content): string[] {
     if (!ref) return
     if (kind === 'generator') need(where, generators, 'generator', ref)
     if (kind === 'stat-gain') need(where, stats, 'stat', ref)
-    if (kind === 'location' || kind === 'till-cap') need(where, locations, 'location', ref)
+    if ((kind === 'location' && ref !== '@here') || kind === 'till-cap')
+      need(where, locations, 'location', ref)
   }
   const checkEffects = (where: string, effects: Effect[]): void => {
     for (const e of effects) {
@@ -242,6 +243,7 @@ function checkReferences(c: Content): string[] {
     if (s.min !== undefined && s.max !== undefined && s.min > s.max)
       problems.push(`stat ${s.id}: min > max`)
     need(`stat ${s.id} drift`, stats, 'stat', s.drift?.towardFrom?.stat)
+    checkCondition(`stat ${s.id} visible`, s.visible)
   }
   for (const l of c.locations) {
     const where = `location ${l.id}`

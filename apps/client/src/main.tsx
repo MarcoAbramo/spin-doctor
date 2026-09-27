@@ -7,7 +7,7 @@ import { getState, onGameEvent, startGame, subscribe } from './store'
 import { App } from './ui/App'
 import { locationName, scene, world } from './ui/SceneView'
 import { pushToast } from './ui/toast-store'
-import { setTransitionReducedMotion } from './ui/transitions'
+import { setTransitionReducedMotion, stamp } from './ui/transitions'
 import '@fontsource/pixelify-sans/400.css'
 import '@fontsource/pixelify-sans/700.css'
 import './ui/styles.css'
@@ -41,6 +41,23 @@ onGameEvent((e) => {
     case 'daily-completed':
       play('success')
       pushToast(t('ui.toast.daily'), 'good')
+      break
+    case 'quality':
+      if (e.labelKey) {
+        const tone =
+          e.score >= 0.75 || e.score >= 15
+            ? 'good'
+            : e.score >= 0.35 || e.score >= 8
+              ? 'meh'
+              : 'bad'
+        stamp(
+          t(e.labelKey),
+          e.score <= 1 ? t('ui.quality.result', { value: Math.round(e.score * 100) }) : '',
+          tone,
+        )
+        play(tone === 'good' ? 'milestone' : tone === 'meh' ? 'success' : 'scandal')
+        if (tone === 'bad') scene.current?.shake()
+      }
       break
     case 'till-full':
       pushToast(t('ui.toast.tillFull', { name: locationName(e.location) }), 'info')

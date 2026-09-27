@@ -17,7 +17,7 @@ import { dispatch, getState, subscribe } from '../store'
 import { useGame } from './hooks'
 import { LocationCard } from './modals/LocationCard'
 import { pushToast } from './toast-store'
-import { banner, coinStream, cover, flashes, reveal } from './transitions'
+import { banner, coinStream, cover, flashes, paperGust, reveal } from './transitions'
 
 /** Shared handles so game events (shake, confetti) can reach the lazily loaded scenes. */
 export const scene: { current: Scene | null } = { current: null }
@@ -105,6 +105,7 @@ export async function enterBuilding(b: Building): Promise<void> {
     const preset = loc.enter?.preset
     const show = scene.current?.playEnter()
     if (preset === 'doors') await flashes(3)
+    if (preset === 'gate') await paperGust()
     await show
     if (amount > 0) {
       play('milestone')

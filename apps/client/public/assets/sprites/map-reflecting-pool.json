@@ -1,0 +1,60 @@
+{
+  "frames": [
+    {
+      "filename": "map-reflecting-pool.png 0",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 96,
+        "h": 48
+      },
+      "duration": 1000
+    },
+    {
+      "filename": "map-reflecting-pool.png 1",
+      "frame": {
+        "x": 96,
+        "y": 0,
+        "w": 96,
+        "h": 48
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-reflecting-pool.png 2",
+      "frame": {
+        "x": 192,
+        "y": 0,
+        "w": 96,
+        "h": 48
+      },
+      "duration": 100
+    },
+    {
+      "filename": "map-reflecting-pool.png 3",
+      "frame": {
+        "x": 288,
+        "y": 0,
+        "w": 96,
+        "h": 48
+      },
+      "duration": 100
+    }
+  ],
+  "meta": {
+    "app": "spin-doctor pixel-placeholders",
+    "image": "map-reflecting-pool.png",
+    "size": {
+      "w": 384,
+      "h": 48
+    },
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 0,
+        "direction": "forward"
+      }
+    ]
+  }
+}

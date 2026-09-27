@@ -129,6 +129,23 @@ export function SettingsTab() {
             >
               🗺 {t('ui.settings.debugMap')}
             </button>
+            <button
+              type="button"
+              class="btn btn-small"
+              onClick={() =>
+                dispatch((s) => {
+                  const d = draft(s)
+                  for (const id of ['act1-intro', 'act1-first-100-days'])
+                    if (!d.quests.completed.includes(id)) d.quests.completed.push(id)
+                  d.quests.active = d.quests.active.filter(
+                    (a) => a.id !== 'act1-intro' && a.id !== 'act1-first-100-days',
+                  )
+                  return d
+                })
+              }
+            >
+              ⏭ {t('ui.settings.debugSkipAct1')}
+            </button>
             {content.quests.map((q) => (
               <button
                 key={q.id}

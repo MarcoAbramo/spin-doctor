@@ -3,9 +3,12 @@ import type { ComponentType } from 'preact'
 import { content } from '../../content'
 import { useGame } from '../hooks'
 import { DialogView } from './DialogView'
+import { EndingView } from './EndingView'
+import { FramingView } from './FramingView'
 import { HeadlineSwipe } from './HeadlineSwipe'
 import { PresidentPost } from './PresidentPost'
 import type { StepViewProps } from './types'
+import { ZollTafel } from './ZollTafel'
 
 /**
  * Handler registry: quest steps of type `minigame`/`timed` name a handler id.
@@ -16,6 +19,7 @@ import type { StepViewProps } from './types'
 const HANDLERS: Record<string, ComponentType<StepViewProps<any>>> = {
   'president-post': PresidentPost,
   'headline-swipe': HeadlineSwipe,
+  'zoll-tafel': ZollTafel,
 }
 
 export function QuestModal() {
@@ -26,6 +30,10 @@ export function QuestModal() {
   const key = `${quest.id}:${active.step}:${active.stepStartedAt}`
   if (step.type === 'dialog')
     return <DialogView key={key} quest={quest} active={active} step={step} />
+  if (step.type === 'framing')
+    return <FramingView key={key} quest={quest} active={active} step={step} />
+  if (step.type === 'ending')
+    return <EndingView key={key} quest={quest} active={active} step={step} />
   if (step.type === 'minigame' || step.type === 'timed') {
     const View = HANDLERS[step.handler]
     return View ? <View key={key} quest={quest} active={active} step={step} /> : null
