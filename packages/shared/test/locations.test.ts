@@ -314,7 +314,9 @@ describe('framing duel & endings', () => {
 
   it('timeouts count as failed spin and lead to a slump', () => {
     let s = duel()
-    s = tick(s, content, 11, ctx(T0 + 11_000)) // both 5 s questions expire
+    s = tick(s, content, 11, ctx(T0 + 11_000)) // question 1 expired, reading pause, question 2 running
+    expect(s.quests.active[0]?.scores).toEqual([0])
+    s = tick(s, content, 2, ctx(T0 + 13_000)) // 5 s + 2 s pause + 5 s: both expired
     expect(s.quests.active).toHaveLength(0)
     const q = s.events.find((e) => e.type === 'quality')
     expect(q).toMatchObject({ score: 0, labelKey: 't.flop' })

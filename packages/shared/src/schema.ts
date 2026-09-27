@@ -374,7 +374,9 @@ export const stepSchema = z.discriminatedUnion('type', [
     type: z.literal('framing'),
     speaker: id.optional(),
     introKey: i18nKey.optional(),
-    timePerQuestionSec: z.number().positive().default(8),
+    timePerQuestionSec: z.number().positive().default(15),
+    /** Pause after each answer (reading the reply) before the next question's clock starts. */
+    pauseBetweenSec: z.number().min(0).default(2),
     questions: z
       .array(z.object({ textKey: i18nKey, answers: z.array(framingAnswerSchema).min(2).max(4) }))
       .min(1),

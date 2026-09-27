@@ -1,5 +1,5 @@
 import { answerFraming, type Step, startFraming } from '@spin-doctor/shared'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useMemo, useState } from 'preact/hooks'
 import { content } from '../../content'
 import { t } from '../../i18n'
 import { play, vibrate } from '../../juice/audio'
@@ -37,7 +37,12 @@ export function FramingView({ quest, active, step }: StepViewProps<FramingStep>)
   const credibility = scores.length
     ? Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 100)
     : null
-  const remaining = Math.max(0, step.timePerQuestionSec * 1000 - (state.now - active.stepStartedAt))
+  const total = step.timePerQuestionSec * 1000
+  // During the reading pause the clock has not started yet (start lies in the future).
+  const wait = Math.max(0, active.stepStartedAt - state.now)
+  const remaining = Math.min(total, Math.max(0, total - (state.now - active.stepStartedAt)))
+  // Fix the bar's timing once per question; changing it mid-animation would distort it.
+  const timing = useMemo(() => ({ remaining, wait }), [index, active.started])
 
   // A timed-out question shows up as a new score of 0.
   const [seen, setSeen] = useState(index)
@@ -129,7 +134,10 @@ export function FramingView({ quest, active, step }: StepViewProps<FramingStep>)
                 <div
                   class="countdown-fill"
                   key={`c${index}`}
-                  style={{ animationDuration: `${remaining}ms` }}
+                  style={{
+                    animationDuration: `${timing.remaining}ms`,
+                    animationDelay: `${timing.wait}ms`,
+                  }}
                 />
               </div>
               <div class="dialog-actions">
