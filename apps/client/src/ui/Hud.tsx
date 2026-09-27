@@ -1,6 +1,7 @@
 import {
   check,
   formatDuration,
+  formatFull,
   formatNumber,
   type GameState,
   locationRate,
@@ -40,6 +41,9 @@ export function Hud() {
     (s) => s.id !== content.currency && s.display !== 'hidden' && check(state, content, s.visible),
   )
   const spin = useCountUp(state.stats[currency.id] ?? 0)
+  // Every digit is shown; long numbers shrink so they still fit on a phone.
+  const spinText = formatFull(spin)
+  const spinSize = `min(34px, ${Math.min(8, 100 / spinText.length).toFixed(2)}vw)`
   return (
     <header class="hud">
       <div class="hud-main">
@@ -49,7 +53,7 @@ export function Hud() {
             path={`icons/stat-${currency.id}.png`}
             emoji={currency.emoji ?? ''}
           />
-          <strong>{formatNumber(spin)}</strong>
+          <strong style={{ fontSize: spinSize }}>{spinText}</strong>
           <span class="hud-label">{t(`stat.${currency.id}.name`)}</span>
         </div>
         <div class="hud-rate">

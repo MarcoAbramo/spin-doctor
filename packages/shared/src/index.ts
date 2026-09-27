@@ -1,6 +1,7 @@
 export * from './assets'
 export * from './conditions'
 export * from './content'
+export * from './crowd'
 export * from './dailies'
 export * from './economy'
 export * from './format'

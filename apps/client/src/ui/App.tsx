@@ -24,27 +24,67 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]['id']
 
+const PANEL_KEY = 'spin-doctor.panel-open'
+function readPanelOpen(): boolean {
+  try {
+    return localStorage.getItem(PANEL_KEY) !== '0'
+  } catch {
+    return true
+  }
+}
+function savePanelOpen(open: boolean): void {
+  try {
+    localStorage.setItem(PANEL_KEY, open ? '1' : '0')
+  } catch {
+    // Storage unavailable (private mode) — the choice just isn't remembered.
+  }
+}
+
 export function App() {
   const [tab, setTab] = useState<TabId>('generators')
+  const [open, setOpenState] = useState(readPanelOpen)
+  const setOpen = (next: boolean) => {
+    setOpenState(next)
+    savePanelOpen(next)
+  }
   const View = TABS.find((x) => x.id === tab)!.view
   return (
     <div class="app">
       <Hud />
       <SceneView />
       <ObjectiveBar />
-      <section class="panel" id="panel" role="tabpanel" aria-label={t(`ui.tab.${tab}`)}>
-        <View />
-      </section>
+      <button
+        type="button"
+        class="panel-handle"
+        aria-expanded={open}
+        aria-controls="panel"
+        onClick={() => setOpen(!open)}
+      >
+        <span class="panel-grip" aria-hidden="true" />
+        {open ? `▾ ${t('ui.panel.collapse')}` : `▴ ${t('ui.panel.expand')}`}
+      </button>
+      {open && (
+        <section class="panel" id="panel" role="tabpanel" aria-label={t(`ui.tab.${tab}`)}>
+          <View />
+        </section>
+      )}
       <div class="tabs" role="tablist">
         {TABS.map((x) => (
           <button
             key={x.id}
             type="button"
             role="tab"
-            aria-selected={tab === x.id}
+            aria-selected={open && tab === x.id}
             aria-controls="panel"
-            class={`tab ${tab === x.id ? 'tab-active' : ''}`}
-            onClick={() => setTab(x.id)}
+            class={`tab ${open && tab === x.id ? 'tab-active' : ''}`}
+            onClick={() => {
+              // Tapping the open tab again folds the menu away; any other tab opens it.
+              if (open && tab === x.id) setOpen(false)
+              else {
+                setTab(x.id)
+                setOpen(true)
+              }
+            }}
           >
             <AssetIcon class="tab-icon" path={`icons/tab-${x.id}.png`} emoji={x.icon} />
             <span class="tab-label">{t(`ui.tab.${x.id}`)}</span>

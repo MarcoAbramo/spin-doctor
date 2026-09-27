@@ -84,9 +84,10 @@ Open it in [Tiled](https://www.mapeditor.org) (free), paint, save, and reload th
 
 | File | Size | What |
 |---|---|---|
-| `scene-background.png` | 480×400 | Press room: wall, curtains, flags, floor, red carpet |
-| `scene-podium.png` | 80×64 | Lectern with microphone, the tap target; its top edge sits around y=16 in the sprite |
-| `scene-portrait.png` | 64×80 | Framed portrait of the president |
+| `scene-background.png` | 480×400 | Briefing room: blue back wall (y 0–236), small stage with two flags (front edge y≈300), dark carpet with **empty seats in rows 2 and 3** (seat backs at y 370 and 400, x 28/76/124/196/244/292) |
+| `scene-plaque.png` | about 104×64 | Oval plaque above the podium („PALAST · SUPERBIA“, fictional, no real seal) |
+| `scene-podium.png` | 80×64 | Lectern with two microphones and a seal, the tap target at (160, 300); its top edge sits around y=16 in the sprite |
+| `reporter-*.png` + `.json` | 40×44 per frame | Front row of the press corps **seen from behind** (row 1 at y 340): tags `idle` and `react` (hand up, notepad, camera flash). A random reporter plays `react` on taps. `reporter-frieda` is Dr. Frieda Nachfrage (bun, green jacket). |
 | `player.png` + `.json` | 48×64 per frame | **You**, standing behind the podium. Only the upper ~40 px are visible above it, so put the expression into head, arms and hands. |
 
 **Player animation ideas:**
@@ -95,6 +96,8 @@ Open it in [Tiled](https://www.mapeditor.org) (free), paint, save, and reload th
 - `point`: a pointing gesture.
 
 ### Generators, `assets/sprites/gen-*.png`, 48×48 per frame
+
+The more units you own, the more copies stand in the room (1 at the first unit, then about 3 at 3, 6 at 10, 8 at 25, 11 at 100). Where they stand comes from the location's `scene.slots` (hand-placed, used first) and `scene.crowds` (an area filled automatically). In the press room the court reporters (`gen-paper`) take the empty seats of rows 2 and 3, so draw them seated from behind like the front row.
 
 | File | Idea |
 |---|---|

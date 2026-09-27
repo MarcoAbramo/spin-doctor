@@ -10,157 +10,11 @@
 
 import { generateMap } from './map-placeholders.mjs'
 import { asepriteJson, C, Canvas, rng, save, stats } from './pixel-lib.mjs'
+import { generatePressRoom } from './press-room-placeholders.mjs'
 import { generatePrice } from './price-placeholders.mjs'
 import { generateRosengarten } from './rosengarten-placeholders.mjs'
 
-// ---------------------------------------------------------------------------
-// Scene: background 480×400 (core play area 320×400 centred, x = 80…400)
-// ---------------------------------------------------------------------------
-function background() {
-  const c = new Canvas(480, 400)
-  const FLOOR = 290
-  c.rect(0, 0, 480, FLOOR, C.blueD)
-  // wall panels
-  for (let x = 8; x < 480; x += 56) {
-    c.rect(x, 34, 44, 180, C.navy)
-    c.hline(x, x + 43, 34, C.blue)
-    c.vline(x, 34, 213, C.blue)
-    c.hline(x, x + 43, 213, C.navyD)
-    c.vline(x + 43, 34, 213, C.navyD)
-  }
-  // crown moulding
-  c.rect(0, 0, 480, 14, C.navyD)
-  c.hline(0, 479, 14, C.gold)
-  c.hline(0, 479, 15, C.orange)
-  // wainscot
-  c.rect(0, 226, 480, FLOOR - 226, C.wood)
-  c.hline(0, 479, 226, C.gold)
-  c.hline(0, 479, 227, C.woodL)
-  for (let x = 0; x < 480; x += 24) c.vline(x, 230, FLOOR - 2, C.woodD)
-  c.hline(0, 479, FLOOR - 1, C.woodD)
-  // floor planks
-  c.rect(0, FLOOR, 480, 400 - FLOOR, C.wood)
-  for (let y = FLOOR + 10, row = 0; y < 400; y += 12, row++) {
-    c.hline(0, 479, y, C.woodD)
-    for (let x = (row % 2) * 30; x < 480; x += 60) c.vline(x, y - 11, y - 1, C.woodD)
-  }
-  const r = rng(7)
-  for (let i = 0; i < 160; i++)
-    c.px(Math.floor(r() * 480), FLOOR + 1 + Math.floor(r() * 109), C.woodL)
-  // red carpet towards the podium
-  for (let y = FLOOR; y < 400; y++) {
-    const half = 40 + Math.floor((y - FLOOR) * 0.35)
-    c.hline(240 - half, 240 + half, y, C.redD)
-    c.px(240 - half, y, C.gold)
-    c.px(240 + half, y, C.gold)
-  }
-  // curtains at the edges of the core area
-  for (const x0 of [80, 376]) {
-    c.rect(x0, 16, 24, FLOOR - 16, C.redD)
-    for (let x = x0 + 2; x < x0 + 24; x += 6) c.vline(x, 16, FLOOR - 2, C.red)
-    for (let x = x0 + 4; x < x0 + 24; x += 6) c.vline(x, 16, FLOOR - 2, C.rust)
-    c.rect(x0 - 2, 110, 28, 4, C.gold) // tie-back
-  }
-  c.rect(80, 16, 320, 10, C.redD) // valance
-  for (let x = 80; x < 400; x += 8) c.rect(x, 26, 4, 3, C.redD)
-  c.hline(80, 399, 16, C.gold)
-  // flags left and right of the portrait
-  for (const [px, dir] of [
-    [168, 1],
-    [312, -1],
-  ]) {
-    c.vline(px, 60, 225, C.grey2)
-    c.px(px, 58, C.gold)
-    c.px(px, 59, C.gold)
-    for (let y = 0; y < 44; y++) {
-      const len = 26 - Math.floor(y / 8)
-      for (let i = 1; i <= len; i++) c.px(px + dir * i, 64 + y, y % 14 < 7 ? C.gold : C.red)
-    }
-  }
-  // emblem star above portrait
-  c.ascii(234, 34, ['...y...', '..yyy..', 'yyyyyyy', '.yyyyy.', '.yy.yy.', 'y.....y'])
-  return c
-}
-
-function portrait() {
-  const c = new Canvas(64, 80)
-  c.rect(0, 0, 64, 80, C.orange)
-  c.rect(2, 2, 60, 76, C.gold)
-  c.hline(2, 61, 2, C.yellow)
-  c.vline(2, 2, 77, C.yellow)
-  c.rect(6, 6, 52, 68, C.redD)
-  for (let y = 6; y < 74; y++) for (let x = 6 + (y % 4); x < 58; x += 4) c.px(x, y, C.rust)
-  // shoulders + sash
-  c.ellipse(32, 72, 22, 12, C.navyD)
-  for (let i = 0; i < 18; i++) {
-    c.px(20 + i, 60 + Math.floor(i * 0.7), C.gold)
-    c.px(21 + i, 60 + Math.floor(i * 0.7), C.gold)
-  }
-  c.rect(29, 56, 6, 4, C.white)
-  // head (bald, stylised — deliberately no real-person likeness)
-  c.ellipse(32, 38, 11, 13, C.skinL)
-  c.ellipse(20, 39, 2, 3, C.skinL)
-  c.ellipse(44, 39, 2, 3, C.skinL)
-  c.hline(26, 29, 34, C.woodD)
-  c.hline(35, 38, 34, C.woodD)
-  c.px(27, 37, C.ink)
-  c.px(28, 37, C.ink)
-  c.px(36, 37, C.ink)
-  c.px(37, 37, C.ink)
-  // smug grin
-  c.hline(27, 37, 45, C.wood)
-  c.px(26, 44, C.wood)
-  c.px(38, 44, C.wood)
-  c.hline(28, 36, 46, C.white)
-  // crown
-  c.ascii(21, 17, [
-    'y....y....y....y....y..',
-    'yy..yyy..yyy..yyy..yy..',
-    'yyyyyyyyyyyyyyyyyyyyy..',
-    'yyrryyyybbyyyyrryyyyy..',
-    'yyyyyyyyyyyyyyyyyyyyy..',
-  ])
-  // name plate
-  c.rect(18, 72, 28, 5, C.yellow)
-  for (let x = 21; x < 44; x += 3) c.px(x, 74, C.wood)
-  return c
-}
-
-function podium() {
-  const c = new Canvas(80, 64)
-  // microphone
-  c.vline(40, 5, 17, C.grey2)
-  c.rect(37, 0, 6, 6, C.grey3)
-  c.hline(38, 41, 1, C.grey1)
-  // top slab
-  c.rect(3, 16, 74, 6, C.woodL)
-  c.hline(3, 76, 16, C.skin)
-  c.hline(3, 76, 21, C.woodD)
-  // body (slightly narrowing)
-  for (let y = 22; y < 60; y++) {
-    const inset = 7 + Math.floor((y - 22) / 7)
-    c.hline(inset, 79 - inset, y, C.wood)
-    c.px(inset, y, C.woodL)
-    c.px(inset + 1, y, C.woodL)
-    c.px(79 - inset, y, C.woodD)
-    c.px(78 - inset, y, C.woodD)
-  }
-  c.rect(4, 59, 72, 5, C.woodD)
-  // emblem
-  c.ellipse(40, 39, 10, 10, C.orange)
-  c.ellipse(40, 39, 8, 8, C.gold)
-  c.ascii(35, 34, [
-    '....r....',
-    '...rrr...',
-    'rrrrrrrrr',
-    '.rrrrrrr.',
-    '..rrrrr..',
-    '.rr...rr.',
-    'r.......r',
-  ])
-  c.outline(C.ink)
-  return c
-}
+// Press room (background, plaque, podium, reporters): see press-room-placeholders.mjs
 
 // ---------------------------------------------------------------------------
 // Player (the press secretary): 6 frames of 48×64 — idle 0-1, talk 2-4, point 5
@@ -303,18 +157,6 @@ const generators = {
       c.ellipse(o + 24, 4, 3, 2, C.gold)
       c.px(o + 23, 4, C.ink)
       c.px(o + 25, 4, C.ink)
-    },
-  ],
-  'gen-paper': [
-    1,
-    (c, o) => {
-      for (let i = 0; i < 5; i++) {
-        c.rect(o + 7 + (i % 2) * 2, 41 - i * 6, 32, 6, i % 2 ? C.sand : C.white)
-        c.hline(o + 9 + (i % 2) * 2, o + 36, 43 - i * 6, C.grey2)
-      }
-      c.rect(o + 9, 11, 30, 6, C.white)
-      c.rect(o + 10, 12, 28, 2, C.red)
-      c.hline(o + 11, o + 30, 15, C.grey3)
     },
   ],
   'gen-tv': [
@@ -636,9 +478,7 @@ const PORTRAITS = {
 }
 
 // ---------------------------------------------------------------------------
-save('sprites/scene-background.png', background())
-save('sprites/scene-portrait.png', portrait())
-save('sprites/scene-podium.png', podium())
+generatePressRoom()
 {
   const [c, json] = player()
   save('sprites/player.png', c, json)

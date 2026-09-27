@@ -311,11 +311,30 @@ export const locationSchema = z.object({
         splitY: z.number().default(290),
       })
       .prefault({}),
-    props: z.array(placedSprite).default([]),
+    /** Static set dressing. With `react`, a random one plays that tag on every tap. */
+    props: z.array(placedSprite.extend({ react: z.string().optional() })).default([]),
     player: z.object({ x: z.number(), y: z.number() }),
     tapTarget: placedSprite,
-    /** Where generator props stand: up to 3 copies each (1, 10 and 25 units). */
+    /**
+     * Where generator copies stand, in order. The room fills up as you buy more:
+     * 1 copy at 1 unit, then more and more (see `crowdSize`), never one per unit.
+     */
     slots: z.record(z.string(), z.array(z.tuple([z.number(), z.number()]))).default({}),
+    /**
+     * Extra spots generated after the slots: `area` = [x, y, w, h] for the bottom-centre
+     * points (art pixels), `max` = most copies shown in total.
+     */
+    crowds: z
+      .record(
+        z.string(),
+        z.object({
+          area: z.tuple([z.number(), z.number(), z.number().min(0), z.number().min(0)]),
+          max: z.number().int().positive().default(12),
+          /** Minimum distance between copies. */
+          spacing: z.number().positive().default(16),
+        }),
+      )
+      .default({}),
   }),
   enter: transitionSchema.optional(),
   exit: transitionSchema.optional(),

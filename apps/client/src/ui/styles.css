@@ -110,9 +110,10 @@ textarea {
 }
 .hud-main {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 0 8px;
 }
 .hud-spin {
   display: flex;
@@ -121,6 +122,7 @@ textarea {
 }
 .hud-spin strong {
   font-size: clamp(26px, 8vw, 34px);
+  white-space: nowrap;
   font-weight: 700;
   color: var(--yellow);
   font-variant-numeric: tabular-nums;
@@ -276,6 +278,29 @@ textarea {
   background: var(--panel);
   padding: 10px 10px 16px;
   -webkit-overflow-scrolling: touch;
+}
+.panel-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border: 0;
+  background: var(--panel);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  border-top: var(--px) solid var(--card);
+}
+.panel-grip {
+  width: 28px;
+  height: 4px;
+  background: var(--card);
+}
+.panel-handle:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
 }
 .tabs {
   display: flex;
