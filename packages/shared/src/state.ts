@@ -62,6 +62,7 @@ export type GameEvent =
   | { type: 'travelled'; from: string; to: string }
   | { type: 'till-collected'; location: string; amounts: Record<string, number> }
   | { type: 'till-full'; location: string }
+  | { type: 'entry-fee'; location: string; stat: string; amount: number }
   | { type: 'hotspot'; location: string; id: string; multiplier: number }
   | { type: 'quality'; quest: string; score: number; labelKey?: string | undefined }
 

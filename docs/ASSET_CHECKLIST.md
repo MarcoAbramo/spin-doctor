@@ -18,17 +18,27 @@
 | ✅ | `sprites/scene-rosengarten.png` | 480×400 | Location "rosengarten": background (core play area x 80–400, see ASSET_GUIDE) |
 | ✅ | `sprites/rosengarten-podium.png` | about 80×64 | Location "rosengarten": tap target at (140, 400), bottom-centre |
 | ✅ | `sprites/rosengarten-easel.png` | free | Location "rosengarten": prop at (252, 352), bottom-centre |
+| ✅ | `sprites/scene-price.png` | 480×400 | Location "price": background (core play area x 80–400, see ASSET_GUIDE) |
+| ✅ | `sprites/price-counter.png` | about 80×64 | Location "price": tap target at (176, 400), bottom-centre |
+| ✅ | `sprites/price-turnstile.png` | free | Location "price": prop at (44, 384), bottom-centre |
+| ✅ | `sprites/price-sign.png` | free | Location "price": prop at (160, 118), bottom-centre |
 | ✅ | `sprites/gen-intern.png` | 48×48 per frame | Generator "intern" at location "press-house" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-talkshow.png` | 48×48 per frame | Generator "talkshow-guest" at location "press-house" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-botfarm.png` | 48×48 per frame | Generator "bot-farm" at location "press-house" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-easel-setter.png` | 48×48 per frame | Generator "easel-setter" at location "rosengarten" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-paper.png` | 48×48 per frame | Generator "court-paper" at location "press-house" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/gen-entry-till.png` | 48×48 per frame | Generator "entry-till" at location "price" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-marker-pack.png` | 48×48 per frame | Generator "marker-pack" at location "rosengarten" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-tv.png` | 48×48 per frame | Generator "jubel-tv" at location "press-house" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/map-reflecting-pool.png` | free; one frame per construction stage (up to 8) | Building project "reflecting-pool-renovation" on the city map at (368, 160); frames = stages |
+| ✅ | `sprites/gen-cookie-sniffer.png` | 48×48 per frame | Generator "cookie-sniffer" at location "price" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-wind-machine.png` | 48×48 per frame | Generator "wind-machine" at location "rosengarten" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/map-shark-moat.png` | free; one frame per construction stage (up to 4) | Building project "shark-moat" on the city map at (248, 250); frames = stages |
 | ✅ | `sprites/gen-ministry.png` | 48×48 per frame | Generator "truth-ministry" at location "press-house" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/map-record-wall.png` | free; one frame per construction stage (up to 20) | Building project "record-wall" on the city map at (680, 478); frames = stages |
+| ✅ | `sprites/gen-form-labyrinth.png` | 48×48 per frame | Generator "form-labyrinth" at location "price" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-tariff-press.png` | 48×48 per frame | Generator "tariff-press" at location "rosengarten" (optional Aseprite JSON with tag idle) |
+| ✅ | `sprites/gen-stamp-robot.png` | 48×48 per frame | Generator "stamp-robot" at location "price" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/map-great-dome.png` | 128×80 footprint (+ roof above) | Map building "great-dome", bottom-centre on its footprint; optional tag "open" for the door |
 | ✅ | `sprites/map-press-house.png` | 128×64 footprint (+ roof above) | Map building "press-house", bottom-centre on its footprint; optional tag "open" for the door |
 | ✅ | `sprites/map-rosengarten.png` | 80×80 footprint (+ roof above) | Map building "rosengarten", bottom-centre on its footprint; optional tag "open" for the door |
@@ -48,6 +58,7 @@
 | ✅ | `portraits/konstantin.png` | 48×48 | Dialog portrait of speaker "konstantin" |
 | ✅ | `portraits/frieda.png` | 48×48 | Dialog portrait of speaker "frieda" |
 | ✅ | `portraits/you.png` | 48×48 | Dialog portrait of speaker "you" |
+| ✅ | `portraits/hebesatz.png` | 48×48 | Dialog portrait of speaker "hebesatz" |
 | ✅ | `portraits/dr-wolke.png` | 48×48 | Dialog portrait of speaker "dr-wolke" |
 
 ## Icons
@@ -64,16 +75,23 @@
 | ⬜ optional | `icons/generator-bot-farm.png` | 16×16 | Shop icon for generator "bot-farm" (emoji until then) |
 | ⬜ optional | `icons/generator-easel-setter.png` | 16×16 | Shop icon for generator "easel-setter" (emoji until then) |
 | ⬜ optional | `icons/generator-court-paper.png` | 16×16 | Shop icon for generator "court-paper" (emoji until then) |
+| ⬜ optional | `icons/generator-entry-till.png` | 16×16 | Shop icon for generator "entry-till" (emoji until then) |
 | ⬜ optional | `icons/generator-marker-pack.png` | 16×16 | Shop icon for generator "marker-pack" (emoji until then) |
 | ⬜ optional | `icons/generator-jubel-tv.png` | 16×16 | Shop icon for generator "jubel-tv" (emoji until then) |
 | ⬜ optional | `icons/generator-reflecting-pool-renovation.png` | 16×16 | Shop icon for generator "reflecting-pool-renovation" (emoji until then) |
+| ⬜ optional | `icons/generator-cookie-sniffer.png` | 16×16 | Shop icon for generator "cookie-sniffer" (emoji until then) |
 | ⬜ optional | `icons/generator-wind-machine.png` | 16×16 | Shop icon for generator "wind-machine" (emoji until then) |
+| ⬜ optional | `icons/generator-shark-moat.png` | 16×16 | Shop icon for generator "shark-moat" (emoji until then) |
 | ⬜ optional | `icons/generator-truth-ministry.png` | 16×16 | Shop icon for generator "truth-ministry" (emoji until then) |
+| ⬜ optional | `icons/generator-record-wall.png` | 16×16 | Shop icon for generator "record-wall" (emoji until then) |
+| ⬜ optional | `icons/generator-form-labyrinth.png` | 16×16 | Shop icon for generator "form-labyrinth" (emoji until then) |
 | ⬜ optional | `icons/generator-tariff-press.png` | 16×16 | Shop icon for generator "tariff-press" (emoji until then) |
+| ⬜ optional | `icons/generator-stamp-robot.png` | 16×16 | Shop icon for generator "stamp-robot" (emoji until then) |
 | ✅ | `icons/stat-spin.png` | 16×16 | HUD icon for stat "spin" |
 | ✅ | `icons/stat-approval.png` | 16×16 | HUD icon for stat "approval" |
 | ✅ | `icons/stat-democracy.png` | 16×16 | HUD icon for stat "democracy" |
 | ✅ | `icons/stat-prices.png` | 16×16 | HUD icon for stat "prices" |
+| ✅ | `icons/stat-loyalists.png` | 16×16 | HUD icon for stat "loyalists" |
 | ⬜ optional | `icons/upgrade-framing-seminar.png` | 16×16 | Icon for upgrade "framing-seminar" (emoji until then) |
 | ⬜ optional | `icons/upgrade-whataboutism-course.png` | 16×16 | Icon for upgrade "whataboutism-course" (emoji until then) |
 | ⬜ optional | `icons/upgrade-record-claim-generator.png` | 16×16 | Icon for upgrade "record-claim-generator" (emoji until then) |
@@ -86,12 +104,23 @@
 | ⬜ optional | `icons/upgrade-gold-leaf-easels.png` | 16×16 | Icon for upgrade "gold-leaf-easels" (emoji until then) |
 | ⬜ optional | `icons/upgrade-creative-redistricting.png` | 16×16 | Icon for upgrade "creative-redistricting" (emoji until then) |
 | ⬜ optional | `icons/upgrade-tariffs-on-everything.png` | 16×16 | Icon for upgrade "tariffs-on-everything" (emoji until then) |
+| ⬜ optional | `icons/upgrade-golden-stamp-pad.png` | 16×16 | Icon for upgrade "golden-stamp-pad" (emoji until then) |
 | ⬜ optional | `icons/upgrade-vault-extension.png` | 16×16 | Icon for upgrade "vault-extension" (emoji until then) |
 | ⬜ optional | `icons/upgrade-repaint-weather-map.png` | 16×16 | Icon for upgrade "repaint-weather-map" (emoji until then) |
 | ⬜ optional | `icons/upgrade-loyal-judges.png` | 16×16 | Icon for upgrade "loyal-judges" (emoji until then) |
+| ⬜ optional | `icons/upgrade-loyalty-questionnaire.png` | 16×16 | Icon for upgrade "loyalty-questionnaire" (emoji until then) |
 | ⬜ optional | `icons/upgrade-tariff-board-in-pressroom.png` | 16×16 | Icon for upgrade "tariff-board-in-pressroom" (emoji until then) |
+| ⬜ optional | `icons/upgrade-sniffer-treats.png` | 16×16 | Icon for upgrade "sniffer-treats" (emoji until then) |
+| ⬜ optional | `icons/upgrade-entry-fee-for-birds.png` | 16×16 | Icon for upgrade "entry-fee-for-birds" (emoji until then) |
 | ⬜ optional | `icons/upgrade-marker-bulk-discount.png` | 16×16 | Icon for upgrade "marker-bulk-discount" (emoji until then) |
 | ⬜ optional | `icons/upgrade-no-bid-contracts.png` | 16×16 | Icon for upgrade "no-bid-contracts" (emoji until then) |
+| ⬜ optional | `icons/upgrade-inspectors-early-retirement.png` | 16×16 | Icon for upgrade "inspectors-early-retirement" (emoji until then) |
+| ⬜ optional | `icons/upgrade-numbered-account.png` | 16×16 | Icon for upgrade "numbered-account" (emoji until then) |
+| ⬜ optional | `icons/upgrade-form-in-triplicate.png` | 16×16 | Icon for upgrade "form-in-triplicate" (emoji until then) |
+| ⬜ optional | `icons/upgrade-category-l.png` | 16×16 | Icon for upgrade "category-l" (emoji until then) |
+| ⬜ optional | `icons/upgrade-wall-emergency.png` | 16×16 | Icon for upgrade "wall-emergency" (emoji until then) |
+| ⬜ optional | `icons/upgrade-efficiency-chainsaw.png` | 16×16 | Icon for upgrade "efficiency-chainsaw" (emoji until then) |
+| ⬜ optional | `icons/upgrade-wall-souvenir-shop.png` | 16×16 | Icon for upgrade "wall-souvenir-shop" (emoji until then) |
 
 ## Illustrations
 
@@ -100,6 +129,11 @@
 | ⬜ optional | `illustrations/lexicon-press-freedom.png` | 160×90 | Header image of lexicon card "press-freedom" |
 | ⬜ optional | `illustrations/lexicon-separation-of-powers.png` | 160×90 | Header image of lexicon card "separation-of-powers" |
 | ⬜ optional | `illustrations/lexicon-gerrymandering.png` | 160×90 | Header image of lexicon card "gerrymandering" |
+| ⬜ optional | `illustrations/lexicon-civil-service.png` | 160×90 | Header image of lexicon card "civil-service" |
+| ⬜ optional | `illustrations/lexicon-audit-office.png` | 160×90 | Header image of lexicon card "audit-office" |
+| ⬜ optional | `illustrations/lexicon-political-civil-servants.png` | 160×90 | Header image of lexicon card "political-civil-servants" |
+| ⬜ optional | `illustrations/lexicon-budget-power.png` | 160×90 | Header image of lexicon card "budget-power" |
+| ⬜ optional | `illustrations/lexicon-state-of-emergency.png` | 160×90 | Header image of lexicon card "state-of-emergency" |
 | ⬜ optional | `illustrations/lexicon-trade-tariffs.png` | 160×90 | Header image of lexicon card "trade-tariffs" |
 | ⬜ optional | `illustrations/lexicon-independent-science.png` | 160×90 | Header image of lexicon card "independent-science" |
 | ⬜ optional | `illustrations/lexicon-public-procurement.png` | 160×90 | Header image of lexicon card "public-procurement" |
@@ -118,4 +152,4 @@
 | ⬜ | `audio/fail.ogg` | < 0.6 s | Wrong swipe / missed post |
 | ⬜ optional | `audio/typing.ogg` | < 0.1 s | Speech bubble typing tick |
 
-**Progress:** 46 / 90 files present, 8 required still missing (placeholders are shown until then).
+**Progress:** 58 / 124 files present, 8 required still missing (placeholders are shown until then).

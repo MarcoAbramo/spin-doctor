@@ -10,6 +10,7 @@
 
 import { generateMap } from './map-placeholders.mjs'
 import { asepriteJson, C, Canvas, rng, save, stats } from './pixel-lib.mjs'
+import { generatePrice } from './price-placeholders.mjs'
 import { generateRosengarten } from './rosengarten-placeholders.mjs'
 
 // ---------------------------------------------------------------------------
@@ -480,6 +481,24 @@ const ICONS = {
     '................',
     '................',
   ],
+  'stat-loyalists': [
+    '................',
+    '.....kkkkkk.....',
+    '....kyyyyyyk....',
+    '...kyyrrrryyk...',
+    '...kyrrrrrryk...',
+    '...kyyrrrryyk...',
+    '....kyyyyyyk....',
+    '.....kkkkkk.....',
+    '.....kBBBBk.....',
+    '....kBBBBBBk....',
+    '...kBBBwwBBBk...',
+    '...kBBBwwBBBk...',
+    '...kBBBBBBBBk...',
+    '...kBBBBBBBBk...',
+    '...kkkkkkkkkk...',
+    '................',
+  ],
   'stat-prices': [
     '................',
     '......kkkkkkkk..',
@@ -640,6 +659,7 @@ for (const [name, rows] of Object.entries(ICONS)) {
 }
 generateMap()
 generateRosengarten()
+generatePrice()
 console.log(
   `Pixel placeholders: ${stats.written} written, ${stats.skipped} kept (existing files are never overwritten; use --force).`,
 )

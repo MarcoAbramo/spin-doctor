@@ -250,6 +250,8 @@ const transitionSchema = z.object({
   preset: z.string().default('door'),
   sprite: z.string().optional(),
   sound: z.string().optional(),
+  /** Text for presets that show one (e.g. the `stamp`). */
+  labelKey: i18nKey.optional(),
 })
 
 export const locationSchema = z.object({
@@ -263,6 +265,8 @@ export const locationSchema = z.object({
   /** Production multiplier while you are there (the rest goes into the till). */
   onSiteBonus: z.number().positive().default(1.5),
   tap: z.object({ stat: id.optional(), multiplier: z.number().positive().default(1) }).prefault({}),
+  /** Charged on every arrival — P.R.I.C.E. charges everyone, even you. */
+  entryFee: z.object({ stat: id.optional(), amount: z.number().positive() }).optional(),
   /** The till holds this many minutes of the location's production. */
   till: z.object({ capMinutes: z.number().positive().default(60) }).prefault({}),
   /** Time-based properties, e.g. prime time or weekends. */

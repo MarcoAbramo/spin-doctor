@@ -15,6 +15,18 @@ export function multiplier(state: GameState, content: Content, target: string): 
     if (!state.upgrades.includes(u.id)) continue
     for (const e of u.effects) if (e.type === 'multiplier' && e.target === target) m *= e.value
   }
+  // Building projects: every owned unit keeps its passive bonus (e.g. per wall section).
+  for (const g of content.generators) {
+    const owned = state.generators[g.id] ?? 0
+    if (owned <= 0) continue
+    for (const e of g.perUnitEffects)
+      if (e.type === 'multiplier' && e.target === target) m *= e.value ** owned
+  }
+  // Completed quests keep passive rewards.
+  for (const q of content.quests) {
+    if (!state.quests.completed.includes(q.id)) continue
+    for (const e of q.rewards) if (e.type === 'multiplier' && e.target === target) m *= e.value
+  }
   for (const mod of state.modifiers) {
     if (mod.until <= state.now) continue
     for (const e of mod.effects) if (e.target === target) m *= e.value
@@ -204,6 +216,13 @@ export function travelMut(state: GameState, content: Content, to: string): boole
   addCounter(state, 'travels')
   state.events.push({ type: 'travelled', from, to })
   state.events.push({ type: 'till-collected', location: to, amounts })
+  const fee = getLocation(content, to).entryFee
+  if (fee) {
+    const stat = fee.stat ?? content.currency
+    const paid = Math.min(fee.amount, state.stats[stat] ?? 0)
+    state.stats[stat] = (state.stats[stat] ?? 0) - paid
+    state.events.push({ type: 'entry-fee', location: to, stat, amount: paid })
+  }
   return true
 }
 
