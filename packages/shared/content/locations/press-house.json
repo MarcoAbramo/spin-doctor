@@ -18,356 +18,212 @@
       "scene": {
         "background": "scene-background",
         "height": 600,
-        "viewH": 256,
-        "coverY": 304,
+        "viewH": 270,
+        "coverY": 314,
         "backdrop": {
           "top": "#124e89",
           "bottom": "#262b44",
-          "splitY": 200
+          "splitY": 150
         },
         "props": [
           {
             "sprite": "scene-plaque",
             "x": 160,
-            "y": 120
+            "y": 110
           },
           {
             "sprite": "reporter-a",
             "x": 14,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-c",
             "x": 38,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-b",
             "x": 62,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-d",
             "x": 86,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-e",
             "x": 110,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-frieda",
             "x": 134,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-a",
             "x": 186,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-c",
             "x": 210,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-b",
             "x": 234,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-d",
             "x": 258,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-e",
             "x": 282,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-a",
             "x": 306,
-            "y": 276,
+            "y": 336,
             "react": "react"
           },
           {
             "sprite": "reporter-c",
             "x": 14,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-b",
             "x": 38,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-d",
             "x": 62,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-e",
             "x": 86,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-a",
             "x": 110,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-c",
             "x": 134,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-b",
             "x": 186,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-d",
             "x": 210,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-e",
             "x": 234,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-a",
             "x": 258,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-c",
             "x": 282,
-            "y": 300,
+            "y": 366,
             "react": "react"
           },
           {
             "sprite": "reporter-b",
             "x": 306,
-            "y": 300,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-d",
-            "x": 14,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-e",
-            "x": 38,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-a",
-            "x": 62,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-c",
-            "x": 86,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-b",
-            "x": 110,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-d",
-            "x": 134,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-e",
-            "x": 186,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-a",
-            "x": 210,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-c",
-            "x": 234,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-b",
-            "x": 258,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-d",
-            "x": 282,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-e",
-            "x": 306,
-            "y": 324,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-a",
-            "x": 14,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-c",
-            "x": 38,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-b",
-            "x": 62,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-d",
-            "x": 86,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-e",
-            "x": 110,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-a",
-            "x": 134,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-c",
-            "x": 186,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-b",
-            "x": 210,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-d",
-            "x": 234,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-e",
-            "x": 258,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-a",
-            "x": 282,
-            "y": 348,
-            "react": "react"
-          },
-          {
-            "sprite": "reporter-c",
-            "x": 306,
-            "y": 348,
+            "y": 366,
             "react": "react"
           }
         ],
         "player": {
           "x": 160,
-          "y": 228
+          "y": 276
         },
         "tapTarget": {
           "sprite": "scene-podium",
           "x": 160,
-          "y": 252
+          "y": 300
         },
         "slots": {
-          "intern": [[40, 248], [68, 244]],
-          "talkshow-guest": [[266, 250]],
-          "bot-farm": [[22, 204]],
-          "jubel-tv": [[292, 206]],
-          "truth-ministry": [[44, 108]]
+          "intern": [[36, 296], [64, 290]],
+          "talkshow-guest": [[270, 296]],
+          "bot-farm": [[24, 158]],
+          "jubel-tv": [[290, 160]],
+          "truth-ministry": [[44, 84]]
         },
         "crowds": {
           "intern": {
-            "area": [10, 210, 80, 38],
-            "max": 9,
-            "spacing": 14
+            "area": [8, 236, 96, 62],
+            "max": 10,
+            "spacing": 16
           },
           "talkshow-guest": {
-            "area": [232, 224, 76, 26],
+            "area": [222, 248, 90, 50],
+            "max": 5,
+            "spacing": 24
+          },
+          "bot-farm": {
+            "area": [8, 154, 96, 6],
             "max": 4,
             "spacing": 22
           },
-          "bot-farm": {
-            "area": [8, 200, 76, 4],
-            "max": 4,
-            "spacing": 20
-          },
           "jubel-tv": {
-            "area": [262, 202, 40, 4],
+            "area": [256, 156, 48, 6],
             "max": 2,
             "spacing": 26
           },
           "truth-ministry": {
-            "area": [20, 96, 56, 12],
+            "area": [20, 72, 56, 14],
             "max": 2,
             "spacing": 30
           },
           "court-paper": {
             "grid": {
               "xs": [14, 38, 62, 86, 110, 134, 186, 210, 234, 258, 282, 306],
-              "ys": [372, 396, 420, 444, 468, 492, 516, 540, 564, 588]
+              "ys": [396, 426, 456, 486, 516, 546, 576]
             },
-            "max": 120,
+            "max": 84,
             "exponent": 0.8
           }
         }

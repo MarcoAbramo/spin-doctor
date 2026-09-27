@@ -9,11 +9,11 @@ import { asepriteJson, C, Canvas, rng, save } from './pixel-lib.mjs'
 
 const OX = 80
 export const HALL_H = 600
-const STAGE_TOP = 200
-const STAGE_FRONT = 252
+const STAGE_TOP = 150
+const STAGE_FRONT = 310
 /** Seat grid — keep in sync with content/locations/press-house.json. */
 export const SEAT_X = [14, 38, 62, 86, 110, 134, 186, 210, 234, 258, 282, 306]
-export const ROW_Y = Array.from({ length: 14 }, (_, i) => 276 + i * 24)
+export const ROW_Y = Array.from({ length: 9 }, (_, i) => 336 + i * 30)
 /** Seats outside the 320 px core: always occupied, only visible on wide screens. */
 const OUTER_X = [-58, -34, -10, 330, 354, 378]
 
@@ -83,14 +83,17 @@ function background() {
   c.hline(0, 479, 17, C.grey2)
   // Side doors outside the core area.
   for (const x0 of [8, 424]) {
-    c.rect(x0, 118, 48, STAGE_TOP - 118, C.wood)
-    c.rect(x0 + 4, 122, 40, STAGE_TOP - 122, C.woodL)
-    c.vline(x0 + 24, 122, STAGE_TOP - 1, C.woodD)
-    c.rect(x0 + 18, 160, 3, 3, C.gold)
-    c.rect(x0 + 27, 160, 3, 3, C.gold)
+    c.rect(x0, 70, 48, STAGE_TOP - 70, C.wood)
+    c.rect(x0 + 4, 74, 40, STAGE_TOP - 74, C.woodL)
+    c.vline(x0 + 24, 74, STAGE_TOP - 1, C.woodD)
+    c.rect(x0 + 18, 112, 3, 3, C.gold)
+    c.rect(x0 + 27, 112, 3, 3, C.gold)
   }
-  // Stage.
+  // Stage: deep enough for the press secretary and the entourage.
   for (let y = STAGE_TOP; y < STAGE_FRONT; y++) c.hline(0, 479, y, y % 6 ? C.navy : C.navyD)
+  for (let x = 0; x < 480; x += 40) c.vline(x, STAGE_TOP, STAGE_FRONT - 5, C.navyD)
+  // Blue carpet runner towards the podium.
+  for (let y = STAGE_TOP + 40; y < STAGE_FRONT - 4; y++) c.hline(OX + 126, OX + 193, y, C.blueD)
   c.rect(0, STAGE_FRONT - 4, 480, 4, C.woodL)
   c.hline(0, 479, STAGE_FRONT - 4, C.sand)
   c.rect(0, STAGE_FRONT, 480, 5, C.woodD)
@@ -99,23 +102,24 @@ function background() {
     [OX + 96, 1, [C.gold, C.red]],
     [OX + 224, -1, [C.red, C.gold]],
   ]) {
-    c.vline(px, 118, STAGE_FRONT - 6, C.grey1)
-    c.rect(px - 1, 114, 3, 4, C.gold)
+    const base = STAGE_TOP + 70
+    c.vline(px, 76, base, C.grey1)
+    c.rect(px - 1, 72, 3, 4, C.gold)
     for (let y = 0; y < 50; y++) {
       const fold = Math.floor(y / 10) % 2
       for (let i = 1; i <= 11; i++)
-        c.px(px + dir * i, 120 + y, (i + fold) % 5 === 0 ? C.ink : colors[Math.floor(y / 17) % 2])
+        c.px(px + dir * i, 78 + y, (i + fold) % 5 === 0 ? C.ink : colors[Math.floor(y / 17) % 2])
     }
-    c.rect(px - 3, STAGE_FRONT - 8, 7, 3, C.gold)
+    c.rect(px - 3, base - 2, 7, 3, C.gold)
   }
   // Tiered rows („Ränge“): alternating tier colours with a front lip.
   for (let y = STAGE_FRONT + 5; y < HALL_H; y++) c.hline(0, 479, y, C.navyD)
   ROW_Y.forEach((rowY, i) => {
-    const top = rowY - 22
+    const top = rowY - 28
     for (let y = top; y < rowY + 2; y++) c.hline(0, 479, y, i % 2 ? C.navy : C.navyD)
     c.hline(0, 479, rowY + 1, C.grey3)
     // centre aisle with steps
-    c.rect(OX + 146, top, 28, 24, C.grey3)
+    c.rect(OX + 146, top, 28, 30, C.grey3)
     c.hline(OX + 146, OX + 173, rowY + 1, C.grey2)
     for (let k = 0; k < 6; k++)
       c.px(OX + 150 + Math.floor(r() * 20), top + 4 + Math.floor(r() * 16), C.grey2)
@@ -126,10 +130,10 @@ function background() {
   let look = 0
   for (const y of ROW_Y) for (const x of OUTER_X) person(c, OX + x, y, LOOKS[look++ % LOOKS.length])
   // TV cameras on a riser at the far right of the stage.
-  c.rect(OX + 336, 214, 56, 38, C.grey3)
-  c.rect(OX + 348, 196, 24, 16, C.ink)
-  c.rect(OX + 340, 200, 10, 7, C.grey2)
-  c.px(OX + 368, 199, C.red)
+  c.rect(OX + 336, 262, 56, 44, C.grey3)
+  c.rect(OX + 348, 244, 24, 16, C.ink)
+  c.rect(OX + 340, 248, 10, 7, C.grey2)
+  c.px(OX + 368, 247, C.red)
   return c
 }
 

@@ -13,14 +13,14 @@
 | ✅ | `maps/superbia-tiles.png` | 128×48 (8×3 tiles à 16×16) | Map tileset: grass, roads, plaza, water, trees, roses, golf green, … |
 | ✅ | `sprites/player-walk.png` | 16×24 per frame | You on the map: Aseprite sheet + JSON with tags walk-down/up/left/right and idle-down/up/left/right |
 | ✅ | `sprites/scene-background.png` | 480×600 | Location "press-house": background (core play area x 80–400, see ASSET_GUIDE) |
-| ✅ | `sprites/scene-podium.png` | about 80×64 | Location "press-house": tap target at (160, 252), bottom-centre |
-| ✅ | `sprites/scene-plaque.png` | free | Location "press-house": prop at (160, 120), bottom-centre |
-| ✅ | `sprites/reporter-a.png` | free | Location "press-house": prop at (14, 276), bottom-centre |
-| ✅ | `sprites/reporter-c.png` | free | Location "press-house": prop at (38, 276), bottom-centre |
-| ✅ | `sprites/reporter-b.png` | free | Location "press-house": prop at (62, 276), bottom-centre |
-| ✅ | `sprites/reporter-d.png` | free | Location "press-house": prop at (86, 276), bottom-centre |
-| ✅ | `sprites/reporter-e.png` | free | Location "press-house": prop at (110, 276), bottom-centre |
-| ✅ | `sprites/reporter-frieda.png` | free | Location "press-house": prop at (134, 276), bottom-centre |
+| ✅ | `sprites/scene-podium.png` | about 80×64 | Location "press-house": tap target at (160, 300), bottom-centre |
+| ✅ | `sprites/scene-plaque.png` | free | Location "press-house": prop at (160, 110), bottom-centre |
+| ✅ | `sprites/reporter-a.png` | free | Location "press-house": prop at (14, 336), bottom-centre |
+| ✅ | `sprites/reporter-c.png` | free | Location "press-house": prop at (38, 336), bottom-centre |
+| ✅ | `sprites/reporter-b.png` | free | Location "press-house": prop at (62, 336), bottom-centre |
+| ✅ | `sprites/reporter-d.png` | free | Location "press-house": prop at (86, 336), bottom-centre |
+| ✅ | `sprites/reporter-e.png` | free | Location "press-house": prop at (110, 336), bottom-centre |
+| ✅ | `sprites/reporter-frieda.png` | free | Location "press-house": prop at (134, 336), bottom-centre |
 | ✅ | `sprites/scene-rosengarten.png` | 480×400 | Location "rosengarten": background (core play area x 80–400, see ASSET_GUIDE) |
 | ✅ | `sprites/rosengarten-podium.png` | about 80×64 | Location "rosengarten": tap target at (140, 400), bottom-centre |
 | ✅ | `sprites/rosengarten-easel.png` | free | Location "rosengarten": prop at (252, 352), bottom-centre |
