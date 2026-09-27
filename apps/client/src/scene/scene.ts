@@ -1,4 +1,10 @@
-import { type GameState, generatorsAt, getLocation } from '@spin-doctor/shared'
+import {
+  crowdPositions,
+  crowdSize,
+  type GameState,
+  generatorsAt,
+  getLocation,
+} from '@spin-doctor/shared'
 import { Easing, Group, Tween } from '@tweenjs/tween.js'
 import { Application, Container, Graphics, Text, TextureSource } from 'pixi.js'
 import { content } from '../content'
@@ -71,42 +77,48 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   bg.view.position.set(ART_W / 2, ART_H)
   root.addChild(bg.view)
 
-  for (const prop of def.props) {
-    const art = await loadArt(prop.sprite, () => drawPlaceholder(prop.sprite, 48, 48))
-    art.view.position.set(prop.x, prop.y)
-    root.addChild(art.view)
+  // Everything that stands in the room is depth-sorted by its foot point (y).
+  const room = new Container()
+  room.sortableChildren = true
+  root.addChild(room)
+  const place = (art: Art, x: number, y: number, bias = 0) => {
+    art.view.position.set(x, y)
+    art.view.zIndex = y * 10 + bias
+    room.addChild(art.view)
   }
 
-  // Generator props between wall and podium.
+  const reactors: Array<{ art: Art; tag: string }> = []
+  for (const prop of def.props) {
+    const art = await loadArt(prop.sprite, () => drawPlaceholder(prop.sprite, 48, 48))
+    place(art, prop.x, prop.y)
+    if (prop.react && art.has(prop.react)) reactors.push({ art, tag: prop.react })
+  }
+
+  // Generator copies: the room fills up as the collection grows.
   const propsByGenerator = new Map<string, Art[]>()
-  const props = new Container()
-  root.addChild(props)
   for (const g of generatorsAt(content, location.id)) {
     const name = g.sprite ?? `gen-${g.id}`
-    const slots = def.slots[g.id] ?? [[ART_W / 2, def.backdrop.splitY + 40]]
+    const authored =
+      def.slots[g.id] ?? (def.crowds[g.id] ? [] : [[ART_W / 2, def.backdrop.splitY + 40]])
+    const spots = crowdPositions(g.id, authored as Array<[number, number]>, def.crowds[g.id])
     const list: Art[] = []
-    for (const [x, y] of slots) {
+    for (const [x, y] of spots) {
       const art = await loadArt(name, () => drawPlaceholder(name))
-      art.view.position.set(x, y)
       art.view.visible = false
-      props.addChild(art.view)
+      place(art, x, y)
       list.push(art)
     }
     propsByGenerator.set(g.id, list)
   }
-  // Props further back (smaller y) are drawn first.
-  props.children.sort((a, b) => a.y - b.y)
 
   // The player stands behind the podium.
   const player = await loadArt('player', () => drawPlaceholder('player', 24, 56))
   const PLAYER_Y = def.player.y
-  player.view.position.set(def.player.x, PLAYER_Y)
-  root.addChild(player.view)
+  place(player, def.player.x, PLAYER_Y, 1)
 
   const target = def.tapTarget
   const podium = await loadArt(target.sprite, () => drawPlaceholder(target.sprite, 80, 64))
-  podium.view.position.set(target.x, target.y)
-  root.addChild(podium.view)
+  place(podium, target.x, target.y, 2)
 
   // --- Layout: fit the lower 320×350, anchor at the bottom, snap to device pixels ---
   let scale = 1
@@ -197,8 +209,10 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
       fx.addChild(text)
       floaters.push({ node: text, vx: 0, vy: -28 * scale, life: 0.8, gravity: 0 })
 
-      // The press secretary talks and gestures on every statement.
+      // The press secretary talks and gestures on every statement; the press reacts.
       player.play('talk', true)
+      const reactor = reactors[Math.floor(Math.random() * reactors.length)]
+      if (reactor && Math.random() < 0.6) reactor.art.play(reactor.tag, true)
       if (!reducedMotion) {
         for (let i = 0; i < 6; i++) {
           const p = pixel(
@@ -228,8 +242,7 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     },
     update(state) {
       for (const [id, list] of propsByGenerator) {
-        const count = state.generators[id] ?? 0
-        const visible = count === 0 ? 0 : count < 10 ? 1 : count < 25 ? 2 : 3
+        const visible = crowdSize(state.generators[id] ?? 0, list.length)
         list.forEach((art, i) => {
           const show = i < visible
           if (show && !art.view.visible && !reducedMotion) {

@@ -32,6 +32,14 @@ export function formatNumber(value: number): string {
   return `${de(truncated, digits)} ${suffix}`
 }
 
+/** Every digit, German grouping: 4970000000 → "4.970.000.000" (huge values fall back). */
+export function formatFull(value: number): string {
+  if (!Number.isFinite(value)) return '∞'
+  if (Math.abs(value) >= 1e21) return formatNumber(value)
+  if (Math.abs(value) < 10) return formatNumber(value)
+  return de(Math.floor(value), 0)
+}
+
 export function formatDuration(seconds: number): string {
   const h = Math.floor(seconds / 3600)
   const m = Math.floor((seconds % 3600) / 60)

@@ -266,7 +266,7 @@ function checkReferences(c: Content): string[] {
     for (const t of l.traits) checkCondition(`${where} trait ${t.id}`, t.condition)
     if (l.hotspots && l.hotspots.minSec > l.hotspots.maxSec)
       problems.push(`${where}: hotspots minSec > maxSec`)
-    for (const genId of Object.keys(l.scene.slots)) {
+    for (const genId of new Set([...Object.keys(l.scene.slots), ...Object.keys(l.scene.crowds)])) {
       const g = c.generators.find((x) => x.id === genId)
       if (!g) problems.push(`${where}: slot for unknown generator "${genId}"`)
       else if (g.location !== l.id)

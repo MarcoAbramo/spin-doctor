@@ -12,16 +12,45 @@
       "scene": {
         "background": "scene-background",
         "viewH": 350,
-        "props": [{ "sprite": "scene-portrait", "x": 160, "y": 150 }],
-        "player": { "x": 160, "y": 372 },
-        "tapTarget": { "sprite": "scene-podium", "x": 160, "y": 400 },
+        "backdrop": { "top": "#124e89", "bottom": "#262b44", "splitY": 236 },
+        "props": [
+          { "sprite": "scene-plaque", "x": 160, "y": 150 },
+          { "sprite": "reporter-c", "x": 28, "y": 340, "react": "react" },
+          { "sprite": "reporter-a", "x": 76, "y": 340, "react": "react" },
+          { "sprite": "reporter-frieda", "x": 124, "y": 340, "react": "react" },
+          { "sprite": "reporter-b", "x": 196, "y": 340, "react": "react" },
+          { "sprite": "reporter-d", "x": 244, "y": 340, "react": "react" },
+          { "sprite": "reporter-a", "x": 292, "y": 340, "react": "react" }
+        ],
+        "player": { "x": 160, "y": 276 },
+        "tapTarget": { "sprite": "scene-podium", "x": 160, "y": 300 },
         "slots": {
-          "intern": [[44, 384], [76, 396], [108, 388]],
-          "talkshow-guest": [[276, 318], [300, 332]],
-          "bot-farm": [[36, 300], [62, 300]],
-          "court-paper": [[240, 392], [272, 398]],
-          "jubel-tv": [[60, 150]],
-          "truth-ministry": [[262, 170]]
+          "intern": [[44, 296], [76, 288]],
+          "talkshow-guest": [[266, 296]],
+          "bot-farm": [[24, 240]],
+          "court-paper": [
+            [124, 370],
+            [196, 370],
+            [76, 370],
+            [244, 370],
+            [28, 370],
+            [292, 370],
+            [124, 400],
+            [196, 400],
+            [76, 400],
+            [244, 400],
+            [28, 400],
+            [292, 400]
+          ],
+          "jubel-tv": [[50, 196]],
+          "truth-ministry": [[272, 204]]
+        },
+        "crowds": {
+          "intern": { "area": [12, 258, 84, 38], "max": 9, "spacing": 14 },
+          "talkshow-guest": { "area": [232, 264, 76, 32], "max": 5, "spacing": 22 },
+          "bot-farm": { "area": [8, 236, 88, 6], "max": 4, "spacing": 20 },
+          "jubel-tv": { "area": [16, 130, 72, 70], "max": 4, "spacing": 30 },
+          "truth-ministry": { "area": [236, 140, 70, 64], "max": 3, "spacing": 30 }
         }
       }
     }
