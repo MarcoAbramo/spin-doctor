@@ -188,6 +188,20 @@ Verify text and source of `lexicon.gerrymandering`. Candidate source: https://ww
 - [ ] Deep link to source set
 - [ ] `factChecked: true`
 
+### Realitäts-Check: background cards with sources for every absurd presidential act
+
+Labels: `content`, `needs-fact-check`, `enhancement`
+
+Neutral background cards („Realitäts-Check“) linked to in-game events, with reputable sources, to show that the satire is exaggerated but not invented. Needs a decision on how this fits satire guardrail 1 (technique cards vs. an out-of-game inspirations archive vs. in-game references). See GitHub issue for options.
+
+**Acceptance criteria**
+
+- [ ] Decision recorded in an ADR
+- [ ] factCards schema + validation
+- [ ] Realitäts-Check button + collection view
+- [ ] ≥ 5 cards with verified sources
+- [ ] CONTRIBUTING updated
+
 ## Backend
 
 ### Cloud save with anonymous account

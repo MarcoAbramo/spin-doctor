@@ -169,6 +169,10 @@ textarea {
   height: 16px;
   display: block;
 }
+.chip-good {
+  background: var(--good-dark);
+  color: #fff;
+}
 .chip-bad {
   background: var(--bad-dark);
   color: #fff;

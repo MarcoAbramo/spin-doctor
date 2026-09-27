@@ -91,7 +91,10 @@ export function Hud() {
         {state.modifiers
           .filter((m) => m.until > state.now)
           .map((m) => (
-            <div class="chip chip-bad" key={m.id}>
+            <div
+              class={`chip ${m.effects.every((e) => e.value >= 1) ? 'chip-good' : 'chip-bad'}`}
+              key={m.id}
+            >
               {t(m.labelKey)} · {formatDuration((m.until - state.now) / 1000)}
             </div>
           ))}

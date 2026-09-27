@@ -127,6 +127,18 @@
       "labels": ["content", "needs-fact-check"],
       "body": "Verify text and source of `lexicon.gerrymandering`. Candidate source: https://www.bpb.de/themen/nordamerika/usa/505567/nahezu-jede-neue-wahlkreiskarte-wird-vor-gericht-angefochten/ — check the statement about the German Wahlkreiskommission.",
       "acceptance": ["Text reviewed", "Deep link to source set", "`factChecked: true`"]
+    },
+    {
+      "title": "Realitäts-Check: background cards with sources for every absurd presidential act",
+      "labels": ["content", "needs-fact-check", "enhancement"],
+      "body": "Neutral background cards („Realitäts-Check“) linked to in-game events, with reputable sources, to show that the satire is exaggerated but not invented. Needs a decision on how this fits satire guardrail 1 (technique cards vs. an out-of-game inspirations archive vs. in-game references). See GitHub issue for options.",
+      "acceptance": [
+        "Decision recorded in an ADR",
+        "factCards schema + validation",
+        "Realitäts-Check button + collection view",
+        "≥ 5 cards with verified sources",
+        "CONTRIBUTING updated"
+      ]
     }
   ],
   "Backend": [

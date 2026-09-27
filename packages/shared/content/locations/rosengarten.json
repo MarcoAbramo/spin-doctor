@@ -1356,22 +1356,22 @@
     {
       "id": "trade-tariffs",
       "source": {
-        "label": "bpb.de",
-        "url": "https://www.bpb.de/"
+        "label": "bpb.de – Lexikon der Wirtschaft: Zoll",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/lexikon-der-wirtschaft/21282/zoll/"
       }
     },
     {
       "id": "independent-science",
       "source": {
-        "label": "bpb.de",
-        "url": "https://www.bpb.de/"
+        "label": "bpb.de – APuZ: Wissenschaftsfreiheit. Normative Grundlagen und aktuelle Herausforderungen",
+        "url": "https://www.bpb.de/shop/zeitschriften/apuz/wissenschaftsfreiheit-2021/343220/wissenschaftsfreiheit-normative-grundlagen-und-aktuelle-herausforderungen/"
       }
     },
     {
       "id": "public-procurement",
       "source": {
-        "label": "bpb.de",
-        "url": "https://www.bpb.de/"
+        "label": "bpb.de – Lexikon der Wirtschaft: öffentliche Auftragsvergabe",
+        "url": "https://www.bpb.de/kurz-knapp/lexika/lexikon-der-wirtschaft/20241/oeffentliche-auftragsvergabe/"
       }
     }
   ]
