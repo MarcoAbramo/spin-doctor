@@ -11,12 +11,18 @@ export function ObjectiveBar() {
     if (step?.type === 'objective') {
       return (
         <div class="objective" role="status">
-          <span class="objective-tag">{t('ui.hud.objective')}</span> {t(step.textKey)}
+          <span class="objective-text">
+            <span class="objective-tag">{t('ui.hud.objective')}</span> {t(step.textKey)}
+          </span>
         </div>
       )
     }
   }
   if (state.counters.statements === undefined)
-    return <div class="objective objective-hint">{t('ui.tapHint')}</div>
+    return (
+      <div class="objective objective-hint" role="status">
+        <span class="objective-text">{t('ui.tapHint')}</span>
+      </div>
+    )
   return null
 }

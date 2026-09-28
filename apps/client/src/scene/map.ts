@@ -579,6 +579,8 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     positionSigns()
   })
 
+  host.dataset.ready = 'map'
+
   // --- Signs (DOM, crisp text, tappable) -------------------------------------------
   function positionSigns(): void {
     const s = scale * zoom

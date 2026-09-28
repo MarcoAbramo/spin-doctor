@@ -156,6 +156,8 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
       Math.round((visibleW - ART_W * scale) / 2),
       Math.round(visible - def.coverY * scale),
     )
+    // Exposed for end-to-end tests: the room must not move when the menu folds.
+    host.dataset.layout = `${root.position.x} ${root.position.y} ${scale.toFixed(4)}`
     const floorY = root.position.y + def.backdrop.splitY * scale
     backdrop
       .clear()
@@ -210,6 +212,8 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     const rect = app.canvas.getBoundingClientRect()
     return { x: clientX - rect.left, y: clientY - rect.top }
   }
+
+  host.dataset.ready = location.id
 
   function pixel(color: number, size: number): Graphics {
     return new Graphics().rect(-size / 2, -size / 2, size, size).fill(color)
@@ -344,6 +348,8 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     },
     destroy() {
       observer.disconnect()
+      delete host.dataset.ready
+      delete host.dataset.layout
       app.destroy(true, { children: true })
     },
   }

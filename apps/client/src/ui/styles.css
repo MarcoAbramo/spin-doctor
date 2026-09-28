@@ -119,6 +119,7 @@ textarea {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  height: 40px;
 }
 .hud-spin {
   display: flex;
@@ -129,6 +130,7 @@ textarea {
 }
 .hud-spin strong {
   font-size: clamp(26px, 8vw, 34px);
+  line-height: 1;
   white-space: nowrap;
   font-weight: 700;
   color: var(--yellow);
@@ -301,14 +303,30 @@ textarea {
   outline-offset: -3px;
 }
 
+.drawer-bar {
+  display: flex;
+  height: 44px;
+  flex: none;
+  background: var(--panel);
+  border-top: var(--px) solid var(--card);
+}
 .objective {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
   background: var(--gold);
   color: var(--ink);
-  font-size: 14px;
-  padding: 6px 12px;
-  border-top: var(--px) solid var(--yellow);
-  border-bottom: var(--px) solid var(--gold-dark);
-  z-index: 2;
+  font-size: 13px;
+  line-height: 1.2;
+  padding: 2px 8px;
+  overflow: hidden;
+}
+.objective-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 .objective-tag {
   background: var(--ink);
@@ -319,6 +337,7 @@ textarea {
   text-transform: uppercase;
 }
 .objective-hint {
+  justify-content: center;
   text-align: center;
   animation: blink 1s steps(2) infinite;
 }
@@ -335,22 +354,30 @@ textarea {
 }
 .panel-handle {
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 44px;
+  min-width: 44px;
   border: 0;
   background: var(--panel);
   color: var(--muted);
   font: inherit;
   font-size: 12px;
   cursor: pointer;
-  border-top: var(--px) solid var(--card);
 }
 .panel-grip {
   width: 28px;
   height: 4px;
   background: var(--card);
+}
+/* With an objective the handle shrinks to its arrow. */
+.objective + .panel-handle {
+  flex: 0 0 52px;
+}
+.objective + .panel-handle .panel-grip,
+.objective + .panel-handle .panel-handle-label {
+  display: none;
 }
 .panel-handle:focus-visible {
   outline: 2px solid var(--gold);
@@ -1439,10 +1466,13 @@ progress::-moz-progress-bar {
 
 /* ---------------- „Kurz erklärt“ card ---------------- */
 .explain {
+  /* Over the menu, not the scene: the podium stays free to tap while reading. */
   position: absolute;
-  top: 8px;
+  bottom: 8px;
   left: 8px;
   right: 8px;
+  max-height: calc(100% - 16px);
+  overflow-y: auto;
   z-index: 5;
   background: var(--card);
   color: var(--text);
