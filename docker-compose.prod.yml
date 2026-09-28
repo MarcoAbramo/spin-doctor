@@ -1,6 +1,9 @@
-# Production on a VPS:  cp .env.example .env && docker compose -f docker-compose.prod.yml up -d --build
+# Production on a VPS (see docs/DEPLOY.md):
+#   released images:  docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d
+#   build on the box: docker compose -f docker-compose.prod.yml up -d --build
 services:
   web:
+    image: ghcr.io/${IMAGE_OWNER:-marcoabramo}/spin-doctor-web:${TAG:-latest}
     build: { context: ., dockerfile: apps/client/Dockerfile }
     restart: unless-stopped
     ports: ["80:80", "443:443", "443:443/udp"]
@@ -11,6 +14,7 @@ services:
     depends_on: [server]
 
   server:
+    image: ghcr.io/${IMAGE_OWNER:-marcoabramo}/spin-doctor-server:${TAG:-latest}
     build: { context: ., dockerfile: apps/server/Dockerfile }
     restart: unless-stopped
     command: sh -c "node dist/migrate.js && node dist/index.js"
@@ -32,6 +36,24 @@ services:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 5s
       retries: 10
+
+  # Nightly pg_dump into ./backups (kept BACKUP_KEEP_DAYS days).
+  backup:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "/backup.sh"]
+    environment:
+      PGHOST: db
+      PGUSER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: ${POSTGRES_DB}
+      BACKUP_KEEP_DAYS: ${BACKUP_KEEP_DAYS:-14}
+      BACKUP_INTERVAL_SEC: ${BACKUP_INTERVAL_SEC:-86400}
+    volumes:
+      - ./deploy/backup.sh:/backup.sh:ro
+      - ./backups:/backups
+    depends_on:
+      db: { condition: service_healthy }
 
 volumes:
   pgdata:

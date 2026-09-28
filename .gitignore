@@ -14,3 +14,6 @@ coverage/
 # iCloud / Finder conflict copies such as "package 2.json" — never commit these
 * [0-9]
 * [0-9].*
+
+# database backups on a deploy box
+backups/
