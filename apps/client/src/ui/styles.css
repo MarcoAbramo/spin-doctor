@@ -1493,3 +1493,29 @@ progress::-moz-progress-bar {
   line-height: 1.4;
   margin: 4px 0 6px;
 }
+
+/* ---------------- Crash screen ---------------- */
+.crash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--ink);
+}
+.crash-text {
+  font-family: var(--font-text);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.crash-error {
+  display: block;
+  margin: 0 0 12px;
+  padding: 6px 8px;
+  background: var(--ink);
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}

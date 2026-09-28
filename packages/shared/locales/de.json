@@ -207,6 +207,8 @@
   "ui.settings.save": "Spielstand",
   "ui.settings.export": "Exportieren",
   "ui.settings.import": "Importieren",
+  "ui.settings.exportFile": "Als Datei sichern",
+  "ui.settings.importFile": "Aus Datei laden",
   "ui.settings.importPlaceholder": "Spielstand-Code hier einfügen",
   "ui.settings.importOk": "Spielstand geladen.",
   "ui.settings.importError": "Ungültiger Code: {error}",
@@ -886,5 +888,12 @@
   "ui.explain.title": "Kurz erklärt",
   "ui.explain.ok": "Verstanden",
   "ui.explain.hint": "Tipp: Tippe jederzeit oben auf einen Wert, um diese Erklärung wieder zu sehen.",
-  "ui.explain.open": "Erklärung zu {name}"
+  "ui.explain.open": "Erklärung zu {name}",
+  "ui.save.restoredGood": "Dein Spielstand war beschädigt – die letzte funktionierende Sicherung wurde geladen.",
+  "ui.save.startedFresh": "Dein Spielstand ließ sich nicht laden. Er ist aufbewahrt – sichere ihn als Datei.",
+  "ui.save.keepFile": "Sichern",
+  "ui.crash.title": "Da ist etwas schiefgelaufen",
+  "ui.crash.text": "Das Spiel wurde angehalten. Lade neu, um weiterzuspielen – dein zuletzt gespeicherter Stand bleibt erhalten.",
+  "ui.crash.reload": "Neu laden",
+  "ui.crash.saveFile": "Spielstand als Datei sichern"
 }

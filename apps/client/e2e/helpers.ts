@@ -20,6 +20,7 @@ export function midGameSave(
   s.flags.push('debug-map', ...content.stats.map((x) => `explained-${x.id}`))
   s.quests.completed = content.quests.filter((q) => q.trigger.type === 'auto').map((q) => q.id)
   s.quests.active = []
+  s.realityChecks = content.realityChecks.map((r) => r.id)
   for (const q of content.quests)
     if (q.trigger.type === 'random') s.quests.schedule[q.id] = now + 1e9
   // Without statements the objective bar shows the tap hint.
