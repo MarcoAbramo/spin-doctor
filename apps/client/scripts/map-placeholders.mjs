@@ -36,15 +36,17 @@ const T = {
   crosswalk: 21,
   dirt: 22,
   gold: 23,
+  lineH2: 24,
+  lineV2: 25,
 }
 const BLOCKING = new Set([T.water, T.tree, T.bush, T.hedge, T.roses, T.fence, T.lamp, T.pin])
 
 // ---------------------------------------------------------------------------
-// Tileset (8 columns × 3 rows)
+// Tileset (8 columns × 4 rows)
 // ---------------------------------------------------------------------------
 function tileset() {
   const cols = 8
-  const c = new Canvas(cols * TILE, 3 * TILE)
+  const c = new Canvas(cols * TILE, 4 * TILE)
   const r = rng(3)
   const at = (i) => [(i % cols) * TILE, Math.floor(i / cols) * TILE]
   const fill = (i, color) => {
@@ -71,15 +73,14 @@ function tileset() {
   }
   speckle(T.grassDark, C.greenD, [C.green3])
   speckle(T.asphalt, C.grey3, [C.navy], 6)
+  // Centre lines sit on the border between the two lanes: half in each tile.
   {
     const [x, y] = speckle(T.lineH, C.grey3, [C.navy], 6)
-    c.rect(x + 2, y + 7, 5, 2, C.yellow)
-    c.rect(x + 10, y + 7, 5, 2, C.yellow)
+    c.hline(x + 4, x + 11, y + 15, C.yellow)
   }
   {
     const [x, y] = speckle(T.lineV, C.grey3, [C.navy], 6)
-    c.rect(x + 7, y + 2, 2, 5, C.yellow)
-    c.rect(x + 7, y + 10, 2, 5, C.yellow)
+    c.vline(x + 15, y + 4, y + 11, C.yellow)
   }
   {
     const [x, y] = fill(T.sidewalk, C.grey1)
@@ -173,6 +174,14 @@ function tileset() {
     const [x, y] = fill(T.gold, C.gold)
     c.hline(x, x + 15, y + 15, C.orange)
     c.px(x + 4, y + 4, C.yellow)
+  }
+  {
+    const [x, y] = speckle(T.lineH2, C.grey3, [C.navy], 6)
+    c.hline(x + 4, x + 11, y, C.yellow)
+  }
+  {
+    const [x, y] = speckle(T.lineV2, C.grey3, [C.navy], 6)
+    c.vline(x, y + 4, y + 11, C.yellow)
   }
   return c
 }
@@ -450,6 +459,7 @@ function buildMap() {
   const set = (layer, x, y, t) => {
     if (x >= 0 && y >= 0 && x < MAP_W && y < MAP_H) layer[y * MAP_W + x] = t
   }
+  const get = (layer, x, y) => layer[y * MAP_W + x]
   const rect = (layer, x0, y0, w, h, t) => {
     for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) set(layer, x, y, t)
   }
@@ -479,27 +489,38 @@ function buildMap() {
   rect(ground, 1, 33, 9, 6, T.plaza)
   // park
   rect(ground, 14, 34, 8, 6, T.grassDark)
-  // roads: two horizontal, three vertical (2 tiles wide), sidewalks around
-  const roadH = (y) => {
-    rect(ground, 0, y - 1, MAP_W, 1, T.sidewalk)
-    rect(ground, 0, y, MAP_W, 2, T.asphalt)
-    rect(ground, 0, y + 2, MAP_W, 1, T.sidewalk)
-    for (let x = 1; x < MAP_W; x += 3) set(ground, x, y, T.lineH)
-  }
-  const roadV = (x, y0, y1) => {
+  // roads: two horizontal, three vertical (2 tiles wide), sidewalks around. Junctions
+  // are plain asphalt; dashed centre lines run between them.
+  const V_ROADS = [
+    [10, 0, 39],
+    [34, 17, 47],
+    [23, 18, 33],
+  ]
+  const H_ROADS = [17, 31]
+  const inVRoad = (x, y, margin) =>
+    V_ROADS.some(([vx, y0, y1]) => x >= vx - margin && x <= vx + 1 + margin && y >= y0 && y <= y1)
+  for (const [x, y0, y1] of V_ROADS)
     for (let y = y0; y <= y1; y++) {
       set(ground, x - 1, y, T.sidewalk)
-      set(ground, x, y, T.asphalt)
-      set(ground, x + 1, y, T.asphalt)
+      set(ground, x, y, y % 2 ? T.asphalt : T.lineV)
+      set(ground, x + 1, y, y % 2 ? T.asphalt : T.lineV2)
       set(ground, x + 2, y, T.sidewalk)
-      if (y % 3 === 0) set(ground, x, y, T.lineV)
     }
-  }
-  roadV(10, 0, 39)
-  roadV(34, 17, 47)
-  roadV(23, 18, 33)
-  roadH(17)
-  roadH(31)
+  for (const y of H_ROADS)
+    for (let x = 0; x < MAP_W; x++) {
+      for (const sy of [y - 1, y + 2]) set(ground, x, sy, inVRoad(x, sy, 0) ? T.asphalt : T.sidewalk)
+      const junction = inVRoad(x, y - 1, 1) || inVRoad(x, y + 2, 1)
+      set(ground, x, y, !junction && x % 2 ? T.lineH : T.asphalt)
+      set(ground, x, y + 1, !junction && x % 2 ? T.lineH2 : T.asphalt)
+    }
+  // vertical roads keep their lines out of the junctions
+  for (const [x, y0, y1] of V_ROADS)
+    for (let y = y0; y <= y1; y++)
+      if (H_ROADS.some((hy) => y >= hy - 2 && y <= hy + 3)) {
+        if (H_ROADS.some((hy) => y >= hy && y <= hy + 1)) continue
+        if (get(ground, x, y) === T.lineV) set(ground, x, y, T.asphalt)
+        if (get(ground, x + 1, y) === T.lineV2) set(ground, x + 1, y, T.asphalt)
+      }
   // crossings in front of the palace
   for (const x of [22, 23, 24]) {
     set(ground, x, 17, T.crosswalk)
@@ -577,10 +598,10 @@ function buildMap() {
         name: 'superbia',
         image: 'superbia-tiles.png',
         imagewidth: 8 * TILE,
-        imageheight: 3 * TILE,
+        imageheight: 4 * TILE,
         tilewidth: TILE,
         tileheight: TILE,
-        tilecount: 24,
+        tilecount: 32,
         columns: 8,
         margin: 0,
         spacing: 0,
