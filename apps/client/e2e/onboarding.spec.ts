@@ -2,6 +2,8 @@ import { expect, test } from './fixtures'
 import { dismissDialogs, sceneReady, spin } from './helpers'
 
 test('a new player gets through the intro, taps and buys the first generator', async ({ page }) => {
+  // Clicking through the whole intro takes a while on CI's software-rendered WebGL.
+  test.setTimeout(180_000)
   const errors: string[] = []
   page.on('pageerror', (e) => errors.push(e.message))
 
