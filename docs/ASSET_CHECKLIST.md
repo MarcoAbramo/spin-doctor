@@ -21,13 +21,19 @@
 | ✅ | `sprites/reporter-d.png` | free | Location "press-house": prop at (86, 336), bottom-centre |
 | ✅ | `sprites/reporter-e.png` | free | Location "press-house": prop at (110, 336), bottom-centre |
 | ✅ | `sprites/reporter-frieda.png` | free | Location "press-house": prop at (134, 336), bottom-centre |
-| ✅ | `sprites/scene-rosengarten.png` | 480×400 | Location "rosengarten": background (core play area x 80–400, see ASSET_GUIDE) |
+| ✅ | `sprites/scene-rosengarten.png` | 480×720 | Location "rosengarten": background (core play area x 80–400, see ASSET_GUIDE) |
 | ✅ | `sprites/rosengarten-podium.png` | about 80×64 | Location "rosengarten": tap target at (140, 400), bottom-centre |
 | ✅ | `sprites/rosengarten-easel.png` | free | Location "rosengarten": prop at (252, 352), bottom-centre |
-| ✅ | `sprites/scene-price.png` | 480×400 | Location "price": background (core play area x 80–400, see ASSET_GUIDE) |
+| ✅ | `sprites/scene-price.png` | 480×720 | Location "price": background (core play area x 80–400, see ASSET_GUIDE) |
 | ✅ | `sprites/price-counter.png` | about 80×64 | Location "price": tap target at (176, 400), bottom-centre |
 | ✅ | `sprites/price-turnstile.png` | free | Location "price": prop at (44, 384), bottom-centre |
 | ✅ | `sprites/price-sign.png` | free | Location "price": prop at (160, 118), bottom-centre |
+| ✅ | `sprites/traveller-a.png` | free | Location "price": prop at (12, 452), bottom-centre |
+| ✅ | `sprites/traveller-b.png` | free | Location "price": prop at (36, 452), bottom-centre |
+| ✅ | `sprites/traveller-c.png` | free | Location "price": prop at (60, 452), bottom-centre |
+| ✅ | `sprites/traveller-d.png` | free | Location "price": prop at (84, 452), bottom-centre |
+| ✅ | `sprites/traveller-e.png` | free | Location "price": prop at (108, 452), bottom-centre |
+| ✅ | `sprites/traveller-f.png` | free | Location "price": prop at (132, 452), bottom-centre |
 | ✅ | `sprites/gen-intern.png` | 48×48 per frame | Generator "intern" at location "press-house" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-talkshow.png` | 48×48 per frame | Generator "talkshow-guest" at location "press-house" (optional Aseprite JSON with tag idle) |
 | ✅ | `sprites/gen-botfarm.png` | 48×48 per frame | Generator "bot-farm" at location "press-house" (optional Aseprite JSON with tag idle) |
@@ -158,4 +164,4 @@
 | ⬜ | `audio/fail.ogg` | < 0.6 s | Wrong swipe / missed post |
 | ⬜ optional | `audio/typing.ogg` | < 0.1 s | Speech bubble typing tick |
 
-**Progress:** 64 / 130 files present, 8 required still missing (placeholders are shown until then).
+**Progress:** 70 / 136 files present, 8 required still missing (placeholders are shown until then).

@@ -42,6 +42,23 @@ x:  0        80                           240                          400      
 - `scene-background.png` is **480×400**. Only the central 320 px (x 80–400) is always visible; the 80 px strips on each side show on wide screens, so continue the wall and floor there.
 - Positions of generator props live in `SLOTS` in `apps/client/src/scene/scene.ts`, in art pixels. Up to 3 copies appear at 1, 10 and 25 units.
 
+### Every location: the part under the menu
+
+The open menu drawer covers the bottom of the screen. A location's `coverY` is the art line
+where the drawer starts, so everything that matters (player, tap target) sits above it. The
+scene **never moves or rescales** when the menu folds away — it only uncovers what lies below
+`coverY`. So every background continues below that line with something worth seeing, drawn
+down to the room `height`:
+
+| Location | Background | Below `coverY` |
+|---|---|---|
+| press-house | `scene-background.png` 480×600, `coverY` 314 | 9 tiered rows of the press corps and court reporters |
+| rosengarten | `scene-rosengarten.png` 480×720, `coverY` 416 | 10 rows of press chairs on the lawn, aisle in line with the podium (x 140); reporters in rows 1–2 are props (y 446, 476) |
+| price | `scene-price.png` 480×720, `coverY` 414 | a zig-zag queue behind belt barriers; the front lane holds `traveller-*.png` props (24×40 per frame, tags `idle`, `react` = passport held up) at y 452 |
+
+Tall screens can show more than the room: the backdrop's `bottom` colour fills the rest, so
+end the art with a calm, even area in that colour.
+
 ## Animations (Aseprite)
 
 Animated sprites are a **sprite sheet PNG plus an Aseprite JSON** next to it with the same name, e.g. `player.png` and `player.json`. **Tags** become animations.

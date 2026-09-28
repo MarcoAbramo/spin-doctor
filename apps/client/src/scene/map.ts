@@ -20,6 +20,7 @@ import {
 import { content } from '../content'
 import { has, t } from '../i18n'
 import { drawPlaceholder } from './placeholders'
+import type { Inset } from './scene'
 import { type Art, loadArt } from './sprites'
 
 /**
@@ -30,6 +31,8 @@ import { type Art, loadArt } from './sprites'
 const TILE = 16
 /** Roughly this many art pixels are visible horizontally. */
 const VIEW_W = 320
+/** Keep at least this many art pixels in view vertically (short landscape screens). */
+const VIEW_MIN_H = 180
 const WALK_SPEED = 72 // art px per second
 
 interface TiledLayer {
@@ -85,7 +88,7 @@ export interface MapScene {
   resetZoom(): void
   setReducedMotion(on: boolean): void
   /** Height (CSS px) covered by the open menu drawer at the bottom. */
-  setInset(px: number): void
+  setInset(inset: Inset): void
 }
 
 const prop = (o: TiledObject, name: string) => o.properties?.find((p) => p.name === name)?.value
@@ -321,11 +324,13 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
   let scale = 1
   let zoom = 1
   let focus: { x: number; y: number } | null = null
-  let inset = 0
+  let inset: Inset = { bottom: 0, right: 0 }
   function layout(): void {
-    const { width } = app.screen
+    const { width, height } = app.screen
     const res = app.renderer.resolution
-    const fit = width / VIEW_W
+    const visibleW = Math.max(width / 2, width - inset.right)
+    const visibleH = Math.max(height / 3, height - inset.bottom)
+    const fit = Math.min(visibleW / VIEW_W, visibleH / VIEW_MIN_H)
     const snapped = Math.max(1, Math.floor(fit * res)) / res
     scale = snapped / fit > 0.8 ? snapped : fit
   }
@@ -345,10 +350,11 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     const cx = focus?.x ?? pos.x
     const cy = focus?.y ?? pos.y - 12
     // Centre in the part of the canvas that the menu drawer leaves visible.
-    const visible = Math.max(height / 3, height - inset)
+    const visible = Math.max(height / 3, height - inset.bottom)
+    const visibleW = Math.max(width / 2, width - inset.right)
     const maxX = W * TILE - width / s
     const maxY = H * TILE - visible / s
-    const left = Math.min(Math.max(cx - width / s / 2, 0), Math.max(0, maxX))
+    const left = Math.min(Math.max(cx - visibleW / s / 2, 0), Math.max(0, maxX))
     const top = Math.min(Math.max(cy - visible / s / 2, 0), Math.max(0, maxY))
     world.position.set(-Math.round(left * s), -Math.round(top * s))
   }
@@ -649,8 +655,9 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
       reducedMotion = on
       for (const c of clouds) c.visible = !on
     },
-    setInset(px) {
-      inset = px
+    setInset(next) {
+      inset = next
+      layout()
       camera()
     },
   }

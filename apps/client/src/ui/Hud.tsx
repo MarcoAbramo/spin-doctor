@@ -8,7 +8,7 @@ import {
 } from '@spin-doctor/shared'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { content } from '../content'
-import { t } from '../i18n'
+import { has, t } from '../i18n'
 import { AssetIcon } from './AssetIcon'
 import { useGame } from './hooks'
 import { explainStat } from './StatExplainer'
@@ -61,34 +61,40 @@ export function Hud() {
             emoji={currency.emoji ?? ''}
           />
           <strong style={{ fontSize: spinSize }}>{spinText}</strong>
-          <span class="hud-label">{t(`stat.${currency.id}.name`)}</span>
         </button>
-        <div class="hud-rate">
-          {t('ui.perSecond', { value: formatNumber(locationRate(state, content, state.location)) })}
+        <div class="hud-unit">
+          <span class="hud-label">{t(`stat.${currency.id}.name`)}</span>
+          <span class="hud-rate">
+            {t('ui.perSecondShort', {
+              value: formatNumber(locationRate(state, content, state.location)),
+            })}
+          </span>
         </div>
       </div>
       <div class="hud-stats">
         {others.map((s) => {
           const v = state.stats[s.id] ?? 0
-          if (s.display === 'bar') {
-            const pct = Math.max(0, Math.min(100, v))
-            return (
-              <button
-                type="button"
-                class="meter hud-button"
-                key={s.id}
-                aria-label={t('ui.explain.open', { name: t(`stat.${s.id}.name`) })}
-                onClick={() => explainStat(s.id)}
-              >
-                <span class="meter-label">
-                  <AssetIcon
-                    class="chip-icon"
-                    path={`icons/stat-${s.id}.png`}
-                    emoji={s.emoji ?? ''}
-                  />
-                  {t(`stat.${s.id}.name`)} <b>{Math.round(v)}</b>
-                </span>
-                {/* biome-ignore lint/a11y/useSemanticElements: <meter> cannot be styled as a crumbling bar */}
+          const bar = s.display === 'bar'
+          const pct = Math.max(0, Math.min(100, v))
+          return (
+            <button
+              type="button"
+              class={`stat hud-button ${bar ? 'stat-bar' : ''}`}
+              key={s.id}
+              aria-label={t('ui.explain.open', { name: t(`stat.${s.id}.name`) })}
+              onClick={() => explainStat(s.id)}
+            >
+              <AssetIcon class="chip-icon" path={`icons/stat-${s.id}.png`} emoji={s.emoji ?? ''} />
+              <span class="stat-label">{statLabel(s.id)}</span>
+              <b>
+                {s.display === 'percent'
+                  ? `${Math.round(v)} %`
+                  : bar
+                    ? Math.round(v)
+                    : formatNumber(v)}
+              </b>
+              {bar && (
+                // biome-ignore lint/a11y/useSemanticElements: <meter> cannot be styled as a crumbling bar
                 <div
                   class="crumble"
                   role="meter"
@@ -100,23 +106,13 @@ export function Hud() {
                 >
                   <div class="crumble-fill" />
                 </div>
-              </button>
-            )
-          }
-          return (
-            <button
-              type="button"
-              class="chip hud-button"
-              key={s.id}
-              aria-label={t('ui.explain.open', { name: t(`stat.${s.id}.name`) })}
-              onClick={() => explainStat(s.id)}
-            >
-              <AssetIcon class="chip-icon" path={`icons/stat-${s.id}.png`} emoji={s.emoji ?? ''} />
-              {t(`stat.${s.id}.name`)}{' '}
-              <b>{s.display === 'percent' ? `${Math.round(v)} %` : formatNumber(v)}</b>
+              )}
             </button>
           )
         })}
+      </div>
+      {/* Timed effects float over the scene, so they never change the HUD height. */}
+      <div class="hud-mods">
         {groupModifiers(state.modifiers.filter((m) => m.until > state.now)).map((g) => (
           <div class={`chip ${g.good ? 'chip-good' : 'chip-bad'}`} key={`${g.labelKey}:${g.good}`}>
             {t(g.labelKey)}
@@ -126,6 +122,11 @@ export function Hud() {
       </div>
     </header>
   )
+}
+
+/** The HUD grid is narrow: a stat may bring a short name (`stat.<id>.short`). */
+function statLabel(id: string): string {
+  return has(`stat.${id}.short`) ? t(`stat.${id}.short`) : t(`stat.${id}.name`)
 }
 
 /** Same label (e.g. several „ruhig“ news situations) → one chip with a count. */
