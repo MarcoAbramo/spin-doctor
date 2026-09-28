@@ -440,6 +440,345 @@
           "date": "2019-10-03"
         }
       ]
+    },
+    {
+      "id": "doge-chainsaw",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "efficiency-chainsaw"
+      },
+      "sources": [
+        {
+          "outlet": "PBS News",
+          "title": "Elon Musk wields 'chainsaw for bureaucracy' on stage before speaking at CPAC",
+          "url": "https://www.pbs.org/newshour/politics/watch-elon-musk-wields-chainsaw-for-bureaucracy-on-stage-before-speaking-at-cpac",
+          "date": "2025-02-20"
+        },
+        {
+          "outlet": "NPR",
+          "title": "What has DOGE done in Trump's first 100 days?",
+          "url": "https://www.npr.org/2025/04/28/nx-s1-5377445/doge-musk-trump-100-days",
+          "date": "2025-04-28"
+        }
+      ]
+    },
+    {
+      "id": "loyal-judge",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "loyal-judges"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Senate confirms Trump lawyer Emil Bove for appeals court",
+          "url": "https://www.npr.org/2025/07/30/nx-s1-5484808/emil-bove-confirm-appeals-court",
+          "date": "2025-07-30"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "Senate confirms former Trump attorney Emil Bove as U.S. appeals court judge",
+          "url": "https://www.cbsnews.com/news/senate-emil-bove/",
+          "date": "2025-07-29"
+        }
+      ]
+    },
+    {
+      "id": "gold-card",
+      "unlock": {
+        "type": "generator",
+        "generator": "entry-till",
+        "gte": 1
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Trump unveils \"Gold Card\" fast-track visas for $1 million",
+          "url": "https://www.cbsnews.com/news/trump-gold-card-visas-platinum-card-lutnick-h1b/",
+          "date": "2025-09-19"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "Trump's 'gold card' visa starting at $1 million granted to just 1 person so far, White House says",
+          "url": "https://www.nbcnews.com/news/us-news/trumps-gold-card-visa-starting-1-million-granted-just-1-person-far-whi-rcna341855",
+          "date": "2026-04-24"
+        }
+      ]
+    },
+    {
+      "id": "visa-fee",
+      "unlock": {
+        "type": "quest",
+        "quest": "migratory-birds"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump adds $100,000 fee for high-skilled foreign workers in major visa overhaul",
+          "url": "https://www.npr.org/2025/09/19/g-s1-89680/trump-adds-100-000-fee-for-high-skilled-foreign-workers-in-major-visa-overhaul",
+          "date": "2025-09-19"
+        },
+        {
+          "outlet": "PBS News",
+          "title": "Federal judge strikes down Trump's $100,000 fee on new H-1B visas for high-skilled workers",
+          "url": "https://www.pbs.org/newshour/politics/federal-judge-strikes-down-trumps-100000-fee-on-new-h-1b-visas-for-high-skilled-workers",
+          "date": "2026-06-08"
+        }
+      ]
+    },
+    {
+      "id": "rose-garden-patio",
+      "unlock": {
+        "type": "quest",
+        "quest": "rosengarten-welcome"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "In latest White House renovation, Trump replaces Rose Garden grass with stone",
+          "url": "https://www.npr.org/2025/08/22/nx-s1-5489668/in-latest-white-house-renovation-trump-replaces-rose-garden-grass-with-stone",
+          "date": "2025-08-22"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "A 'beautiful' ballroom and a new Lincoln bathroom: Trump relishes remaking the White House",
+          "url": "https://www.nbcnews.com/politics/donald-trump/ballroom-trump-renovating-white-house-gold-oval-office-rose-garden-rcna221937",
+          "date": "2025-07-31"
+        }
+      ]
+    },
+    {
+      "id": "golden-oval-office",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "gold-leaf-easels"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Gold, statues and a Declaration of Independence copy: Trump's Oval Office redesign",
+          "url": "https://www.npr.org/2025/03/21/nx-s1-5334676/gold-statues-and-a-declaration-of-independence-copy-trumps-oval-office-redesign",
+          "date": "2025-03-21"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "A 'beautiful' ballroom and a new Lincoln bathroom: Trump relishes remaking the White House",
+          "url": "https://www.nbcnews.com/politics/donald-trump/ballroom-trump-renovating-white-house-gold-oval-office-rose-garden-rcna221937",
+          "date": "2025-07-31"
+        }
+      ]
+    },
+    {
+      "id": "tv-cabinet",
+      "unlock": {
+        "type": "generator",
+        "generator": "talkshow-guest",
+        "gte": 1
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Fox News to Trump's White House: new president taps 19 people with network ties",
+          "url": "https://www.npr.org/2025/01/20/nx-s1-5268791/fox-news-trump-inauguration",
+          "date": "2025-01-20"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "Trump names Sean Duffy as his pick for transportation secretary",
+          "url": "https://www.nbcnews.com/politics/donald-trump/trump-names-sean-duffy-pick-transportation-secretary-rcna180712",
+          "date": "2024-11-18"
+        }
+      ]
+    },
+    {
+      "id": "public-media-cuts",
+      "unlock": {
+        "type": "generator",
+        "generator": "jubel-tv",
+        "gte": 1
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Corporation for Public Broadcasting, funder of NPR and PBS, says it will end operations within months after federal budget cuts",
+          "url": "https://www.cbsnews.com/news/corporation-for-public-broadcasting-npr-pbs-federal-cuts-operations-end/",
+          "date": "2025-08-01"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "Corporation for Public Broadcasting is officially shutting down months after GOP funding cuts",
+          "url": "https://www.nbcnews.com/politics/trump-administration/corporation-public-broadcasting-officially-shutting-months-gop-funding-rcna252443",
+          "date": "2026-01-05"
+        }
+      ]
+    },
+    {
+      "id": "policy-by-post",
+      "unlock": {
+        "type": "quest",
+        "quest": "president-post"
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Trump pauses most of his new tariffs for 90 days, increases China tariffs to 125%",
+          "url": "https://www.cbsnews.com/news/trump-announces-90-day-tariffs-pause/",
+          "date": "2025-04-09"
+        },
+        {
+          "outlet": "NPR",
+          "title": "Trump will pause tariff hikes for 90 days, but not for China",
+          "url": "https://www.npr.org/2025/04/09/nx-s1-5357645/trump-tariffs-paused",
+          "date": "2025-04-09"
+        }
+      ]
+    },
+    {
+      "id": "executive-orders",
+      "unlock": {
+        "type": "quest",
+        "quest": "act1-first-100-days"
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Trump sets executive order record in his first 100 days",
+          "url": "https://www.cbsnews.com/news/trump-first-100-days-executive-order-record/",
+          "date": "2025-04-29"
+        },
+        {
+          "outlet": "NPR",
+          "title": "Trump's 1st 100 days, by the numbers",
+          "url": "https://www.npr.org/2025/04/29/nx-s1-5379554/trump-100-days-numbers-laws-immigration",
+          "date": "2025-04-29"
+        }
+      ]
+    },
+    {
+      "id": "eat-the-tariffs",
+      "unlock": {
+        "type": "quest",
+        "quest": "cookie-crisis"
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Trump warns Walmart against raising prices, tells company to \"eat the tariffs\"",
+          "url": "https://www.cbsnews.com/news/trump-walmart-prices-tariffs-response/",
+          "date": "2025-05-17"
+        },
+        {
+          "outlet": "PBS News",
+          "title": "'I'll be watching': Trump tells Walmart to eat the cost of his tariffs instead of raising prices",
+          "url": "https://www.pbs.org/newshour/politics/ill-be-watching-trump-tells-walmart-to-eat-the-cost-of-his-tariffs-instead-of-raising-prices",
+          "date": "2025-05-17"
+        }
+      ]
+    },
+    {
+      "id": "ballroom-costs",
+      "unlock": {
+        "type": "quest",
+        "quest": "pool-stage-4"
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Trump administration plans to demolish White House's entire East Wing as ballroom cost grows to $300 million",
+          "url": "https://www.cbsnews.com/news/demolish-white-house-east-wing-ballroom-trump-cost/",
+          "date": "2025-10-22"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "White House's East Wing demolition finished as Trump makes way for new ballroom",
+          "url": "https://www.nbcnews.com/politics/white-house/white-house-east-wing-demolished-new-ballroom-rcna239399",
+          "date": "2025-10-23"
+        }
+      ]
+    },
+    {
+      "id": "epstein-files",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "vault-extension"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "House votes to approve release of the Epstein files",
+          "url": "https://www.npr.org/2025/11/18/nx-s1-5611438/epstein-files-bill-house-vote",
+          "date": "2025-11-18"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "Trump signs bill to release Epstein files after it passed House and Senate with overwhelming support",
+          "url": "https://www.cbsnews.com/news/trump-says-signed-epstein-files-bill/",
+          "date": "2025-11-19"
+        }
+      ]
+    },
+    {
+      "id": "wall-black-paint",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "wall-black-paint"
+      },
+      "sources": [
+        {
+          "outlet": "PBS News",
+          "title": "Trump calls new border wall a 'world-class security system'",
+          "url": "https://www.pbs.org/newshour/politics/watch-trump-calls-new-border-wall-a-world-class-security-system",
+          "date": "2019-09-18"
+        },
+        {
+          "outlet": "CBS News",
+          "title": "DHS Secretary Noem says entire southern border wall will be painted black to stop people from climbing it",
+          "url": "https://www.cbsnews.com/news/dhs-secretary-says-entire-southern-border-wall-to-be-painted-black-to-stop-people-from-climbing-it/",
+          "date": "2025-08-19"
+        }
+      ]
+    },
+    {
+      "id": "gulf-of-america",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "rename-the-sea"
+      },
+      "sources": [
+        {
+          "outlet": "CBS News",
+          "title": "Trump signs executive order to rename Gulf of Mexico, Denali",
+          "url": "https://www.cbsnews.com/news/trump-rename-gulf-of-mexico-denali/",
+          "date": "2025-01-20"
+        },
+        {
+          "outlet": "NPR",
+          "title": "'Gulf of America' is officially on Google Maps",
+          "url": "https://www.npr.org/2025/02/03/nx-s1-5281985/google-maps-gulf-of-mexico-america",
+          "date": "2025-02-03"
+        }
+      ]
+    },
+    {
+      "id": "department-of-war",
+      "unlock": {
+        "type": "upgrade",
+        "upgrade": "war-ministry-signs"
+      },
+      "sources": [
+        {
+          "outlet": "NPR",
+          "title": "Trump signs order to rename Defense Department as Department of War",
+          "url": "https://www.npr.org/2025/09/04/nx-s1-5529420/trump-department-of-war-department-of-defense",
+          "date": "2025-09-04"
+        },
+        {
+          "outlet": "NBC News",
+          "title": "Trump's Pentagon name change could cost up to $2 billion",
+          "url": "https://www.nbcnews.com/politics/national-security/trumps-pentagon-name-change-cost-2-billion-rcna242438",
+          "date": "2025-11-12"
+        }
+      ]
     }
   ]
 }

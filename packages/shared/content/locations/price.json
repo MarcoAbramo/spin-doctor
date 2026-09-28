@@ -484,6 +484,30 @@
       ]
     },
     {
+      "id": "wall-black-paint",
+      "location": "price",
+      "cost": 30000000,
+      "dark": true,
+      "emoji": "🖌️",
+      "unlock": {
+        "type": "generator",
+        "generator": "record-wall",
+        "gte": 10
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:record-wall",
+          "value": 2
+        },
+        {
+          "type": "addStat",
+          "stat": "democracy",
+          "value": -3
+        }
+      ]
+    },
+    {
       "id": "efficiency-chainsaw",
       "location": "price",
       "cost": 30000000,

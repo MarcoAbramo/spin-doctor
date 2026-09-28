@@ -230,6 +230,24 @@
         }
       ],
       "emoji": "⚖️"
+    },
+    {
+      "id": "war-ministry-signs",
+      "location": "press-house",
+      "cost": 2500000,
+      "emoji": "🪧",
+      "unlock": {
+        "type": "generator",
+        "generator": "truth-ministry",
+        "gte": 1
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:truth-ministry",
+          "value": 2
+        }
+      ]
     }
   ]
 }

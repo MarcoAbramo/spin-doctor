@@ -211,6 +211,24 @@
       ]
     },
     {
+      "id": "rename-the-sea",
+      "location": "rosengarten",
+      "cost": 250000,
+      "emoji": "🗺️",
+      "unlock": {
+        "type": "generator",
+        "generator": "marker-pack",
+        "gte": 5
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:marker-pack",
+          "value": 2
+        }
+      ]
+    },
+    {
       "id": "tariffs-on-everything",
       "location": "rosengarten",
       "cost": 150000,
