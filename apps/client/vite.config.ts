@@ -1,10 +1,13 @@
+import { fileURLToPath } from 'node:url'
 import preact from '@preact/preset-vite'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { assetManifest } from './asset-manifest'
 
 export default defineConfig({
   plugins: [
     preact(),
+    assetManifest(fileURLToPath(new URL('./public/assets', import.meta.url))),
     VitePWA({
       registerType: 'prompt',
       includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png', 'icon.svg'],

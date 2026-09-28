@@ -1,21 +1,10 @@
-import { assetUrl } from '@spin-doctor/shared'
-
-const cache = new Map<string, Promise<boolean>>()
+import files from 'virtual:asset-manifest'
 
 /**
- * Checks whether an optional asset file exists (see docs/ASSET_GUIDE.md).
- * Missing files fall back to placeholders, so art can be added without code changes.
+ * Whether an optional asset file exists (see docs/ASSET_GUIDE.md). The list is built
+ * from `public/assets` at build time, so missing art falls back to placeholders
+ * without a single network request.
  */
-export function assetExists(path: string): Promise<boolean> {
-  let hit = cache.get(path)
-  if (!hit) {
-    hit = fetch(assetUrl(path), { method: 'HEAD' })
-      .then((res) => {
-        const type = res.headers.get('content-type') ?? ''
-        return res.ok && (type.startsWith('image/') || type.startsWith('audio/'))
-      })
-      .catch(() => false)
-    cache.set(path, hit)
-  }
-  return hit
+export function hasAsset(path: string): boolean {
+  return files.has(path)
 }
