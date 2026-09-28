@@ -508,7 +508,8 @@ function buildMap() {
     }
   for (const y of H_ROADS)
     for (let x = 0; x < MAP_W; x++) {
-      for (const sy of [y - 1, y + 2]) set(ground, x, sy, inVRoad(x, sy, 0) ? T.asphalt : T.sidewalk)
+      for (const sy of [y - 1, y + 2])
+        set(ground, x, sy, inVRoad(x, sy, 0) ? T.asphalt : T.sidewalk)
       const junction = inVRoad(x, y - 1, 1) || inVRoad(x, y + 2, 1)
       set(ground, x, y, !junction && x % 2 ? T.lineH : T.asphalt)
       set(ground, x, y + 1, !junction && x % 2 ? T.lineH2 : T.asphalt)
