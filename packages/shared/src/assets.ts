@@ -109,7 +109,7 @@ export function contentAssets(content: Content): AssetSpec[] {
     add({
       path: `sprites/${l.scene.background}.png`,
       kind: 'sprite',
-      size: '480×400',
+      size: `480×${l.scene.height}`,
       purpose: `Location "${l.id}": background (core play area x 80–400, see ASSET_GUIDE)`,
     })
     add({

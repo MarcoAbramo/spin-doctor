@@ -61,3 +61,21 @@ describe('stat tutorial', () => {
     expect(nextStatToExplain(s, content)).toBe('prices')
   })
 })
+
+describe('seat grids', () => {
+  it('fills the front row first, centre outwards', () => {
+    const crowd = { grid: { xs: [10, 30, 50, 70], ys: [200, 100] }, max: 8, spacing: 16 }
+    const seats = crowdPositions('court', [], crowd)
+    expect(seats).toHaveLength(8)
+    expect(seats.slice(0, 4).every(([, y]) => y === 100)).toBe(true)
+    expect(seats[0]![0]).toBe(30)
+    expect(seats[1]![0]).toBe(50)
+  })
+
+  it('grows as a power of the unit count when an exponent is set', () => {
+    expect(crowdSize(1, 120, 0.8)).toBe(1)
+    expect(crowdSize(10, 120, 0.8)).toBe(7)
+    expect(crowdSize(100, 120, 0.8)).toBe(40)
+    expect(crowdSize(1000, 120, 0.8)).toBe(120)
+  })
+})

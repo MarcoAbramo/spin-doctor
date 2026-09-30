@@ -12,12 +12,12 @@ import { drawPlaceholder } from './placeholders'
 import { type Art, loadArt } from './sprites'
 
 /**
- * Pixel-art press room. Everything is authored at 320×400 "art pixels" and
- * scaled up with nearest-neighbour filtering — snapped to whole device pixels
- * where possible so every art pixel has the same size.
+ * Pixel-art location scene. Everything is authored in "art pixels" (a 320 px wide play
+ * area, `scene.height` tall — 400 by default) and scaled up with nearest-neighbour
+ * filtering, snapped to whole device pixels where possible so every art pixel has the
+ * same size.
  */
 export const ART_W = 320
-export const ART_H = 400
 /** Background is wider than the play area so wide screens show more room, not bars. */
 const BG_W = 480
 
@@ -75,8 +75,9 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   const fx = new Container()
   app.stage.addChild(backdrop, root, fx)
 
-  const bg = await loadArt(def.background, () => drawPlaceholder(def.background, BG_W, ART_H))
-  bg.view.position.set(ART_W / 2, ART_H)
+  const artH = def.height
+  const bg = await loadArt(def.background, () => drawPlaceholder(def.background, BG_W, artH))
+  bg.view.position.set(ART_W / 2, artH)
   root.addChild(bg.view)
 
   // Everything that stands in the room is depth-sorted by its foot point (y).
@@ -98,6 +99,7 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
 
   // Generator copies: the room fills up as the collection grows.
   const propsByGenerator = new Map<string, Art[]>()
+  const exponents = new Map<string, number | undefined>()
   for (const g of generatorsAt(content, location.id)) {
     const name = g.sprite ?? `gen-${g.id}`
     const authored =
@@ -111,6 +113,7 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
       list.push(art)
     }
     propsByGenerator.set(g.id, list)
+    exponents.set(g.id, def.crowds[g.id]?.exponent)
   }
 
   // The player stands behind the podium.
@@ -249,7 +252,7 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     },
     update(state) {
       for (const [id, list] of propsByGenerator) {
-        const visible = crowdSize(state.generators[id] ?? 0, list.length)
+        const visible = crowdSize(state.generators[id] ?? 0, list.length, exponents.get(id))
         list.forEach((art, i) => {
           const show = i < visible
           if (show && !art.view.visible && !reducedMotion) {

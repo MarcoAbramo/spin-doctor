@@ -12,14 +12,15 @@
 | ✅ | `maps/superbia.json` | 48×48 tiles à 16 px | City map, edit in Tiled: layers ground, deco, collision (any tile = blocked), objects "buildings" (props location, sprite, doorX, doorY) and "spawn" |
 | ✅ | `maps/superbia-tiles.png` | 128×48 (8×3 tiles à 16×16) | Map tileset: grass, roads, plaza, water, trees, roses, golf green, … |
 | ✅ | `sprites/player-walk.png` | 16×24 per frame | You on the map: Aseprite sheet + JSON with tags walk-down/up/left/right and idle-down/up/left/right |
-| ✅ | `sprites/scene-background.png` | 480×400 | Location "press-house": background (core play area x 80–400, see ASSET_GUIDE) |
+| ✅ | `sprites/scene-background.png` | 480×600 | Location "press-house": background (core play area x 80–400, see ASSET_GUIDE) |
 | ✅ | `sprites/scene-podium.png` | about 80×64 | Location "press-house": tap target at (160, 300), bottom-centre |
-| ✅ | `sprites/scene-plaque.png` | free | Location "press-house": prop at (160, 150), bottom-centre |
-| ✅ | `sprites/reporter-c.png` | free | Location "press-house": prop at (28, 340), bottom-centre |
-| ✅ | `sprites/reporter-a.png` | free | Location "press-house": prop at (76, 340), bottom-centre |
-| ✅ | `sprites/reporter-frieda.png` | free | Location "press-house": prop at (124, 340), bottom-centre |
-| ✅ | `sprites/reporter-b.png` | free | Location "press-house": prop at (196, 340), bottom-centre |
-| ✅ | `sprites/reporter-d.png` | free | Location "press-house": prop at (244, 340), bottom-centre |
+| ✅ | `sprites/scene-plaque.png` | free | Location "press-house": prop at (160, 110), bottom-centre |
+| ✅ | `sprites/reporter-a.png` | free | Location "press-house": prop at (14, 336), bottom-centre |
+| ✅ | `sprites/reporter-c.png` | free | Location "press-house": prop at (38, 336), bottom-centre |
+| ✅ | `sprites/reporter-b.png` | free | Location "press-house": prop at (62, 336), bottom-centre |
+| ✅ | `sprites/reporter-d.png` | free | Location "press-house": prop at (86, 336), bottom-centre |
+| ✅ | `sprites/reporter-e.png` | free | Location "press-house": prop at (110, 336), bottom-centre |
+| ✅ | `sprites/reporter-frieda.png` | free | Location "press-house": prop at (134, 336), bottom-centre |
 | ✅ | `sprites/scene-rosengarten.png` | 480×400 | Location "rosengarten": background (core play area x 80–400, see ASSET_GUIDE) |
 | ✅ | `sprites/rosengarten-podium.png` | about 80×64 | Location "rosengarten": tap target at (140, 400), bottom-centre |
 | ✅ | `sprites/rosengarten-easel.png` | free | Location "rosengarten": prop at (252, 352), bottom-centre |
@@ -157,4 +158,4 @@
 | ⬜ | `audio/fail.ogg` | < 0.6 s | Wrong swipe / missed post |
 | ⬜ optional | `audio/typing.ogg` | < 0.1 s | Speech bubble typing tick |
 
-**Progress:** 63 / 129 files present, 8 required still missing (placeholders are shown until then).
+**Progress:** 64 / 130 files present, 8 required still missing (placeholders are shown until then).
