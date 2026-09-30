@@ -117,7 +117,8 @@ Example — a new side quest in `packages/shared/content/quests/opposition-basem
   is owned permanently — upgrades, generator `perUnitEffects` (per unit, e.g. per wall section)
   and quest `rewards`; everywhere else use a `modifier` (`validate:content` checks this).
 - **Locations** (levels on the map) live in `locations[]`: scene layout (background, props,
-  player, tap target, generator slots, backdrop colours), `onSiteBonus`, till capacity
+  player, tap target, generator `slots` and `crowds`, backdrop colours, `coverY` = the art line
+  where the open menu drawer starts; the scene never moves when the menu folds away), `onSiteBonus`, till capacity
   (`till.capMinutes`), an optional `entryFee`, time-based `traits` (`hour`/`weekday` conditions),
   random `hotspots` and `enter`/`exit` transition presets (`door`, `gate`, `stamp` with a
   `labelKey`). Generators and upgrades name their `location`; generators

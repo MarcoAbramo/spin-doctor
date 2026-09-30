@@ -301,8 +301,14 @@ export const locationSchema = z.object({
   /** The idle scene, in art pixels (320×400 play area, see docs/ASSET_GUIDE.md). */
   scene: z.object({
     background: z.string(),
-    /** Visible height; the top of the room may be cropped on short screens. */
+    /** Art height that fits above `coverY`; the top of the room may be cropped on short screens. */
     viewH: z.number().positive().default(350),
+    /**
+     * Art y that sits right at the top edge of the open menu drawer. Everything below
+     * (e.g. the reporters' rows) is hidden while the menu is open and shows when it is
+     * folded away — the scene itself never moves. Default: the bottom of the art.
+     */
+    coverY: z.number().positive().max(400).default(400),
     /** Colours that extend the background beyond its edges on wide/tall screens. */
     backdrop: z
       .object({
