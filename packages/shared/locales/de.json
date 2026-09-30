@@ -872,5 +872,14 @@
   "reality.border-moat.episode": "Megaprojekt „Hai-Burggraben ums Finanzministerium“.",
   "reality.border-moat.body": "Laut dem 2019 erschienenen Buch „Border Wars“ zweier Reporter der New York Times soll Präsident Trump intern vorgeschlagen haben, die Grenze mit einem wassergefüllten Graben voller Schlangen oder Alligatoren zu sichern (NPR, PBS). Seine Berater lehnten solche Ideen demnach ab. Trump bestritt den Bericht.",
   "ui.panel.collapse": "Menü einklappen",
-  "ui.panel.expand": "Menü ausklappen"
+  "ui.panel.expand": "Menü ausklappen",
+  "stat.spin.desc": "Spin ist deine Währung: jede schöngeredete Nachricht zählt. Du bekommst ihn, wenn du aufs Rednerpult tippst, und automatisch durch deine Generatoren – auch, wenn du gar nicht spielst. Damit kaufst du neue Generatoren und Upgrades.",
+  "stat.approval.desc": "Die Umfragewerte zeigen, wie beliebt Präsident Magnus gerade ist. Sie wirken auf deine gesamte Produktion: bei 50 % normal, bei 100 % anderthalbfach, darunter entsprechend weniger. Skandale und hohe Preise drücken sie, von selbst pendeln sie sich langsam wieder ein.",
+  "stat.democracy.desc": "Der Demokratie-Index misst, wie viel vom Rechtsstaat noch übrig ist: freie Presse, unabhängige Gerichte, faire Wahlen. Dunkle Upgrades (rot markiert) bringen viel Spin, kosten aber Demokratie – und die kommt nicht von selbst zurück. Am Ende der Geschichte wird er entscheidend.",
+  "stat.prices.desc": "Das Preisniveau steigt mit jedem Zoll. Zölle bringen Spin, aber hohe Preise drücken die Umfragewerte nach unten. Ohne neue Zölle sinkt es langsam wieder.",
+  "stat.loyalists.desc": "Die Loyalisten-Quote zeigt, wie viele Stellen im Staatsdienst mit Ja-Sagern besetzt sind. Das steigert die Produktion (bis anderthalbfach) – aber niemand widerspricht mehr. Auch nicht, wenn etwas schiefgeht.",
+  "ui.explain.title": "Kurz erklärt",
+  "ui.explain.ok": "Verstanden",
+  "ui.explain.hint": "Tipp: Tippe jederzeit oben auf einen Wert, um diese Erklärung wieder zu sehen.",
+  "ui.explain.open": "Erklärung zu {name}"
 }

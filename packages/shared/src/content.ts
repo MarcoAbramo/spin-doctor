@@ -305,7 +305,10 @@ function checkReferences(c: Content): string[] {
 /** All translation keys referenced by content, for completeness checks. */
 export function requiredTextKeys(c: Content): string[] {
   const keys = new Set<string>()
-  for (const s of c.stats) keys.add(`stat.${s.id}.name`)
+  for (const s of c.stats) {
+    keys.add(`stat.${s.id}.name`)
+    if (s.display !== 'hidden') keys.add(`stat.${s.id}.desc`)
+  }
   for (const l of c.locations) {
     keys.add(`location.${l.id}.name`)
     for (const t of l.traits) keys.add(t.labelKey)

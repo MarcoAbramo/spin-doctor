@@ -11,6 +11,7 @@ import { content } from '../content'
 import { t } from '../i18n'
 import { AssetIcon } from './AssetIcon'
 import { useGame } from './hooks'
+import { explainStat } from './StatExplainer'
 
 /** Counts smoothly towards the real value, so collected tills visibly tick up. */
 function useCountUp(target: number): number {
@@ -47,7 +48,13 @@ export function Hud() {
   return (
     <header class="hud">
       <div class="hud-main">
-        <div class="hud-spin" aria-live="off">
+        <button
+          type="button"
+          class="hud-spin hud-button"
+          aria-live="off"
+          aria-label={t('ui.explain.open', { name: t(`stat.${currency.id}.name`) })}
+          onClick={() => explainStat(currency.id)}
+        >
           <AssetIcon
             class="hud-emoji"
             path={`icons/stat-${currency.id}.png`}
@@ -55,7 +62,7 @@ export function Hud() {
           />
           <strong style={{ fontSize: spinSize }}>{spinText}</strong>
           <span class="hud-label">{t(`stat.${currency.id}.name`)}</span>
-        </div>
+        </button>
         <div class="hud-rate">
           {t('ui.perSecond', { value: formatNumber(locationRate(state, content, state.location)) })}
         </div>
@@ -66,7 +73,13 @@ export function Hud() {
           if (s.display === 'bar') {
             const pct = Math.max(0, Math.min(100, v))
             return (
-              <div class="meter" key={s.id} title={t(`stat.${s.id}.name`)}>
+              <button
+                type="button"
+                class="meter hud-button"
+                key={s.id}
+                aria-label={t('ui.explain.open', { name: t(`stat.${s.id}.name`) })}
+                onClick={() => explainStat(s.id)}
+              >
                 <span class="meter-label">
                   <AssetIcon
                     class="chip-icon"
@@ -87,15 +100,21 @@ export function Hud() {
                 >
                   <div class="crumble-fill" />
                 </div>
-              </div>
+              </button>
             )
           }
           return (
-            <div class="chip" key={s.id}>
+            <button
+              type="button"
+              class="chip hud-button"
+              key={s.id}
+              aria-label={t('ui.explain.open', { name: t(`stat.${s.id}.name`) })}
+              onClick={() => explainStat(s.id)}
+            >
               <AssetIcon class="chip-icon" path={`icons/stat-${s.id}.png`} emoji={s.emoji ?? ''} />
               {t(`stat.${s.id}.name`)}{' '}
               <b>{s.display === 'percent' ? `${Math.round(v)} %` : formatNumber(v)}</b>
-            </div>
+            </button>
           )
         })}
         {groupModifiers(state.modifiers.filter((m) => m.until > state.now)).map((g) => (

@@ -1348,3 +1348,51 @@ progress::-moz-progress-bar {
   max-height: 85vh;
   overflow-y: auto;
 }
+
+/* ---------------- HUD values are buttons (tap = explanation) ---------------- */
+.hud-button {
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.hud-spin.hud-button {
+  background: none;
+  padding: 0;
+}
+.meter.hud-button {
+  background: none;
+  padding: 0;
+}
+.hud-button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------------- „Kurz erklärt“ card ---------------- */
+.explain {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 5;
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 10px;
+  border: var(--px) solid var(--gold);
+  box-shadow: 0 calc(var(--px) * 2) 0 var(--ink);
+}
+.explain-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--yellow);
+  font-weight: 700;
+}
+.explain-body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 4px 0 6px;
+}

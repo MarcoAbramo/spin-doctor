@@ -44,3 +44,20 @@ describe('formatFull', () => {
     expect(formatFull(5.5)).toBe('5,5')
   })
 })
+
+describe('stat tutorial', () => {
+  it('explains visible HUD values one by one, in HUD order', async () => {
+    const { loadContentFromDisk } = await import('../scripts/load-content')
+    const { createInitialState, markExplained, nextStatToExplain } = await import('../src')
+    const content = loadContentFromDisk()
+    let s = createInitialState(content, 0, 1)
+    expect(nextStatToExplain(s, content)).toBe('spin')
+    s = markExplained(s, 'spin')
+    expect(nextStatToExplain(s, content)).toBe('approval')
+    s = markExplained(markExplained(s, 'approval'), 'democracy')
+    // Price level and loyalists stay hidden until they appear in the HUD.
+    expect(nextStatToExplain(s, content)).toBeNull()
+    s.stats.prices = 5
+    expect(nextStatToExplain(s, content)).toBe('prices')
+  })
+})

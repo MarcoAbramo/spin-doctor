@@ -18,7 +18,7 @@
         {
           "type": "timed",
           "handler": "president-post",
-          "timeoutSec": 8,
+          "timeoutSec": 15,
           "pool": "president-posts",
           "success": [
             {

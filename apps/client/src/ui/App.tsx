@@ -7,6 +7,7 @@ import { QuestModal } from './modals/QuestModal'
 import { RealityModal } from './modals/RealityCard'
 import { ObjectiveBar } from './ObjectiveBar'
 import { SceneView, setSceneInset } from './SceneView'
+import { StatExplainer } from './StatExplainer'
 import { Toasts } from './Toasts'
 import { GeneratorsTab } from './tabs/GeneratorsTab'
 import { LexiconTab } from './tabs/LexiconTab'
@@ -74,6 +75,7 @@ export function App() {
       <Hud />
       <div class="stage">
         <SceneView />
+        <StatExplainer />
         <div
           class="drawer"
           ref={drawer}
