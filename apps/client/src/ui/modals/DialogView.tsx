@@ -1,5 +1,5 @@
 import { answerDialog, type Step } from '@spin-doctor/shared'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import { content } from '../../content'
 import { t } from '../../i18n'
 import { play, prefersReducedMotion } from '../../juice/audio'
@@ -28,10 +28,17 @@ export function Portrait({ id }: { id: string }) {
   )
 }
 
-/** Types text letter by letter; tapping completes it instantly. */
-function useTyping(text: string, onDone: () => void): [string, () => void] {
-  const instant = prefersReducedMotion() || getState().settings.reducedMotion
-  const [n, setN] = useState(instant ? text.length : 0)
+/**
+ * Types text letter by letter. A change of `hurry` (a tap) completes it instantly;
+ * `instant` shows it complete right away (skipped lines).
+ */
+function useTyping(text: string, onDone: () => void, hurry: number, instant: boolean): string {
+  const skip = instant || prefersReducedMotion() || getState().settings.reducedMotion
+  const [n, setN] = useState(skip ? text.length : 0)
+  const hurryAtMount = useRef(hurry)
+  useEffect(() => {
+    if (hurry !== hurryAtMount.current) setN(text.length)
+  }, [hurry])
   useEffect(() => {
     if (n >= text.length) {
       onDone()
@@ -43,7 +50,7 @@ function useTyping(text: string, onDone: () => void): [string, () => void] {
     }, 28)
     return () => clearTimeout(id)
   }, [n, text])
-  return [text.slice(0, n), () => setN(text.length)]
+  return text.slice(0, n)
 }
 
 function Bubble({
@@ -51,17 +58,21 @@ function Bubble({
   text,
   onDone,
   mine,
+  hurry,
+  instant = false,
 }: {
   speaker: string
   text: string
   onDone: () => void
   mine?: boolean
+  hurry: number
+  instant?: boolean
 }) {
-  const [shown, skip] = useTyping(text, onDone)
+  const shown = useTyping(text, onDone, hurry, instant)
   return (
     <div class={`bubble-row ${mine ? 'bubble-mine' : ''}`}>
       <Portrait id={speaker} />
-      <div class="bubble" onClick={skip}>
+      <div class="bubble">
         <div class="bubble-name">{speakerName(speaker)}</div>
         <div class="bubble-text">
           {shown}
@@ -77,9 +88,15 @@ export function DialogView({ quest, step }: StepViewProps<DialogStep>) {
   const [typed, setTyped] = useState(false)
   const [choice, setChoice] = useState<number | null>(null)
   const [replyTyped, setReplyTyped] = useState(false)
-  const lines = step.lines.slice(0, line + 1)
+  // Taps while text is typing complete it; skipped lines appear complete.
+  const [hurry, setHurry] = useState(0)
+  const [skipped, setSkipped] = useState(false)
+  // Only the last two lines stay on screen; older ones have been read.
+  const first = Math.max(0, line - 1)
+  const lines = step.lines.slice(first, line + 1)
   const lastLine = line === step.lines.length - 1
   const picked = choice === null ? undefined : step.choices?.[choice]
+  const choosing = typed && lastLine && !!step.choices?.length && choice === null
   // Replies to the player's own statement come from the press corps.
   const replySpeaker = step.speaker === 'you' ? 'frieda' : step.speaker
 
@@ -92,9 +109,34 @@ export function DialogView({ quest, step }: StepViewProps<DialogStep>) {
     dispatch((s) => answerDialog(s, content, quest.id, choice ?? undefined))
   }
 
+  // Tapping anywhere (outside the buttons) completes the text or goes on.
+  const tap = (e: MouseEvent) => {
+    if ((e.target as Element).closest('button')) return
+    if (!typed || (picked?.replyKey && !replyTyped)) setHurry((h) => h + 1)
+    else if (!choosing) next()
+  }
+
+  // Skips the rest of this speaker's lines; choices are still asked.
+  const skipLines = () => {
+    if (!step.choices?.length) {
+      dispatch((s) => answerDialog(s, content, quest.id))
+      return
+    }
+    setSkipped(true)
+    setHurry((h) => h + 1)
+    setLine(step.lines.length - 1)
+    setTyped(true)
+  }
+
   return (
     <div class="modal-backdrop">
-      <div class="modal dialog" role="dialog" aria-modal="true" aria-label={t(quest.titleKey)}>
+      <div
+        class="modal dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label={t(quest.titleKey)}
+        onClick={tap}
+      >
         <div class="modal-title">{t(quest.titleKey)}</div>
         <div class="bubbles">
           {lines.map((key, i) => (
@@ -103,7 +145,9 @@ export function DialogView({ quest, step }: StepViewProps<DialogStep>) {
               speaker={step.speaker}
               mine={step.speaker === 'you'}
               text={t(key)}
-              onDone={() => i === line && setTyped(true)}
+              onDone={() => first + i === line && setTyped(true)}
+              hurry={hurry}
+              instant={skipped}
             />
           ))}
           {picked && (
@@ -116,14 +160,15 @@ export function DialogView({ quest, step }: StepViewProps<DialogStep>) {
                   speaker={replySpeaker}
                   text={t(picked.replyKey)}
                   onDone={() => setReplyTyped(true)}
+                  hurry={hurry}
                 />
               )}
             </>
           )}
         </div>
         <div class="dialog-actions">
-          {typed && lastLine && step.choices?.length && choice === null
-            ? step.choices.map((c, i) => (
+          {choosing
+            ? step.choices?.map((c, i) => (
                 <button
                   key={c.textKey}
                   type="button"
@@ -139,6 +184,11 @@ export function DialogView({ quest, step }: StepViewProps<DialogStep>) {
                   {t('ui.dialog.continue')}
                 </button>
               )}
+          {choice === null && !choosing && !(lastLine && typed) && (
+            <button type="button" class="btn btn-ghost" onClick={skipLines}>
+              {t('ui.dialog.skip')}
+            </button>
+          )}
         </div>
       </div>
     </div>
