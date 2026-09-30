@@ -22,7 +22,7 @@ jobs:
       POSTGRES_DB: spin
       BACKUP_INTERVAL_SEC: '3'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Start database and backup service
         run: $COMPOSE up -d db backup
       - name: Write test data
