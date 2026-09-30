@@ -89,17 +89,25 @@ export function App() {
             transform: open ? 'none' : side ? 'translateX(100%)' : `translateY(${panelH}px)`,
           }}
         >
-          <ObjectiveBar />
-          <button
-            type="button"
-            class="panel-handle"
-            aria-expanded={open}
-            aria-controls="panel"
-            onClick={() => setOpen(!open)}
-          >
-            <span class="panel-grip" aria-hidden="true" />
-            {open ? `▾ ${t('ui.panel.collapse')}` : `▴ ${t('ui.panel.expand')}`}
-          </button>
+          {/* One bar of fixed height: the current objective sits next to the handle,
+              so objectives coming and going never move the scene. */}
+          <div class="drawer-bar">
+            <ObjectiveBar />
+            <button
+              type="button"
+              class="panel-handle"
+              aria-expanded={open}
+              aria-controls="panel"
+              aria-label={open ? t('ui.panel.collapse') : t('ui.panel.expand')}
+              onClick={() => setOpen(!open)}
+            >
+              <span class="panel-grip" aria-hidden="true" />
+              <span aria-hidden="true">{open ? '▾' : '▴'}</span>
+              <span class="panel-handle-label" aria-hidden="true">
+                {open ? t('ui.panel.collapse') : t('ui.panel.expand')}
+              </span>
+            </button>
+          </div>
           <section
             class="panel"
             id="panel"
