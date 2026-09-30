@@ -1,10 +1,13 @@
 import { registerSW } from 'virtual:pwa-register'
+import { encodeSave } from '@spin-doctor/shared'
 import { render } from 'preact'
 import { content } from './content'
+import { offerTextFile, saveFileName } from './files'
 import { t } from './i18n'
 import { play, setSoundEnabled, setVibrationEnabled, vibrate } from './juice/audio'
-import { getState, onGameEvent, startGame, subscribe } from './store'
+import { getState, onGameEvent, startGame, storedSave, subscribe, takeLoadProblem } from './store'
 import { App } from './ui/App'
+import { CrashScreen, ErrorBoundary } from './ui/CrashScreen'
 import { openReality } from './ui/modals/RealityCard'
 import { locationName, scene, world } from './ui/SceneView'
 import { pushToast } from './ui/toast-store'
@@ -14,6 +17,23 @@ import '@fontsource/pixelify-sans/700.css'
 import './ui/styles.css'
 
 startGame()
+
+// A save that did not load is kept; tell the player and offer it as a file.
+const loadProblem = takeLoadProblem()
+if (loadProblem) {
+  const unreadable = storedSave('unreadable')
+  pushToast(
+    t(`ui.save.${loadProblem}`),
+    'bad',
+    unreadable
+      ? {
+          label: t('ui.save.keepFile'),
+          run: () => void offerTextFile(saveFileName(), encodeSave(unreadable)),
+        }
+      : undefined,
+    { sticky: true },
+  )
+}
 
 // Game events → juice & toasts. The simulation stays unaware of any of this.
 onGameEvent((e) => {
@@ -122,4 +142,12 @@ const updateSW = registerSW({
   },
 })
 
-render(<App />, document.getElementById('app')!)
+render(
+  <>
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+    <CrashScreen />
+  </>,
+  document.getElementById('app')!,
+)

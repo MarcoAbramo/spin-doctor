@@ -12,6 +12,10 @@ import {
 import { content } from './content'
 
 const SAVE_KEY = 'spin-doctor.save'
+/** The last save that loaded fine (copied once per session) — the fallback if the current one breaks. */
+const GOOD_KEY = 'spin-doctor.save.good'
+/** A save that could not be loaded is parked here instead of being overwritten. */
+const UNREADABLE_KEY = 'spin-doctor.save.unreadable'
 const AUTOSAVE_MS = 10_000
 const UI_REFRESH_MS = 100
 /** Longer frame gaps (tab switch, sleep) go through the offline path instead. */
@@ -20,33 +24,96 @@ const MAX_FRAME_SEC = 1
 type Listener = () => void
 type EventListener = (event: GameEvent) => void
 
+/** What went wrong while loading: the previous good save was used, or a new game started. */
+export type LoadProblem = 'restoredGood' | 'startedFresh'
+
 let state: GameState
 let offlineReport: OfflineReport | null = null
+let loadProblem: LoadProblem | null = null
+let crashed: unknown = null
 const listeners = new Set<Listener>()
 const eventListeners = new Set<EventListener>()
+const crashListeners = new Set<(error: unknown) => void>()
+
+function read(key: string): string | null {
+  try {
+    return localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function write(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    // Storage full or disabled (private mode) — the game keeps running.
+  }
+}
+
+function resume(raw: string, now: number): GameState {
+  const { state: after, report } = applyOffline(deserialize(raw, content), content, now)
+  offlineReport = report
+  return after
+}
 
 function load(): GameState {
   const now = Date.now()
-  try {
-    const raw = localStorage.getItem(SAVE_KEY)
-    if (raw) {
-      const loaded = deserialize(raw, content)
-      const { state: after, report } = applyOffline(loaded, content, now)
-      offlineReport = report
-      return after
+  const raw = read(SAVE_KEY)
+  if (raw) {
+    try {
+      const loaded = resume(raw, now)
+      write(GOOD_KEY, raw)
+      return loaded
+    } catch (err) {
+      // Never overwrite a save we cannot read: park it and fall back to the last good one.
+      console.warn('Could not load save', err)
+      write(UNREADABLE_KEY, raw)
+      const good = read(GOOD_KEY)
+      if (good && good !== raw) {
+        try {
+          loadProblem = 'restoredGood'
+          return resume(good, now)
+        } catch (err2) {
+          console.warn('Could not load the backup either', err2)
+        }
+      }
+      loadProblem = 'startedFresh'
     }
-  } catch (err) {
-    console.warn('Could not load save, starting fresh', err)
   }
   return createInitialState(content, now, (now ^ 0x5eed) | 0)
 }
 
 export function save(): void {
-  try {
-    localStorage.setItem(SAVE_KEY, serialize(state))
-  } catch {
-    // Storage full or disabled (private mode) — the game keeps running.
-  }
+  // After a crash the last save from before the error stays untouched.
+  if (crashed) return
+  write(SAVE_KEY, serialize(state))
+}
+
+export function takeLoadProblem(): LoadProblem | null {
+  const p = loadProblem
+  loadProblem = null
+  return p
+}
+
+/** The save as stored (JSON), e.g. for the crash screen or a save that did not load. */
+export function storedSave(which: 'current' | 'unreadable' = 'current'): string | null {
+  return read(which === 'current' ? SAVE_KEY : UNREADABLE_KEY)
+}
+
+/** Stops the game after an unexpected error; the crash screen takes over. */
+export function crash(error: unknown): void {
+  if (crashed) return
+  crashed = error ?? new Error('unknown error')
+  cancelAnimationFrame(frame)
+  console.error(error)
+  for (const l of crashListeners) l(crashed)
+}
+
+export function onCrash(l: (error: unknown) => void): () => void {
+  crashListeners.add(l)
+  if (crashed) l(crashed)
+  return () => crashListeners.delete(l)
 }
 
 function emit(events: GameEvent[]): void {
@@ -87,7 +154,11 @@ export function onGameEvent(l: EventListener): () => void {
 }
 
 export function resetGame(): void {
-  localStorage.removeItem(SAVE_KEY)
+  try {
+    for (const key of [SAVE_KEY, GOOD_KEY, UNREADABLE_KEY]) localStorage.removeItem(key)
+  } catch {
+    // Storage unavailable — nothing to delete.
+  }
   state = createInitialState(content, Date.now(), (Date.now() ^ 0x5eed) | 0)
   notify()
 }
@@ -107,6 +178,16 @@ let lastUi = 0
 let frame = 0
 
 function loop(ts: number): void {
+  try {
+    step(ts)
+  } catch (err) {
+    crash(err)
+    return
+  }
+  frame = requestAnimationFrame(loop)
+}
+
+function step(ts: number): void {
   const dt = last ? (ts - last) / 1000 : 0
   last = ts
   const now = Date.now()
@@ -131,7 +212,6 @@ function loop(ts: number): void {
     lastUi = ts
     notify()
   }
-  frame = requestAnimationFrame(loop)
 }
 
 export function startGame(): void {
@@ -143,7 +223,7 @@ export function startGame(): void {
       save()
       cancelAnimationFrame(frame)
       last = 0
-    } else {
+    } else if (!crashed) {
       const { state: after, report } = applyOffline(state, content, Date.now())
       state = after
       if (report) offlineReport = report
