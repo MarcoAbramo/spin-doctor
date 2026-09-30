@@ -9,7 +9,7 @@ import { Easing, Group, Tween } from '@tweenjs/tween.js'
 import { Application, Container, Graphics, Text, TextureSource } from 'pixi.js'
 import { content } from '../content'
 import { drawPlaceholder } from './placeholders'
-import { type Art, loadArt } from './sprites'
+import { type Art, loadArt, preloadArt } from './sprites'
 
 /**
  * Pixel-art location scene. Everything is authored in "art pixels" (a 320 px wide play
@@ -76,6 +76,14 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   app.stage.addChild(backdrop, root, fx)
 
   const artH = def.height
+  const generators = generatorsAt(content, location.id)
+  await preloadArt([
+    def.background,
+    ...def.props.map((p) => p.sprite),
+    ...generators.map((g) => g.sprite ?? `gen-${g.id}`),
+    'player',
+    def.tapTarget.sprite,
+  ])
   const bg = await loadArt(def.background, () => drawPlaceholder(def.background, BG_W, artH))
   bg.view.position.set(ART_W / 2, artH)
   root.addChild(bg.view)
@@ -100,7 +108,7 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   // Generator copies: the room fills up as the collection grows.
   const propsByGenerator = new Map<string, Art[]>()
   const exponents = new Map<string, number | undefined>()
-  for (const g of generatorsAt(content, location.id)) {
+  for (const g of generators) {
     const name = g.sprite ?? `gen-${g.id}`
     const authored =
       def.slots[g.id] ?? (def.crowds[g.id] ? [] : [[ART_W / 2, def.backdrop.splitY + 40]])

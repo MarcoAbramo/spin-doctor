@@ -1,3 +1,5 @@
+import { hasAsset } from '../assets'
+
 /**
  * Sound effects: plays `public/assets/audio/<name>.ogg` when present, otherwise a
  * tiny WebAudio synth placeholder. Quiet by default, muted via settings.
@@ -44,6 +46,7 @@ async function loadBuffer(name: Sfx): Promise<void> {
   buffers.set(name, null)
   const ac = audio()
   if (!ac) return
+  if (!hasAsset(`audio/${name}.ogg`)) return
   try {
     const res = await fetch(`assets/audio/${name}.ogg`)
     if (!res.ok || !res.headers.get('content-type')?.includes('audio')) return
