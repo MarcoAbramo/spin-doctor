@@ -12,6 +12,7 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
     "validate:content": "tsx scripts/validate-content.ts",
+    "text:stats": "tsx scripts/text-stats.ts",
     "assets": "tsx scripts/asset-checklist.ts"
   },
   "dependencies": {

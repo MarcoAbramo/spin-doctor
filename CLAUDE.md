@@ -12,6 +12,7 @@ The original spec is `HACKATHON_PROMPT.md`.
 - `pnpm dev` — client (:5173, `--host`) + server (:3000, works without DB)
 - `pnpm lint` / `pnpm format` (Biome) · `pnpm typecheck` · `pnpm test` (Vitest)
 - `pnpm validate:content` — content packs + German texts (CI)
+- `pnpm text:stats [--budgets]` — reading load per quest; new texts must keep the word budgets (#76)
 - `pnpm build` · `pnpm size` (initial JS budget 300 kB gzip) · `pnpm assets` (asset checklist)
 - `docker compose up` (dev) · `docker compose -f docker-compose.prod.yml up -d --build` (prod)
 
