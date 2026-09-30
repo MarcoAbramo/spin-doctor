@@ -43,6 +43,8 @@ function enterStep(state: GameState, content: Content, active: ActiveQuest): voi
   active.entry = undefined
   active.scores = undefined
   active.started = undefined
+  active.answers = undefined
+  active.showingReply = undefined
   const step = currentStep(content, active)
   if (step?.type === 'timed' && step.pool) {
     const pool = content.pools.find((p) => p.id === step.pool)
@@ -122,6 +124,7 @@ export function updateQuests(state: GameState, content: Content): void {
       while (
         active.step === stepIndex &&
         active.started &&
+        !active.showingReply &&
         (active.scores?.length ?? 0) < step.questions.length &&
         state.now - active.stepStartedAt >= step.timePerQuestionSec * 1000
       ) {
@@ -134,8 +137,8 @@ export function updateQuests(state: GameState, content: Content): void {
 type FramingStep = Extract<Step, { type: 'framing' }>
 
 /**
- * Mutating helper: records one framing answer (`null` = timed out). After the last
- * question, rewards and the spin-quality tier are applied and the quest advances.
+ * Mutating helper: records one framing answer (`null` = timed out). The press reply
+ * then stays on screen until the player continues (`continueFraming`).
  */
 export function recordFramingAnswer(
   state: GameState,
@@ -150,12 +153,29 @@ export function recordFramingAnswer(
   const picked = answer === null ? undefined : question.answers[answer]
   scores.push(picked?.score ?? 0)
   active.scores = scores
+  active.answers = [...(active.answers ?? []), picked ? answer : null]
+  active.showingReply = true
   if (picked) applyEffects(state, content, picked.effects)
-  const questionEnd = active.stepStartedAt + step.timePerQuestionSec * 1000
-  // The next question's clock starts after a short reading pause.
-  active.stepStartedAt = (answer === null ? questionEnd : state.now) + step.pauseBetweenSec * 1000
-  if (scores.length < step.questions.length) return
+}
 
+/**
+ * Mutating helper: the player has read the reply. The next question's clock starts
+ * after a short reading pause; after the last question, rewards and the spin-quality
+ * tier are applied and the quest advances.
+ */
+export function continueFramingMut(
+  state: GameState,
+  content: Content,
+  active: ActiveQuest,
+  step: FramingStep,
+): void {
+  if (!active.showingReply) return
+  active.showingReply = false
+  const scores = active.scores ?? []
+  if (scores.length < step.questions.length) {
+    active.stepStartedAt = state.now + step.pauseBetweenSec * 1000
+    return
+  }
   const total = scores.reduce((a, b) => a + b, 0)
   const average = total / step.questions.length
   addStat(

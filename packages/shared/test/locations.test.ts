@@ -7,6 +7,7 @@ import {
   applyOffline,
   buyGenerator,
   buyUpgrade,
+  continueFraming,
   createInitialState,
   debugStartQuest,
   deserialize,
@@ -299,7 +300,11 @@ describe('framing duel & endings', () => {
   it('great spin boosts the location (spin quality)', () => {
     let s = duel()
     s = answerFraming(s, content, 'spin-duel', 0)
+    s = continueFraming(s, content, 'spin-duel')
+    s = { ...s, now: s.now + 2000 } // reading pause
     s = answerFraming(s, content, 'spin-duel', 0)
+    expect(s.quests.active).toHaveLength(1) // last reply still on screen
+    s = continueFraming(s, content, 'spin-duel')
     expect(s.events).toContainEqual({
       type: 'quality',
       quest: 'spin-duel',
@@ -314,9 +319,12 @@ describe('framing duel & endings', () => {
 
   it('timeouts count as failed spin and lead to a slump', () => {
     let s = duel()
-    s = tick(s, content, 11, ctx(T0 + 11_000)) // question 1 expired, reading pause, question 2 running
-    expect(s.quests.active[0]?.scores).toEqual([0])
-    s = tick(s, content, 2, ctx(T0 + 13_000)) // 5 s + 2 s pause + 5 s: both expired
+    s = tick(s, content, 30, ctx(T0 + 30_000)) // question 1 expired; the reply waits for the player
+    expect(s.quests.active[0]).toMatchObject({ scores: [0], answers: [null], showingReply: true })
+    s = continueFraming(s, content, 'spin-duel')
+    s = tick(s, content, 7, ctx(T0 + 37_000)) // 2 s pause + 5 s: question 2 expired
+    expect(s.quests.active[0]?.scores).toEqual([0, 0])
+    s = continueFraming(s, content, 'spin-duel')
     expect(s.quests.active).toHaveLength(0)
     const q = s.events.find((e) => e.type === 'quality')
     expect(q).toMatchObject({ score: 0, labelKey: 't.flop' })
@@ -327,6 +335,20 @@ describe('framing duel & endings', () => {
     s = { ...s, now: s.now + 6000 }
     s = answerFraming(s, content, 'spin-duel', 0)
     expect(s.quests.active[0]?.scores).toEqual([0])
+  })
+
+  it('the next clock starts only after the player has read the reply', () => {
+    let s = duel()
+    s = answerFraming(s, content, 'spin-duel', 1)
+    expect(s.quests.active[0]).toMatchObject({ answers: [1], showingReply: true })
+    s = answerFraming(s, content, 'spin-duel', 0) // no second answer while the reply shows
+    expect(s.quests.active[0]?.scores).toEqual([0.2])
+    s = tick(s, content, 60, ctx(T0 + 60_000)) // reading takes as long as it takes
+    expect(s.quests.active[0]?.scores).toEqual([0.2])
+    s = continueFraming(s, content, 'spin-duel')
+    expect(s.quests.active[0]?.stepStartedAt).toBe(T0 + 60_000 + 2000)
+    s = tick(s, content, 6, ctx(T0 + 66_000)) // 2 s pause + 4 s: still running
+    expect(s.quests.active[0]?.scores).toEqual([0.2])
   })
 
   it('ending screens apply their effects when acknowledged', () => {
