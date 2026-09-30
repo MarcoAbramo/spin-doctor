@@ -288,7 +288,7 @@
   "map.building.rally-square": "Kundgebungsplatz",
   "map.building.city-park": "Stadtpark",
   "ui.framing.start": "Mikro an!",
-  "ui.framing.help": "Die Presse fragt, du spinnst. Wähle die überzeugendste Antwort, bevor die Zeit abläuft. Wie gut du bist, entscheidet über die Nachrichtenlage vor Ort.",
+  "ui.framing.help": "Wähle die überzeugendste Antwort, bevor die Zeit abläuft. Gute Antworten verbessern die Nachrichtenlage vor Ort.",
   "ui.framing.question": "Frage {n}/{total}",
   "ui.framing.credibility": "Glaubwürdigkeit {value} %",
   "ui.framing.good": "Überzeugend!",

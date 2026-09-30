@@ -18,6 +18,7 @@ import {
 } from './economy'
 import {
   advanceMut,
+  continueFramingMut,
   currentStep,
   isQuestAvailable,
   recordFramingAnswer,
@@ -229,9 +230,21 @@ export function answerFraming(
   const s = draft(state)
   const active = s.quests.active.find((a) => a.id === questId)
   const step = active && currentStep(content, active)
-  if (!active || step?.type !== 'framing' || !active.started) return s
+  if (!active || step?.type !== 'framing' || !active.started || active.showingReply) return s
   const late = s.now - active.stepStartedAt > step.timePerQuestionSec * 1000
   recordFramingAnswer(s, content, active, step, late ? null : answer)
+  updateQuests(s, content)
+  updateDailies(s, content)
+  return s
+}
+
+/** The player has read the press reply: next question, or the duel's result. */
+export function continueFraming(state: GameState, content: Content, questId: string): GameState {
+  const s = draft(state)
+  const active = s.quests.active.find((a) => a.id === questId)
+  const step = active && currentStep(content, active)
+  if (!active || step?.type !== 'framing') return s
+  continueFramingMut(s, content, active, step)
   updateQuests(s, content)
   updateDailies(s, content)
   return s

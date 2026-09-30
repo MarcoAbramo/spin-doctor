@@ -62,6 +62,8 @@ export const saveSchema = z.object({
         entry: z.string().optional(),
         scores: z.array(num).optional(),
         started: z.boolean().optional(),
+        answers: z.array(z.number().int().nullable()).optional(),
+        showingReply: z.boolean().optional(),
       }),
     ),
     completed: z.array(z.string()),

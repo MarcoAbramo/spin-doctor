@@ -15,6 +15,10 @@ export interface ActiveQuest {
   scores?: number[] | undefined
   /** Framing duel: the clock only runs once the player has started it. */
   started?: boolean | undefined
+  /** Framing duel: picked answer per question (`null` = timed out). */
+  answers?: (number | null)[] | undefined
+  /** Framing duel: the press reply is shown; no clock runs until the player continues. */
+  showingReply?: boolean | undefined
 }
 
 export interface ActiveModifier {
