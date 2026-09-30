@@ -219,6 +219,7 @@
   "ui.settings.about": "Alle Figuren, Parteien und Länder sind frei erfunden. Ähnlichkeiten mit realen Machttechniken sind beabsichtigt.",
   "ui.settings.source": "Quellcode & Mitmachen",
   "ui.dialog.continue": "Weiter",
+  "ui.dialog.skip": "Überspringen ⏭",
   "ui.post.header": "Der Präsident hat gepostet",
   "ui.post.handle": "Einordnen!",
   "ui.post.ignore": "Ignorieren",
