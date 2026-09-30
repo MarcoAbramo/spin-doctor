@@ -1,5 +1,15 @@
 /** Pixel placeholders for level 2: „Rosengarten der Strafzölle“ (Endesga 32). */
 import { asepriteJson, C, Canvas, rng, save } from './pixel-lib.mjs'
+import { chair, LOOKS, person } from './press-room-placeholders.mjs'
+
+const OX = 80
+/** The lawn runs on below the podium: rows of press chairs, seen when the menu is folded. */
+export const GARDEN_H = 720
+/** Press rows — keep in sync with content/locations/rosengarten.json. */
+export const GARDEN_SEAT_X = [14, 38, 62, 86, 110, 170, 194, 218, 242, 266, 290, 314]
+export const GARDEN_ROW_Y = Array.from({ length: 10 }, (_, i) => 446 + i * 30)
+/** Chairs outside the 320 px core: always taken, only visible on wide screens. */
+const GARDEN_OUTER_X = [-58, -34, -10, 338, 362, 386]
 
 /** 3×5 pixel glyphs for tiny marker scribbles. */
 const GLYPHS = {
@@ -27,7 +37,7 @@ function write(c, x, y, text, color, scale = 1) {
 }
 
 function background() {
-  const c = new Canvas(480, 400)
+  const c = new Canvas(480, GARDEN_H)
   const r = rng(21)
   // sky bands
   const sky = [C.cyan, C.blue, C.blue, C.blueD]
@@ -63,10 +73,11 @@ function background() {
     c.px(x + 1, 236 + Math.floor(r() * 16), C.pink)
   }
   // lawn with mowing stripes
-  for (let y = 262; y < 400; y++) c.hline(0, 479, y, Math.floor(y / 10) % 2 ? C.green : C.greenD)
-  // sand path to the podium
-  for (let y = 262; y < 400; y++) {
-    const half = 18 + Math.floor((y - 262) * 0.25)
+  for (let y = 262; y < GARDEN_H; y++)
+    c.hline(0, 479, y, Math.floor(y / 10) % 2 ? C.green : C.greenD)
+  // sand path to the podium, narrowing to an aisle between the press rows
+  for (let y = 262; y < GARDEN_H; y++) {
+    const half = Math.max(16, Math.min(18 + Math.floor((y - 262) * 0.25), 36, 36 - (y - 416)))
     c.hline(220 - half, 220 + half, y, C.sand)
   }
   // rose beds in the lawn
@@ -76,6 +87,20 @@ function background() {
     for (let k = 0; k < 9; k++)
       c.rect(bx - 18 + k * 4, by - 4 + ((k * 3) % 7), 3, 3, k % 3 ? C.red : C.pink)
   }
+  // Press rows on the lawn: a shadow strip under every row, chairs, and a full house
+  // beyond the core. Rows 1–2 hold the reporters (props); further back, mixed seats.
+  for (const y of GARDEN_ROW_Y) {
+    c.rect(0, y - 1, 220 - 16, 3, C.green3)
+    c.rect(220 + 17, y - 1, 480 - 237, 3, C.green3)
+  }
+  let look = 0
+  GARDEN_ROW_Y.forEach((y, row) => {
+    for (const x of GARDEN_SEAT_X) {
+      if (row >= 2 && r() < 0.55) person(c, OX + x, y, LOOKS[look++ % LOOKS.length])
+      else chair(c, OX + x, y)
+    }
+    for (const x of GARDEN_OUTER_X) person(c, OX + x, y, LOOKS[look++ % LOOKS.length])
+  })
   return c
 }
 

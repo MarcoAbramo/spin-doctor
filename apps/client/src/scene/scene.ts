@@ -9,15 +9,15 @@ import { Easing, Group, Tween } from '@tweenjs/tween.js'
 import { Application, Container, Graphics, Text, TextureSource } from 'pixi.js'
 import { content } from '../content'
 import { drawPlaceholder } from './placeholders'
-import { type Art, loadArt } from './sprites'
+import { type Art, loadArt, preloadArt } from './sprites'
 
 /**
- * Pixel-art press room. Everything is authored at 320×400 "art pixels" and
- * scaled up with nearest-neighbour filtering — snapped to whole device pixels
- * where possible so every art pixel has the same size.
+ * Pixel-art location scene. Everything is authored in "art pixels" (a 320 px wide play
+ * area, `scene.height` tall — 400 by default) and scaled up with nearest-neighbour
+ * filtering, snapped to whole device pixels where possible so every art pixel has the
+ * same size.
  */
 export const ART_W = 320
-export const ART_H = 400
 /** Background is wider than the play area so wide screens show more room, not bars. */
 const BG_W = 480
 
@@ -33,6 +33,12 @@ const PAL = {
   white: 0xffffff,
 }
 
+/** The open menu drawer covers the bottom (portrait) or the right side (short landscape). */
+export interface Inset {
+  bottom: number
+  right: number
+}
+
 export interface Scene {
   tap(clientX: number, clientY: number, label: string): void
   update(state: GameState): void
@@ -40,6 +46,8 @@ export interface Scene {
   confetti(): void
   setPaused(paused: boolean): void
   setReducedMotion(on: boolean): void
+  /** Part of the canvas (CSS px) covered by the open menu drawer. */
+  setInset(inset: Inset): void
   /** Entry performance: the player walks in from the side to their spot. */
   playEnter(): Promise<void>
   destroy(): void
@@ -73,8 +81,17 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   const fx = new Container()
   app.stage.addChild(backdrop, root, fx)
 
-  const bg = await loadArt(def.background, () => drawPlaceholder(def.background, BG_W, ART_H))
-  bg.view.position.set(ART_W / 2, ART_H)
+  const artH = def.height
+  const generators = generatorsAt(content, location.id)
+  await preloadArt([
+    def.background,
+    ...def.props.map((p) => p.sprite),
+    ...generators.map((g) => g.sprite ?? `gen-${g.id}`),
+    'player',
+    def.tapTarget.sprite,
+  ])
+  const bg = await loadArt(def.background, () => drawPlaceholder(def.background, BG_W, artH))
+  bg.view.position.set(ART_W / 2, artH)
   root.addChild(bg.view)
 
   // Everything that stands in the room is depth-sorted by its foot point (y).
@@ -96,7 +113,8 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
 
   // Generator copies: the room fills up as the collection grows.
   const propsByGenerator = new Map<string, Art[]>()
-  for (const g of generatorsAt(content, location.id)) {
+  const exponents = new Map<string, number | undefined>()
+  for (const g of generators) {
     const name = g.sprite ?? `gen-${g.id}`
     const authored =
       def.slots[g.id] ?? (def.crowds[g.id] ? [] : [[ART_W / 2, def.backdrop.splitY + 40]])
@@ -109,6 +127,7 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
       list.push(art)
     }
     propsByGenerator.set(g.id, list)
+    exponents.set(g.id, def.crowds[g.id]?.exponent)
   }
 
   // The player stands behind the podium.
@@ -120,17 +139,25 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   const podium = await loadArt(target.sprite, () => drawPlaceholder(target.sprite, 80, 64))
   place(podium, target.x, target.y, 2)
 
-  // --- Layout: fit the lower 320×350, anchor at the bottom, snap to device pixels ---
+  // --- Layout: `viewH` art pixels above `coverY` fit next to the open menu drawer ---
   let scale = 1
+  let inset: Inset = { bottom: 0, right: 0 }
   function layout(): void {
     const { width, height } = app.screen
     const res = app.renderer.resolution
-    const fit = Math.min(width / ART_W, height / def.viewH)
+    const visibleW = Math.max(width / 2, width - inset.right)
+    const visible = Math.max(height / 3, height - inset.bottom)
+    const fit = Math.min(visibleW / ART_W, visible / def.viewH)
     // Whole device pixels per art pixel when that doesn't shrink the room by much.
     const snapped = Math.floor(fit * res) / res
     scale = snapped >= 1 / res && snapped / fit > 0.8 ? snapped : fit
     root.scale.set(scale)
-    root.position.set(Math.round((width - ART_W * scale) / 2), Math.round(height - ART_H * scale))
+    root.position.set(
+      Math.round((visibleW - ART_W * scale) / 2),
+      Math.round(visible - def.coverY * scale),
+    )
+    // Exposed for end-to-end tests: the room must not move when the menu folds.
+    host.dataset.layout = `${root.position.x} ${root.position.y} ${scale.toFixed(4)}`
     const floorY = root.position.y + def.backdrop.splitY * scale
     backdrop
       .clear()
@@ -185,6 +212,8 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     const rect = app.canvas.getBoundingClientRect()
     return { x: clientX - rect.left, y: clientY - rect.top }
   }
+
+  host.dataset.ready = location.id
 
   function pixel(color: number, size: number): Graphics {
     return new Graphics().rect(-size / 2, -size / 2, size, size).fill(color)
@@ -242,7 +271,7 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     },
     update(state) {
       for (const [id, list] of propsByGenerator) {
-        const visible = crowdSize(state.generators[id] ?? 0, list.length)
+        const visible = crowdSize(state.generators[id] ?? 0, list.length, exponents.get(id))
         list.forEach((art, i) => {
           const show = i < visible
           if (show && !art.view.visible && !reducedMotion) {
@@ -290,6 +319,11 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     setReducedMotion(on) {
       reducedMotion = on
     },
+    setInset(next) {
+      if (next.bottom === inset.bottom && next.right === inset.right) return
+      inset = next
+      layout()
+    },
     playEnter() {
       if (reducedMotion) return Promise.resolve()
       const toX = def.player.x
@@ -314,6 +348,8 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     },
     destroy() {
       observer.disconnect()
+      delete host.dataset.ready
+      delete host.dataset.layout
       app.destroy(true, { children: true })
     },
   }

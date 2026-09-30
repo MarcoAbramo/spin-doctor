@@ -2,6 +2,8 @@ node_modules/
 dist/
 dev-dist/
 coverage/
+test-results/
+playwright-report/
 .env
 .env.*
 !.env.example
@@ -14,6 +16,9 @@ coverage/
 # iCloud / Finder conflict copies such as "package 2.json" — never commit these
 * [0-9]
 * [0-9].*
+
+# Personal notes (not part of the repo)
+ideas.md
 
 # database backups on a deploy box
 backups/

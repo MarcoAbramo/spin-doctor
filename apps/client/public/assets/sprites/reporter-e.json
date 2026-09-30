@@ -1,0 +1,76 @@
+{
+  "frames": [
+    {
+      "filename": "reporter-e.png 0",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 28
+      },
+      "duration": 700
+    },
+    {
+      "filename": "reporter-e.png 1",
+      "frame": {
+        "x": 24,
+        "y": 0,
+        "w": 24,
+        "h": 28
+      },
+      "duration": 700
+    },
+    {
+      "filename": "reporter-e.png 2",
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 24,
+        "h": 28
+      },
+      "duration": 160
+    },
+    {
+      "filename": "reporter-e.png 3",
+      "frame": {
+        "x": 72,
+        "y": 0,
+        "w": 24,
+        "h": 28
+      },
+      "duration": 160
+    },
+    {
+      "filename": "reporter-e.png 4",
+      "frame": {
+        "x": 96,
+        "y": 0,
+        "w": 24,
+        "h": 28
+      },
+      "duration": 160
+    }
+  ],
+  "meta": {
+    "app": "spin-doctor pixel-placeholders",
+    "image": "reporter-e.png",
+    "size": {
+      "w": 120,
+      "h": 28
+    },
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 1,
+        "direction": "forward"
+      },
+      {
+        "name": "react",
+        "from": 2,
+        "to": 4,
+        "direction": "forward"
+      }
+    ]
+  }
+}

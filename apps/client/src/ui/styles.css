@@ -20,6 +20,9 @@
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --font: "Pixelify Sans", ui-monospace, monospace;
+  /* Sentences (descriptions, dialogue, posts, facts) need a font made for reading; the
+     pixel font stays for numbers, titles, buttons and tabs. */
+  --font-text: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color-scheme: dark;
   font-family: var(--font);
   -webkit-text-size-adjust: 100%;
@@ -68,6 +71,7 @@ textarea {
 .btn,
 .modal,
 .chip,
+.stat,
 .toast,
 .bubble,
 .post,
@@ -103,25 +107,30 @@ textarea {
 
 /* ---------------- HUD ---------------- */
 .hud {
-  padding: calc(var(--safe-top) + 6px) 12px 6px;
+  position: relative;
+  padding: calc(var(--safe-top) + 6px) 10px 6px;
   background: var(--ink);
   border-bottom: var(--px) solid var(--card);
   z-index: 2;
 }
+/* Fixed layout: long numbers shrink instead of wrapping, so the scene below never moves. */
 .hud-main {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0 8px;
+  gap: 8px;
+  height: 40px;
 }
 .hud-spin {
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
+  overflow: hidden;
 }
 .hud-spin strong {
   font-size: clamp(26px, 8vw, 34px);
+  line-height: 1;
   white-space: nowrap;
   font-weight: 700;
   color: var(--yellow);
@@ -132,23 +141,64 @@ textarea {
 }
 .hud-emoji {
   width: 32px;
+  flex: none;
   font-size: 22px;
 }
 .hud-emoji img {
   width: 32px;
   height: 32px;
 }
-.hud-label,
-.hud-rate {
+.hud-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: none;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.hud-label {
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
+}
+.hud-rate {
+  color: var(--good);
+  font-size: 13px;
 }
 .hud-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 6px;
   margin-top: 4px;
+}
+.stat {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
   align-items: center;
+  column-gap: 4px;
+  min-height: 26px;
+  padding: 3px 6px 3px 4px;
+  background: var(--card);
+  font-size: 13px;
+  color: var(--muted);
+}
+.stat-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stat b {
+  color: var(--text);
+  white-space: nowrap;
+}
+.hud-mods {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  pointer-events: none;
 }
 .chip {
   display: inline-flex;
@@ -180,20 +230,6 @@ textarea {
   color: #fff;
   animation: blink 1s steps(2) infinite;
 }
-.meter {
-  flex: 1 1 160px;
-  min-width: 140px;
-}
-.meter-label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  color: var(--muted);
-}
-.meter-label b {
-  color: var(--text);
-}
 
 /* Democracy index: pixel blocks; lost blocks turn into rubble. */
 .crumble {
@@ -209,6 +245,10 @@ textarea {
   );
   border: var(--px) solid var(--ink);
 }
+.stat .crumble {
+  grid-column: 1 / -1;
+  height: 8px;
+}
 .crumble-fill {
   position: absolute;
   inset: 0 auto 0 0;
@@ -220,11 +260,27 @@ textarea {
 }
 
 /* ---------------- Scene ---------------- */
-.scene {
+.stage {
   position: relative;
   flex: 1 1 auto;
-  min-height: 40dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+.scene {
+  position: absolute;
+  inset: 0;
   background: #124e89;
+}
+/* Menu drawer over the bottom of the scene; slides down when folded away. */
+.drawer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.24s steps(6);
 }
 .scene canvas {
   position: absolute;
@@ -247,14 +303,30 @@ textarea {
   outline-offset: -3px;
 }
 
+.drawer-bar {
+  display: flex;
+  height: 44px;
+  flex: none;
+  background: var(--panel);
+  border-top: var(--px) solid var(--card);
+}
 .objective {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
   background: var(--gold);
   color: var(--ink);
-  font-size: 14px;
-  padding: 6px 12px;
-  border-top: var(--px) solid var(--yellow);
-  border-bottom: var(--px) solid var(--gold-dark);
-  z-index: 2;
+  font-size: 13px;
+  line-height: 1.2;
+  padding: 2px 8px;
+  overflow: hidden;
+}
+.objective-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 .objective-tag {
   background: var(--ink);
@@ -265,6 +337,7 @@ textarea {
   text-transform: uppercase;
 }
 .objective-hint {
+  justify-content: center;
   text-align: center;
   animation: blink 1s steps(2) infinite;
 }
@@ -281,22 +354,30 @@ textarea {
 }
 .panel-handle {
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 44px;
+  min-width: 44px;
   border: 0;
   background: var(--panel);
   color: var(--muted);
   font: inherit;
   font-size: 12px;
   cursor: pointer;
-  border-top: var(--px) solid var(--card);
 }
 .panel-grip {
   width: 28px;
   height: 4px;
   background: var(--card);
+}
+/* With an objective the handle shrinks to its arrow. */
+.objective + .panel-handle {
+  flex: 0 0 52px;
+}
+.objective + .panel-handle .panel-grip,
+.objective + .panel-handle .panel-handle-label {
+  display: none;
 }
 .panel-handle:focus-visible {
   outline: 2px solid var(--gold);
@@ -408,6 +489,7 @@ h2 {
 }
 .card-flavor {
   color: var(--muted);
+  font-family: var(--font-text);
   font-size: 13.5px;
   margin-top: 2px;
   line-height: 1.3;
@@ -465,7 +547,7 @@ progress::-moz-progress-bar {
 }
 .lexicon-body {
   /* Long factual text stays in a readable font. */
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-text);
   font-size: 14px;
   line-height: 1.45;
   margin: 6px 0;
@@ -536,6 +618,7 @@ progress::-moz-progress-bar {
 }
 .btn-choice {
   width: 100%;
+  font-family: var(--font-text);
   background: var(--paper);
   box-shadow:
     inset 0 calc(var(--px) * -3) 0 #c28569,
@@ -603,6 +686,7 @@ progress::-moz-progress-bar {
   accent-color: var(--gold);
 }
 .about {
+  font-family: var(--font-text);
   font-size: 13px;
   color: var(--muted);
   margin-top: 16px;
@@ -672,6 +756,7 @@ progress::-moz-progress-bar {
   background: #fff;
   color: var(--ink);
   padding: 8px 12px 10px;
+  font-family: var(--font-text);
   font-size: 16px;
   line-height: 1.35;
   max-width: 85%;
@@ -687,6 +772,7 @@ progress::-moz-progress-bar {
   box-shadow: inset 0 calc(var(--px) * -2) 0 var(--gold-dark) !important;
 }
 .bubble-name {
+  font-family: var(--font);
   font-size: 12px;
   font-weight: 700;
   color: #68386c;
@@ -743,6 +829,7 @@ progress::-moz-progress-bar {
   color: var(--card-2);
 }
 .post-text {
+  font-family: var(--font-text);
   font-size: 18px;
   line-height: 1.3;
   margin: 10px 0 2px;
@@ -893,6 +980,9 @@ progress::-moz-progress-bar {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .drawer {
+    transition: none;
+  }
   *,
   *::before,
   *::after {
@@ -908,6 +998,33 @@ progress::-moz-progress-bar {
 @media (min-height: 900px) {
   .panel {
     flex-basis: 34dvh;
+  }
+}
+
+/* Short landscape screens (phones on their side): the menu becomes a side panel, the
+   HUD values sit in one row. App.tsx reads --drawer-side to inset the scene. */
+@media (orientation: landscape) and (max-height: 560px) {
+  .app {
+    max-width: none;
+  }
+  .hud-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .drawer {
+    --drawer-side: 1;
+    top: 0;
+    left: auto;
+    width: min(46%, 380px);
+    border-left: var(--px) solid var(--card);
+  }
+  .panel {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .tab {
+    flex-direction: row;
+    gap: 6px;
+    min-height: 44px;
   }
 }
 
@@ -974,7 +1091,7 @@ progress::-moz-progress-bar {
   content: "";
   position: absolute;
   bottom: -5px;
-  left: 50%;
+  left: clamp(8px, calc(50% + var(--arrow, 0px)), calc(100% - 8px));
   width: 6px;
   height: 6px;
   margin-left: -3px;
@@ -1317,7 +1434,7 @@ progress::-moz-progress-bar {
 .reality-sources {
   margin: 4px 0 6px;
   padding-left: 18px;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-text);
   font-size: 13px;
   line-height: 1.4;
 }
@@ -1328,4 +1445,77 @@ progress::-moz-progress-bar {
 .reality-card {
   max-height: 85vh;
   overflow-y: auto;
+}
+
+/* ---------------- HUD values are buttons (tap = explanation) ---------------- */
+.hud-button {
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.hud-spin.hud-button {
+  background: none;
+  padding: 0;
+}
+.hud-button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------------- „Kurz erklärt“ card ---------------- */
+.explain {
+  /* Over the menu, not the scene: the podium stays free to tap while reading. */
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  max-height: calc(100% - 16px);
+  overflow-y: auto;
+  z-index: 5;
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 10px;
+  border: var(--px) solid var(--gold);
+  box-shadow: 0 calc(var(--px) * 2) 0 var(--ink);
+}
+.explain-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--yellow);
+  font-weight: 700;
+}
+.explain-body {
+  font-family: var(--font-text);
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 4px 0 6px;
+}
+
+/* ---------------- Crash screen ---------------- */
+.crash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--ink);
+}
+.crash-text {
+  font-family: var(--font-text);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.crash-error {
+  display: block;
+  margin: 0 0 12px;
+  padding: 6px 8px;
+  background: var(--ink);
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
 }

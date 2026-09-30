@@ -42,6 +42,23 @@ x:  0        80                           240                          400      
 - `scene-background.png` is **480×400**. Only the central 320 px (x 80–400) is always visible; the 80 px strips on each side show on wide screens, so continue the wall and floor there.
 - Positions of generator props live in `SLOTS` in `apps/client/src/scene/scene.ts`, in art pixels. Up to 3 copies appear at 1, 10 and 25 units.
 
+### Every location: the part under the menu
+
+The open menu drawer covers the bottom of the screen. A location's `coverY` is the art line
+where the drawer starts, so everything that matters (player, tap target) sits above it. The
+scene **never moves or rescales** when the menu folds away — it only uncovers what lies below
+`coverY`. So every background continues below that line with something worth seeing, drawn
+down to the room `height`:
+
+| Location | Background | Below `coverY` |
+|---|---|---|
+| press-house | `scene-background.png` 480×600, `coverY` 314 | 9 tiered rows of the press corps and court reporters |
+| rosengarten | `scene-rosengarten.png` 480×720, `coverY` 416 | 10 rows of press chairs on the lawn, aisle in line with the podium (x 140); reporters in rows 1–2 are props (y 446, 476) |
+| price | `scene-price.png` 480×720, `coverY` 414 | a zig-zag queue behind belt barriers; the front lane holds `traveller-*.png` props (24×40 per frame, tags `idle`, `react` = passport held up) at y 452 |
+
+Tall screens can show more than the room: the backdrop's `bottom` colour fills the rest, so
+end the art with a calm, even area in that colour.
+
 ## Animations (Aseprite)
 
 Animated sprites are a **sprite sheet PNG plus an Aseprite JSON** next to it with the same name, e.g. `player.png` and `player.json`. **Tags** become animations.
@@ -84,10 +101,10 @@ Open it in [Tiled](https://www.mapeditor.org) (free), paint, save, and reload th
 
 | File | Size | What |
 |---|---|---|
-| `scene-background.png` | 480×400 | Briefing room: blue back wall (y 0–236), small stage with two flags (front edge y≈300), dark carpet with **empty seats in rows 2 and 3** (seat backs at y 370 and 400, x 28/76/124/196/244/292) |
+| `scene-background.png` | **480×600** | Briefing hall, flat perspective from the back: blue back wall (y 0–150), a deep stage with two flags and a carpet runner (front edge y≈310), then **9 tiered rows** („Ränge“) down to the bottom — seat backs at y 336, 366 … 576 and x 14/38/62/86/110/134 · 186/210/234/258/282/306 (centre aisle 146–174). Seats outside the 320 px core are drawn occupied (full hall on wide screens). |
 | `scene-plaque.png` | about 104×64 | Oval plaque above the podium („PALAST · SUPERBIA“, fictional, no real seal) |
 | `scene-podium.png` | 80×64 | Lectern with two microphones and a seal, the tap target at (160, 300); its top edge sits around y=16 in the sprite |
-| `reporter-*.png` + `.json` | 40×44 per frame | Front row of the press corps **seen from behind** (row 1 at y 340): tags `idle` and `react` (hand up, notepad, camera flash). A random reporter plays `react` on taps. `reporter-frieda` is Dr. Frieda Nachfrage (bun, green jacket). |
+| `reporter-*.png` + `.json` | **24×28 per frame** | The press corps **seen from behind**, seated (rows 1–2 are full from the start): tags `idle` and `react` (hand up, notepad, camera flash). A random reporter plays `react` on taps. `reporter-frieda` is Dr. Frieda Nachfrage (bun, green jacket), front row next to the aisle. |
 | `player.png` + `.json` | 48×64 per frame | **You**, standing behind the podium. Only the upper ~40 px are visible above it, so put the expression into head, arms and hands. |
 
 **Player animation ideas:**
@@ -97,7 +114,7 @@ Open it in [Tiled](https://www.mapeditor.org) (free), paint, save, and reload th
 
 ### Generators, `assets/sprites/gen-*.png`, 48×48 per frame
 
-The more units you own, the more copies stand in the room (1 at the first unit, then about 3 at 3, 6 at 10, 8 at 25, 11 at 100). Where they stand comes from the location's `scene.slots` (hand-placed, used first) and `scene.crowds` (an area filled automatically). In the press room the court reporters (`gen-paper`) take the empty seats of rows 2 and 3, so draw them seated from behind like the front row.
+The more units you own, the more copies stand in the room (1 at the first unit, then about 3 at 3, 6 at 10, 8 at 25, 11 at 100). Where they stand comes from the location's `scene.slots` (hand-placed, used first) and `scene.crowds` (an area filled automatically). In the press hall the court reporters (`gen-paper`, **24×28 per frame**, seated from behind like the press corps) take the empty seats of rows 3–9, front row first — up to 84 of them (`exponent` 0.8: about 7 at 10 units, 40 at 100).
 
 | File | Idea |
 |---|---|

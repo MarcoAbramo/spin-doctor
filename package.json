@@ -17,6 +17,7 @@
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "validate:content": "pnpm --filter @spin-doctor/shared validate:content",
+    "text:stats": "pnpm --filter @spin-doctor/shared text:stats",
     "size": "pnpm --filter @spin-doctor/client size",
     "prepare": "lefthook install",
     "assets": "pnpm --filter @spin-doctor/shared assets"

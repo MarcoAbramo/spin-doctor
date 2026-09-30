@@ -20,6 +20,7 @@ import {
 import { content } from '../content'
 import { has, t } from '../i18n'
 import { drawPlaceholder } from './placeholders'
+import type { Inset } from './scene'
 import { type Art, loadArt } from './sprites'
 
 /**
@@ -30,6 +31,11 @@ import { type Art, loadArt } from './sprites'
 const TILE = 16
 /** Roughly this many art pixels are visible horizontally. */
 const VIEW_W = 320
+/** Keep at least this many art pixels in view vertically (short landscape screens). */
+const VIEW_MIN_H = 180
+/** Signs stay this far from the screen edges and below the back button (CSS px). */
+const SIGN_MARGIN = 4
+const SIGN_TOP = 56
 const WALK_SPEED = 72 // art px per second
 
 interface TiledLayer {
@@ -84,6 +90,8 @@ export interface MapScene {
   zoomTo(id: string, ms: number): Promise<void>
   resetZoom(): void
   setReducedMotion(on: boolean): void
+  /** Height (CSS px) covered by the open menu drawer at the bottom. */
+  setInset(inset: Inset): void
 }
 
 const prop = (o: TiledObject, name: string) => o.properties?.find((p) => p.name === name)?.value
@@ -319,10 +327,13 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
   let scale = 1
   let zoom = 1
   let focus: { x: number; y: number } | null = null
+  let inset: Inset = { bottom: 0, right: 0 }
   function layout(): void {
-    const { width } = app.screen
+    const { width, height } = app.screen
     const res = app.renderer.resolution
-    const fit = width / VIEW_W
+    const visibleW = Math.max(width / 2, width - inset.right)
+    const visibleH = Math.max(height / 3, height - inset.bottom)
+    const fit = Math.min(visibleW / VIEW_W, visibleH / VIEW_MIN_H)
     const snapped = Math.max(1, Math.floor(fit * res)) / res
     scale = snapped / fit > 0.8 ? snapped : fit
   }
@@ -341,10 +352,13 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     const { width, height } = app.screen
     const cx = focus?.x ?? pos.x
     const cy = focus?.y ?? pos.y - 12
+    // Centre in the part of the canvas that the menu drawer leaves visible.
+    const visible = Math.max(height / 3, height - inset.bottom)
+    const visibleW = Math.max(width / 2, width - inset.right)
     const maxX = W * TILE - width / s
-    const maxY = H * TILE - height / s
-    const left = Math.min(Math.max(cx - width / s / 2, 0), Math.max(0, maxX))
-    const top = Math.min(Math.max(cy - height / s / 2, 0), Math.max(0, maxY))
+    const maxY = H * TILE - visible / s
+    const left = Math.min(Math.max(cx - visibleW / s / 2, 0), Math.max(0, maxX))
+    const top = Math.min(Math.max(cy - visible / s / 2, 0), Math.max(0, maxY))
     world.position.set(-Math.round(left * s), -Math.round(top * s))
   }
 
@@ -389,29 +403,94 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     fx.addChild(g)
     return g
   })
-  const carColors = [0xe43b44, 0x0099db, 0xfee761, 0xffffff, 0x68386c]
-  const cars = [
-    { lane: 'h', y: 17 * TILE + 3, x: 20, v: 40 },
-    { lane: 'h', y: 18 * TILE + 7, x: 300, v: -34 },
-    { lane: 'h', y: 31 * TILE + 3, x: 500, v: 46 },
-    { lane: 'h', y: 32 * TILE + 7, x: 100, v: -38 },
-    { lane: 'v', x: 10 * TILE + 3, y: 60, v: 36 },
-    { lane: 'v', x: 35 * TILE + 5, y: 600, v: -42 },
-  ].map((c, i) => {
+  // Cars drive on the right along fixed routes (centre points, px) and turn at junctions;
+  // lanes follow the roads in scripts/map-placeholders.mjs.
+  const carColors = [0xe43b44, 0x0099db, 0xfee761, 0xffffff, 0x68386c, 0x63c74d]
+  const LANE = {
+    r17: { east: 17 * TILE + 24, west: 17 * TILE + 8 },
+    r31: { east: 31 * TILE + 24, west: 31 * TILE + 8 },
+    c10: { south: 10 * TILE + 8, north: 10 * TILE + 24 },
+    c23: { south: 23 * TILE + 8, north: 23 * TILE + 24 },
+    c34: { south: 34 * TILE + 8, north: 34 * TILE + 24 },
+  }
+  const OFF = 24
+  const EDGE_X = W * TILE + OFF
+  const EDGE_Y = H * TILE + OFF
+  const routes: Array<Array<[number, number]>> = [
+    [
+      [LANE.c34.north, EDGE_Y],
+      [LANE.c34.north, LANE.r17.east],
+      [EDGE_X, LANE.r17.east],
+    ],
+    [
+      [EDGE_X, LANE.r17.west],
+      [-OFF, LANE.r17.west],
+    ],
+    [
+      [LANE.c10.south, -OFF],
+      [LANE.c10.south, LANE.r17.east],
+      [EDGE_X, LANE.r17.east],
+    ],
+    [
+      [-OFF, LANE.r31.east],
+      [EDGE_X, LANE.r31.east],
+    ],
+    [
+      [EDGE_X, LANE.r31.west],
+      [LANE.c23.north, LANE.r31.west],
+      [LANE.c23.north, LANE.r17.west],
+      [-OFF, LANE.r17.west],
+    ],
+    [
+      [EDGE_X, LANE.r17.west],
+      [LANE.c34.south, LANE.r17.west],
+      [LANE.c34.south, EDGE_Y],
+    ],
+  ]
+  const drawCar = (color: number, horizontal: boolean) => {
+    const [w, h] = horizontal ? [12, 7] : [7, 12]
     const g = new Graphics()
-    const [w, h] = c.lane === 'h' ? [12, 7] : [7, 12]
-    g.rect(0, 0, w, h).fill(carColors[i % carColors.length]!)
-    g.rect(
-      c.lane === 'h' ? 3 : 1,
-      c.lane === 'h' ? 1 : 3,
-      c.lane === 'h' ? 5 : 5,
-      c.lane === 'h' ? 5 : 5,
-    ).fill(0x2ce8f5)
+    g.rect(0, 0, w, h).fill(color)
+    g.rect(horizontal ? 3 : 1, horizontal ? 1 : 3, 5, 5).fill(0x2ce8f5)
     g.rect(0, 0, w, h).stroke({ width: 1, color: 0x181425 })
-    g.position.set(c.x, c.y)
+    g.pivot.set(Math.floor(w / 2), Math.floor(h / 2))
     actors.addChild(g)
-    return { ...c, g }
+    return g
+  }
+  const cars = routes.map((route, i) => {
+    const color = carColors[i % carColors.length]!
+    const car = {
+      route,
+      leg: 0,
+      // Spread the cars along their routes so they don't start in a pack.
+      t: (i * 0.37) % 1,
+      speed: 34 + ((i * 5) % 14),
+      h: drawCar(color, true),
+      v: drawCar(color, false),
+    }
+    return car
   })
+  const placeCar = (car: (typeof cars)[number], dt: number) => {
+    let a = car.route[car.leg]!
+    let b = car.route[car.leg + 1]!
+    const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1
+    car.t += (car.speed * dt) / len
+    while (car.t >= 1) {
+      car.t -= 1
+      car.leg = (car.leg + 1) % (car.route.length - 1)
+      a = car.route[car.leg]!
+      b = car.route[car.leg + 1]!
+    }
+    const x = a[0] + (b[0] - a[0]) * car.t
+    const y = a[1] + (b[1] - a[1]) * car.t
+    const horizontal = a[1] === b[1]
+    const g = horizontal ? car.h : car.v
+    car.h.visible = horizontal
+    car.v.visible = !horizontal
+    g.position.set(Math.round(x), Math.round(y))
+    g.zIndex = y
+  }
+  for (const car of cars) placeCar(car, 0)
   const puffs: Array<{ g: Graphics; life: number; vy: number }> = []
   const smokeTimers = new Map<string, number>()
   let lastState: GameState | null = null
@@ -459,19 +538,7 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
         c.x += 6 * dt
         if (c.x > W * TILE) c.x = -80
       }
-      for (const car of cars) {
-        if (car.lane === 'h') {
-          car.x += car.v * dt
-          if (car.x > W * TILE + 20) car.x = -20
-          if (car.x < -20) car.x = W * TILE + 20
-        } else {
-          car.y += car.v * dt
-          if (car.y > H * TILE + 20) car.y = -20
-          if (car.y < -20) car.y = H * TILE + 20
-        }
-        car.g.position.set(Math.round(car.x), Math.round(car.y))
-        car.g.zIndex = car.y
-      }
+      for (const car of cars) placeCar(car, dt)
       // smoke / coin sparkle depends on production & till
       if (lastState) {
         for (const b of buildings) {
@@ -512,17 +579,31 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     positionSigns()
   })
 
+  host.dataset.ready = 'map'
+
   // --- Signs (DOM, crisp text, tappable) -------------------------------------------
   function positionSigns(): void {
     const s = scale * zoom
+    const { width } = app.screen
     for (const b of buildings) {
       const el = signs.get(b.id)
       if (!el) continue
       const top = b.y + b.h - (b.art.view.height || b.h)
       const x = world.position.x + (b.x + b.w / 2) * s
       const y = world.position.y + top * s - 4
-      el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px) translate(-50%, -100%)`
-      el.style.visibility = zoom > 1 ? 'hidden' : 'visible'
+      // Keep the sign on screen (and below the back button); the arrow still points
+      // at the building.
+      const half = el.offsetWidth / 2
+      const maxX = Math.max(width, SIGN_MARGIN * 2) - inset.right - half - SIGN_MARGIN
+      const cx = Math.min(Math.max(x, half + SIGN_MARGIN), Math.max(half + SIGN_MARGIN, maxX))
+      const cy = Math.max(y, SIGN_TOP + el.offsetHeight)
+      el.style.setProperty('--arrow', `${Math.round(x - cx)}px`)
+      el.style.transform = `translate(${Math.round(cx)}px, ${Math.round(cy)}px) translate(-50%, -100%)`
+      const onScreen =
+        world.position.y + (b.y + b.h) * s > SIGN_TOP + 8 &&
+        world.position.x + (b.x + b.w) * s > 0 &&
+        world.position.x + b.x * s < width - inset.right
+      el.style.visibility = zoom > 1 || !onScreen ? 'hidden' : 'visible'
     }
   }
 
@@ -531,9 +612,10 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
       const el = signs.get(b.id)
       if (!el) continue
       const exists = content.locations.some((l) => l.id === b.location)
-      const name = has(`location.${b.location}.name`)
-        ? t(`location.${b.location}.name`)
-        : t(`map.building.${b.id}`)
+      // Signs are small: the short map name wins over the full location name.
+      const name = has(`map.building.${b.id}`)
+        ? t(`map.building.${b.id}`)
+        : t(`location.${b.location}.name`)
       let status = ''
       let cls = 'map-sign'
       if (!exists) {
@@ -643,6 +725,11 @@ export async function createMap(host: HTMLElement, callbacks: MapCallbacks): Pro
     setReducedMotion(on) {
       reducedMotion = on
       for (const c of clouds) c.visible = !on
+    },
+    setInset(next) {
+      inset = next
+      layout()
+      camera()
     },
   }
 }

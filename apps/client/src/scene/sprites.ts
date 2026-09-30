@@ -1,6 +1,6 @@
 import { assetUrl } from '@spin-doctor/shared'
 import { AnimatedSprite, Assets, type Container, Rectangle, Sprite, Texture } from 'pixi.js'
-import { assetExists } from '../assets'
+import { hasAsset } from '../assets'
 
 /**
  * Loads `sprites/<name>.png` and — if present — `sprites/<name>.json` in Aseprite's
@@ -23,27 +23,50 @@ interface AsepriteJson {
   meta?: { frameTags?: Array<{ name: string; from: number; to: number }> }
 }
 
+interface Sheet {
+  texture: Texture
+  json: AsepriteJson | null
+}
+
 async function loadJson(path: string): Promise<AsepriteJson | null> {
+  if (!hasAsset(path)) return null
   try {
     const res = await fetch(assetUrl(path))
-    if (!res.ok || !res.headers.get('content-type')?.includes('json')) return null
-    return (await res.json()) as AsepriteJson
+    return res.ok ? ((await res.json()) as AsepriteJson) : null
   } catch {
     return null
   }
 }
 
-export async function loadArt(name: string, fallback: () => Container): Promise<Art> {
-  const png = `sprites/${name}.png`
-  if (!(await assetExists(png))) return staticArt(fallback())
-  let texture: Texture
-  try {
-    texture = await Assets.load<Texture>(assetUrl(png))
-  } catch {
-    return staticArt(fallback())
+// One download per sprite name, however many copies stand in the room.
+const sheets = new Map<string, Promise<Sheet | null>>()
+
+function loadSheet(name: string): Promise<Sheet | null> {
+  let hit = sheets.get(name)
+  if (!hit) {
+    const png = `sprites/${name}.png`
+    hit = hasAsset(png)
+      ? Promise.all([Assets.load<Texture>(assetUrl(png)), loadJson(`sprites/${name}.json`)])
+          .then(([texture, json]) => {
+            texture.source.scaleMode = 'nearest'
+            return { texture, json }
+          })
+          .catch(() => null)
+      : Promise.resolve(null)
+    sheets.set(name, hit)
   }
-  texture.source.scaleMode = 'nearest'
-  const json = await loadJson(`sprites/${name}.json`)
+  return hit
+}
+
+/** Starts downloading sprites early so building a scene doesn't wait on each in turn. */
+export function preloadArt(names: Iterable<string>): Promise<unknown> {
+  return Promise.all([...new Set(names)].map(loadSheet))
+}
+
+export async function loadArt(name: string, fallback: () => Container): Promise<Art> {
+  const sheet = await loadSheet(name)
+  if (!sheet) return staticArt(fallback())
+  const { texture, json } = sheet
   if (!json?.frames?.length) {
     const sprite = new Sprite(texture)
     sprite.anchor.set(0.5, 1)

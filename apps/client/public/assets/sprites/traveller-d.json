@@ -1,0 +1,76 @@
+{
+  "frames": [
+    {
+      "filename": "traveller-d.png 0",
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 40
+      },
+      "duration": 600
+    },
+    {
+      "filename": "traveller-d.png 1",
+      "frame": {
+        "x": 24,
+        "y": 0,
+        "w": 24,
+        "h": 40
+      },
+      "duration": 600
+    },
+    {
+      "filename": "traveller-d.png 2",
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 24,
+        "h": 40
+      },
+      "duration": 160
+    },
+    {
+      "filename": "traveller-d.png 3",
+      "frame": {
+        "x": 72,
+        "y": 0,
+        "w": 24,
+        "h": 40
+      },
+      "duration": 160
+    },
+    {
+      "filename": "traveller-d.png 4",
+      "frame": {
+        "x": 96,
+        "y": 0,
+        "w": 24,
+        "h": 40
+      },
+      "duration": 160
+    }
+  ],
+  "meta": {
+    "app": "spin-doctor pixel-placeholders",
+    "image": "traveller-d.png",
+    "size": {
+      "w": 120,
+      "h": 40
+    },
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 1,
+        "direction": "forward"
+      },
+      {
+        "name": "react",
+        "from": 2,
+        "to": 4,
+        "direction": "forward"
+      }
+    ]
+  }
+}

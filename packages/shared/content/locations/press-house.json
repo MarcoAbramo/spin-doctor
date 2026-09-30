@@ -6,51 +6,226 @@
       "emoji": "🎙️",
       "mapEntrance": "press-house",
       "onSiteBonus": 1.5,
-      "till": { "capMinutes": 60 },
-      "enter": { "preset": "doors" },
-      "exit": { "preset": "doors" },
+      "till": {
+        "capMinutes": 60
+      },
+      "enter": {
+        "preset": "doors"
+      },
+      "exit": {
+        "preset": "doors"
+      },
       "scene": {
         "background": "scene-background",
-        "viewH": 350,
-        "backdrop": { "top": "#124e89", "bottom": "#262b44", "splitY": 236 },
+        "height": 600,
+        "viewH": 270,
+        "coverY": 314,
+        "backdrop": {
+          "top": "#124e89",
+          "bottom": "#262b44",
+          "splitY": 150
+        },
         "props": [
-          { "sprite": "scene-plaque", "x": 160, "y": 150 },
-          { "sprite": "reporter-c", "x": 28, "y": 340, "react": "react" },
-          { "sprite": "reporter-a", "x": 76, "y": 340, "react": "react" },
-          { "sprite": "reporter-frieda", "x": 124, "y": 340, "react": "react" },
-          { "sprite": "reporter-b", "x": 196, "y": 340, "react": "react" },
-          { "sprite": "reporter-d", "x": 244, "y": 340, "react": "react" },
-          { "sprite": "reporter-a", "x": 292, "y": 340, "react": "react" }
+          {
+            "sprite": "scene-plaque",
+            "x": 160,
+            "y": 110
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 14,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 38,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 62,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 86,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 110,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-frieda",
+            "x": 134,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 186,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 210,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 234,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 258,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 282,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 306,
+            "y": 336,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 14,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 38,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 62,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 86,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 110,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 134,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 186,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 210,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 234,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 258,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 282,
+            "y": 366,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 306,
+            "y": 366,
+            "react": "react"
+          }
         ],
-        "player": { "x": 160, "y": 276 },
-        "tapTarget": { "sprite": "scene-podium", "x": 160, "y": 300 },
+        "player": {
+          "x": 160,
+          "y": 276
+        },
+        "tapTarget": {
+          "sprite": "scene-podium",
+          "x": 160,
+          "y": 300
+        },
         "slots": {
-          "intern": [[44, 296], [76, 288]],
-          "talkshow-guest": [[266, 296]],
-          "bot-farm": [[24, 240]],
-          "court-paper": [
-            [124, 370],
-            [196, 370],
-            [76, 370],
-            [244, 370],
-            [28, 370],
-            [292, 370],
-            [124, 400],
-            [196, 400],
-            [76, 400],
-            [244, 400],
-            [28, 400],
-            [292, 400]
-          ],
-          "jubel-tv": [[50, 196]],
-          "truth-ministry": [[272, 204]]
+          "intern": [[36, 296], [64, 290]],
+          "talkshow-guest": [[270, 296]],
+          "bot-farm": [[24, 158]],
+          "jubel-tv": [[290, 160]],
+          "truth-ministry": [[44, 84]]
         },
         "crowds": {
-          "intern": { "area": [12, 258, 84, 38], "max": 9, "spacing": 14 },
-          "talkshow-guest": { "area": [232, 264, 76, 32], "max": 5, "spacing": 22 },
-          "bot-farm": { "area": [8, 236, 88, 6], "max": 4, "spacing": 20 },
-          "jubel-tv": { "area": [16, 130, 72, 70], "max": 4, "spacing": 30 },
-          "truth-ministry": { "area": [236, 140, 70, 64], "max": 3, "spacing": 30 }
+          "intern": {
+            "area": [8, 236, 96, 62],
+            "max": 10,
+            "spacing": 16
+          },
+          "talkshow-guest": {
+            "area": [222, 248, 90, 50],
+            "max": 5,
+            "spacing": 24
+          },
+          "bot-farm": {
+            "area": [8, 154, 96, 6],
+            "max": 4,
+            "spacing": 22
+          },
+          "jubel-tv": {
+            "area": [256, 156, 48, 6],
+            "max": 2,
+            "spacing": 26
+          },
+          "truth-ministry": {
+            "area": [20, 72, 56, 14],
+            "max": 2,
+            "spacing": 30
+          },
+          "court-paper": {
+            "grid": {
+              "xs": [14, 38, 62, 86, 110, 134, 186, 210, 234, 258, 282, 306],
+              "ys": [396, 426, 456, 486, 516, 546, 576]
+            },
+            "max": 84,
+            "exponent": 0.8
+          }
         }
       }
     }

@@ -43,6 +43,29 @@ jobs:
       - run: pnpm build
       - run: pnpm size
 
+  e2e:
+    name: e2e (mobile)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @spin-doctor/client build
+      - run: pnpm --filter @spin-doctor/client exec playwright install --with-deps chromium
+      - run: pnpm --filter @spin-doctor/client e2e
+        env:
+          CI: 'true'
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: apps/client/playwright-report
+          retention-days: 7
+
   docker:
     name: docker-build
     runs-on: ubuntu-latest

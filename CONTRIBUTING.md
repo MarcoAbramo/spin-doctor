@@ -117,7 +117,9 @@ Example — a new side quest in `packages/shared/content/quests/opposition-basem
   is owned permanently — upgrades, generator `perUnitEffects` (per unit, e.g. per wall section)
   and quest `rewards`; everywhere else use a `modifier` (`validate:content` checks this).
 - **Locations** (levels on the map) live in `locations[]`: scene layout (background, props,
-  player, tap target, generator slots, backdrop colours), `onSiteBonus`, till capacity
+  player, tap target, generator `slots` and `crowds` (an `area` or a seat `grid`, optional
+  `exponent` for faster growth), backdrop colours, room `height`, `coverY` = the art line where
+  the open menu drawer starts; the scene never moves when the menu folds away), `onSiteBonus`, till capacity
   (`till.capMinutes`), an optional `entryFee`, time-based `traits` (`hour`/`weekday` conditions),
   random `hotspots` and `enter`/`exit` transition presets (`door`, `gate`, `stamp` with a
   `labelKey`). Generators and upgrades name their `location`; generators
@@ -134,6 +136,12 @@ Example — a new side quest in `packages/shared/content/quests/opposition-basem
 
 Texts: German first. Put them into the pack's `i18n.de` or into `packages/shared/locales/de.json`.
 Run `pnpm validate:content` — it reports schema errors, unknown references and missing texts.
+
+**Keep it short — it is an idle game, not a novel.** Word budgets: dialog line ≤ 14 words,
+≤ 3 lines per step, framing question ≤ 12, answer/choice ≤ 6 (a punchline, not a sentence),
+reply ≤ 10, question + answers ≤ 30, whole quest ≤ 120. One joke per line; background belongs on a
+lexicon or Realitäts-Check card. `pnpm text:stats` shows words and reading time per quest
+(`--budgets` lists every text over its budget); `validate:content` warns about them.
 New characters, generators etc. need art: run `pnpm assets` and see [docs/ASSET_GUIDE.md](docs/ASSET_GUIDE.md).
 
 ## Code conventions

@@ -1,3 +1,4 @@
+import { check } from './conditions'
 import type { Content } from './content'
 import { ensureDailies, updateDailies } from './dailies'
 import {
@@ -17,6 +18,7 @@ import {
 } from './economy'
 import {
   advanceMut,
+  continueFramingMut,
   currentStep,
   isQuestAvailable,
   recordFramingAnswer,
@@ -179,6 +181,24 @@ export function travel(state: GameState, content: Content, locationId: string): 
   return s
 }
 
+/** The player has read the explanation of a HUD value (stat tutorial). */
+export function markExplained(state: GameState, statId: string): GameState {
+  const s = draft(state)
+  const flag = `explained-${statId}`
+  if (!s.flags.includes(flag)) s.flags.push(flag)
+  return s
+}
+
+/** The next HUD value to explain: visible, in HUD order, not explained yet. */
+export function nextStatToExplain(state: GameState, content: Content): string | null {
+  const stats = [...content.stats].sort((a, b) => a.order - b.order)
+  for (const stat of stats) {
+    if (stat.display === 'hidden' || !check(state, content, stat.visible)) continue
+    if (!state.flags.includes(`explained-${stat.id}`)) return stat.id
+  }
+  return null
+}
+
 /** The player opened the city map (drives the map tutorial and statistics). */
 export function openMap(state: GameState, content: Content): GameState {
   const s = draft(state)
@@ -210,9 +230,21 @@ export function answerFraming(
   const s = draft(state)
   const active = s.quests.active.find((a) => a.id === questId)
   const step = active && currentStep(content, active)
-  if (!active || step?.type !== 'framing' || !active.started) return s
+  if (!active || step?.type !== 'framing' || !active.started || active.showingReply) return s
   const late = s.now - active.stepStartedAt > step.timePerQuestionSec * 1000
   recordFramingAnswer(s, content, active, step, late ? null : answer)
+  updateQuests(s, content)
+  updateDailies(s, content)
+  return s
+}
+
+/** The player has read the press reply: next question, or the duel's result. */
+export function continueFraming(state: GameState, content: Content, questId: string): GameState {
+  const s = draft(state)
+  const active = s.quests.active.find((a) => a.id === questId)
+  const step = active && currentStep(content, active)
+  if (!active || step?.type !== 'framing') return s
+  continueFramingMut(s, content, active, step)
   updateQuests(s, content)
   updateDailies(s, content)
   return s

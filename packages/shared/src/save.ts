@@ -62,6 +62,8 @@ export const saveSchema = z.object({
         entry: z.string().optional(),
         scores: z.array(num).optional(),
         started: z.boolean().optional(),
+        answers: z.array(z.number().int().nullable()).optional(),
+        showingReply: z.boolean().optional(),
       }),
     ),
     completed: z.array(z.string()),
@@ -116,7 +118,12 @@ const PREFIX = 'SPIN1:'
 
 /** Save as a copy-pasteable text code (base64 of UTF-8 JSON). */
 export function exportSave(state: GameState): string {
-  const bytes = new TextEncoder().encode(serialize(state))
+  return encodeSave(serialize(state))
+}
+
+/** Save JSON (e.g. straight from storage, even if it no longer loads) → save code. */
+export function encodeSave(json: string): string {
+  const bytes = new TextEncoder().encode(json)
   let bin = ''
   for (const b of bytes) bin += String.fromCharCode(b)
   return PREFIX + btoa(bin)

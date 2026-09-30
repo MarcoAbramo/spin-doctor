@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import { t } from '../i18n'
 import { AssetIcon } from './AssetIcon'
 import { Hud } from './Hud'
@@ -6,7 +6,8 @@ import { OfflineModal } from './modals/OfflineModal'
 import { QuestModal } from './modals/QuestModal'
 import { RealityModal } from './modals/RealityCard'
 import { ObjectiveBar } from './ObjectiveBar'
-import { SceneView } from './SceneView'
+import { SceneView, setSceneInset } from './SceneView'
+import { StatExplainer } from './StatExplainer'
 import { Toasts } from './Toasts'
 import { GeneratorsTab } from './tabs/GeneratorsTab'
 import { LexiconTab } from './tabs/LexiconTab'
@@ -48,26 +49,78 @@ export function App() {
     savePanelOpen(next)
   }
   const View = TABS.find((x) => x.id === tab)!.view
+  const drawer = useRef<HTMLDivElement>(null)
+  const panel = useRef<HTMLElement>(null)
+  const [panelH, setPanelH] = useState(0)
+  const [side, setSide] = useState(false)
+
+  // The drawer always keeps its open size, so the scene never has to move: folding
+  // it away only slides it down (or, on short landscape screens, to the right) and
+  // uncovers the rest of the room.
+  useEffect(() => {
+    const d = drawer.current
+    const p = panel.current
+    if (!d || !p) return
+    const measure = () => {
+      const isSide = getComputedStyle(d).getPropertyValue('--drawer-side').trim() === '1'
+      setSide(isSide)
+      setSceneInset(
+        isSide ? { bottom: 0, right: d.offsetWidth } : { bottom: d.offsetHeight, right: 0 },
+      )
+      setPanelH(p.offsetHeight)
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(d)
+    observer.observe(p)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div class="app">
       <Hud />
-      <SceneView />
-      <ObjectiveBar />
-      <button
-        type="button"
-        class="panel-handle"
-        aria-expanded={open}
-        aria-controls="panel"
-        onClick={() => setOpen(!open)}
-      >
-        <span class="panel-grip" aria-hidden="true" />
-        {open ? `▾ ${t('ui.panel.collapse')}` : `▴ ${t('ui.panel.expand')}`}
-      </button>
-      {open && (
-        <section class="panel" id="panel" role="tabpanel" aria-label={t(`ui.tab.${tab}`)}>
-          <View />
-        </section>
-      )}
+      <div class="stage">
+        <SceneView />
+        <StatExplainer />
+        <div
+          class="drawer"
+          ref={drawer}
+          style={{
+            transform: open ? 'none' : side ? 'translateX(100%)' : `translateY(${panelH}px)`,
+          }}
+        >
+          {/* One bar of fixed height: the current objective sits next to the handle,
+              so objectives coming and going never move the scene. */}
+          <div class="drawer-bar">
+            <ObjectiveBar />
+            <button
+              type="button"
+              class="panel-handle"
+              aria-expanded={open}
+              aria-controls="panel"
+              aria-label={open ? t('ui.panel.collapse') : t('ui.panel.expand')}
+              onClick={() => setOpen(!open)}
+            >
+              <span class="panel-grip" aria-hidden="true" />
+              <span aria-hidden="true">{open ? '▾' : '▴'}</span>
+              <span class="panel-handle-label" aria-hidden="true">
+                {open ? t('ui.panel.collapse') : t('ui.panel.expand')}
+              </span>
+            </button>
+          </div>
+          <section
+            class="panel"
+            id="panel"
+            ref={panel}
+            role="tabpanel"
+            aria-label={t(`ui.tab.${tab}`)}
+            aria-hidden={!open}
+            inert={!open}
+          >
+            <View />
+          </section>
+        </div>
+      </div>
       <div class="tabs" role="tablist">
         {TABS.map((x) => (
           <button

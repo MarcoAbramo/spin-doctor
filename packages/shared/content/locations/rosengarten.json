@@ -81,6 +81,150 @@
             "sprite": "rosengarten-easel",
             "x": 252,
             "y": 352
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 14,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 38,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 62,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 86,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 110,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-frieda",
+            "x": 170,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 194,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 218,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 242,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 266,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 290,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-frieda",
+            "x": 314,
+            "y": 446,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 14,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 38,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 62,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 86,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 110,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-frieda",
+            "x": 170,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-a",
+            "x": 194,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-c",
+            "x": 218,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-b",
+            "x": 242,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-d",
+            "x": 266,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-e",
+            "x": 290,
+            "y": 476,
+            "react": "react"
+          },
+          {
+            "sprite": "reporter-frieda",
+            "x": 314,
+            "y": 476,
+            "react": "react"
           }
         ],
         "player": {
@@ -98,7 +242,9 @@
           "wind-machine": [[298, 372], [22, 330]],
           "tariff-press": [[296, 318]],
           "reflecting-pool-renovation": []
-        }
+        },
+        "height": 720,
+        "coverY": 416
       }
     }
   ],
@@ -206,6 +352,24 @@
         {
           "type": "multiplier",
           "target": "generator:easel-setter",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "rename-the-sea",
+      "location": "rosengarten",
+      "cost": 250000,
+      "emoji": "🗺️",
+      "unlock": {
+        "type": "generator",
+        "generator": "marker-pack",
+        "gte": 5
+      },
+      "effects": [
+        {
+          "type": "multiplier",
+          "target": "generator:marker-pack",
           "value": 2
         }
       ]

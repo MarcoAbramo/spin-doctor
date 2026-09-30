@@ -167,7 +167,7 @@ describe('quests', () => {
     expect(active?.entry).toMatch(/^pool\.president-posts\./)
     const handled = resolveTimed(s, content, 'president-post', true)
     expect(handled.counters['handled-president-post']).toBe(1)
-    const ignored = tick(s, content, 9, ctx(t + 9_000))
+    const ignored = tick(s, content, 16, ctx(t + 16_000)) // the post times out after 15 s
     expect(ignored.counters.scandals).toBe(1)
     expect(ignored.quests.active.some((a) => a.id === 'president-post')).toBe(false)
   })

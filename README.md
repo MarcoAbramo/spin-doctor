@@ -56,6 +56,7 @@ in the settings tab (trigger events, +1 Mio. Spin).
 | `pnpm lint` / `pnpm format` | Biome |
 | `pnpm typecheck` | TypeScript strict in all packages |
 | `pnpm validate:content` | validates all content packs + German texts |
+| `pnpm text:stats` | words and reading time per quest, texts over their word budget |
 | `pnpm build` / `pnpm size` | production build / initial-bundle budget (300 kB gzip) |
 | `pnpm assets` | regenerates the [asset checklist](docs/ASSET_CHECKLIST.md) |
 

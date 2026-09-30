@@ -8,6 +8,7 @@ import {
 } from '@spin-doctor/shared'
 import { useState } from 'preact/hooks'
 import { content } from '../../content'
+import { offerTextFile, pickTextFile, saveFileName } from '../../files'
 import { t } from '../../i18n'
 import { dispatch, replaceState, resetGame } from '../../store'
 import { useGame } from '../hooks'
@@ -80,6 +81,32 @@ export function SettingsTab() {
           }}
         >
           {t('ui.settings.import')}
+        </button>
+      </div>
+      <div class="row">
+        <button
+          type="button"
+          class="btn"
+          onClick={() => void offerTextFile(saveFileName(), exportSave(state))}
+        >
+          💾 {t('ui.settings.exportFile')}
+        </button>
+        <button
+          type="button"
+          class="btn"
+          onClick={() =>
+            void pickTextFile().then((text) => {
+              if (text === null) return
+              try {
+                replaceState(importSave(text, content))
+                pushToast(t('ui.settings.importOk'), 'good')
+              } catch (err) {
+                pushToast(t('ui.settings.importError', { error: (err as Error).message }), 'bad')
+              }
+            })
+          }
+        >
+          📂 {t('ui.settings.importFile')}
         </button>
       </div>
       <textarea

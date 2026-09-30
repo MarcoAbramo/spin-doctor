@@ -301,8 +301,16 @@ export const locationSchema = z.object({
   /** The idle scene, in art pixels (320×400 play area, see docs/ASSET_GUIDE.md). */
   scene: z.object({
     background: z.string(),
-    /** Visible height; the top of the room may be cropped on short screens. */
+    /** Art height of the room (background is 480 × height). Taller rooms fill tall screens. */
+    height: z.number().int().min(400).max(1200).default(400),
+    /** Art height that fits above `coverY`; the top of the room may be cropped on short screens. */
     viewH: z.number().positive().default(350),
+    /**
+     * Art y that sits right at the top edge of the open menu drawer. Everything below
+     * (e.g. the reporters' rows) is hidden while the menu is open and shows when it is
+     * folded away — the scene itself never moves. Default: the bottom of the art.
+     */
+    coverY: z.number().positive().default(400),
     /** Colours that extend the background beyond its edges on wide/tall screens. */
     backdrop: z
       .object({
@@ -327,12 +335,22 @@ export const locationSchema = z.object({
     crowds: z
       .record(
         z.string(),
-        z.object({
-          area: z.tuple([z.number(), z.number(), z.number().min(0), z.number().min(0)]),
-          max: z.number().int().positive().default(12),
-          /** Minimum distance between copies. */
-          spacing: z.number().positive().default(16),
-        }),
+        z
+          .object({
+            area: z
+              .tuple([z.number(), z.number(), z.number().min(0), z.number().min(0)])
+              .optional(),
+            /** Seats: every x of every y row, filled front row first, centre first. */
+            grid: z
+              .object({ xs: z.array(z.number()).min(1), ys: z.array(z.number()).min(1) })
+              .optional(),
+            max: z.number().int().positive().default(12),
+            /** Minimum distance between copies. */
+            spacing: z.number().positive().default(16),
+            /** With it, copies grow as units^exponent instead of logarithmically. */
+            exponent: z.number().positive().max(1).optional(),
+          })
+          .refine((c) => c.area || c.grid, 'a crowd needs an area or a grid'),
       )
       .default({}),
   }),
@@ -394,7 +412,7 @@ export const stepSchema = z.discriminatedUnion('type', [
     speaker: id.optional(),
     introKey: i18nKey.optional(),
     timePerQuestionSec: z.number().positive().default(15),
-    /** Pause after each answer (reading the reply) before the next question's clock starts. */
+    /** Reading pause for the next question after the player continued, before its clock starts. */
     pauseBetweenSec: z.number().min(0).default(2),
     questions: z
       .array(z.object({ textKey: i18nKey, answers: z.array(framingAnswerSchema).min(2).max(4) }))

@@ -33,8 +33,51 @@ function write(c, x, y, text, color, scale = 1) {
   }
 }
 
+const OX = 80
+/** Below the counter a queue zig-zags on and on — seen when the menu is folded. */
+export const PRICE_H = 720
+/** Queue lanes (foot line of the travellers) — keep in sync with content/locations/price.json. */
+export const LANE_Y = Array.from({ length: 7 }, (_, i) => 452 + i * 40)
+export const LANE_X = [12, 36, 60, 84, 108, 132, 156, 180, 204, 228, 252, 276, 300]
+
+const TRAVELLERS = [
+  { hair: C.ink, coat: C.grey3, bag: C.red },
+  { hair: C.gold, coat: C.plum, bag: C.blue },
+  { hair: C.woodD, coat: C.greenD, bag: C.gold },
+  { hair: C.grey1, coat: C.navy, bag: C.green },
+  { hair: C.rust, coat: C.redD, bag: C.grey1 },
+  { hair: C.wood, coat: C.blueD, bag: C.orange },
+]
+
+/** A standing traveller from behind with a rolling suitcase, feet at (x, y) — 24×36 box. */
+function traveller(c, x, y, { hair, coat, bag }, { bob = 0, lift = -1, flip = false } = {}) {
+  const side = flip ? -1 : 1
+  // suitcase with handle
+  const bx = x + side * 8
+  c.rect(bx - 3, y - 12, 7, 11, bag)
+  c.hline(bx - 3, bx + 3, y - 12, C.white)
+  c.vline(bx, y - 18, y - 13, C.grey2)
+  c.px(bx - 2, y, C.ink)
+  c.px(bx + 2, y, C.ink)
+  // legs, coat, head
+  c.rect(x - 4, y - 8, 3, 8, C.navyD)
+  c.rect(x + 1, y - 8, 3, 8, C.navyD)
+  c.rect(x - 6, y - 22 + bob, 12, 15, coat)
+  c.vline(x, y - 20 + bob, y - 9, C.ink)
+  c.ellipse(x, y - 27 + bob, 4, 5, hair)
+  c.px(x - 5, y - 27 + bob, C.skin)
+  c.px(x + 5, y - 27 + bob, C.skin)
+  // react: passport held up high
+  if (lift >= 0) {
+    const ax = x - side * 7
+    c.rect(ax, y - 30 - lift, 2, 12 + lift, coat)
+    c.rect(ax - 2, y - 36 - lift, 6, 6, C.redD)
+    c.px(ax, y - 34 - lift, C.gold)
+  }
+}
+
 function background() {
-  const c = new Canvas(480, 400)
+  const c = new Canvas(480, PRICE_H)
   const r = rng(33)
   // grey office hall, fluorescent tubes
   for (let y = 0; y < 262; y++) c.hline(0, 479, y, y < 40 ? C.grey3 : C.grey2)
@@ -58,7 +101,7 @@ function background() {
     c.hline(x + 4, x + 39, 242 + ((x / 40) % 2), C.red)
   }
   // floor tiles
-  for (let y = 262; y < 400; y++) {
+  for (let y = 262; y < PRICE_H; y++) {
     for (let x = 0; x < 480; x += 24) {
       const dark = (Math.floor(x / 24) + Math.floor((y - 262) / 16)) % 2
       c.hline(x, x + 23, y, dark ? C.grey3 : C.grey2)
@@ -71,7 +114,47 @@ function background() {
     c.rect(x, y, 12, 4, C.white)
     c.hline(x, x + 11, y + 4, C.grey1)
   }
+  // The queue: belt barriers between the lanes, open at alternating ends (zig-zag).
+  // Lane 1 holds the reacting travellers (props); every lane behind it is packed.
+  const q = rng(34)
+  LANE_Y.forEach((y, lane) => {
+    const belt = y + 12
+    if (lane === LANE_Y.length - 1) return
+    const gapLeft = lane % 2 === 0
+    const x0 = gapLeft ? OX + 30 : 0
+    const x1 = gapLeft ? 479 : OX + 290
+    for (let x = x0; x <= x1; x += 44) {
+      c.rect(x - 1, belt - 16, 3, 18, C.grey1)
+      c.rect(x - 2, belt + 1, 5, 2, C.grey3)
+    }
+    c.hline(x0, x1, belt - 13, C.blueD)
+    c.hline(x0, x1, belt - 12, C.blue)
+  })
+  let look = 0
+  LANE_Y.forEach((y, lane) => {
+    if (lane === 0) return
+    for (let x = -60; x < 400; x += 24) {
+      if (q() < 0.15) continue
+      traveller(c, OX + x + Math.floor(q() * 5), y, TRAVELLERS[look++ % TRAVELLERS.length], {
+        flip: lane % 2 === 1,
+      })
+    }
+  })
+  for (const x of [-60, -36, 324, 348, 372]) traveller(c, OX + x, LANE_Y[0], TRAVELLERS[look++ % 6])
   return c
+}
+
+/** Travellers in the first lane: idle 0-1, react 2-4 (passport held up). 24×40 frames. */
+function travellerSprite(name, look) {
+  const W = 24
+  const H = 40
+  const c = new Canvas(W * 5, H)
+  for (let f = 0; f < 5; f++)
+    traveller(c, f * W + 12, H - 1, look, {
+      bob: f === 1 ? 1 : 0,
+      lift: f >= 2 ? [0, 3, 1][f - 2] : -1,
+    })
+  return [c, asepriteJson(`${name}.png`, W, H, 5, { idle: [0, 1, 600], react: [2, 4, 160] })]
 }
 
 function sign() {
@@ -276,6 +359,11 @@ function portraitHebesatz() {
 
 export function generatePrice() {
   save('sprites/scene-price.png', background())
+  TRAVELLERS.forEach((look, i) => {
+    const name = `traveller-${'abcdef'[i]}`
+    const [c, json] = travellerSprite(name, look)
+    save(`sprites/${name}.png`, c, json)
+  })
   save('sprites/price-sign.png', sign())
   save('sprites/price-counter.png', counter())
   save('sprites/price-turnstile.png', turnstile())

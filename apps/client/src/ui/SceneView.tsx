@@ -12,7 +12,7 @@ import { content } from '../content'
 import { has, t } from '../i18n'
 import { play, prefersReducedMotion, vibrate } from '../juice/audio'
 import type { Building, MapScene } from '../scene/map'
-import type { Scene } from '../scene/scene'
+import type { Inset, Scene } from '../scene/scene'
 import { dispatch, getState, subscribe } from '../store'
 import { useGame } from './hooks'
 import { LocationCard } from './modals/LocationCard'
@@ -31,6 +31,14 @@ let locHost: HTMLDivElement | null = null
 let mapHost: HTMLDivElement | null = null
 let setViewUi: (v: View) => void = () => undefined
 let openInfo: (b: Building | null) => void = () => undefined
+let drawerInset: Inset = { bottom: 0, right: 0 }
+
+/** The open menu drawer covers this part of the scene (CSS px). */
+export function setSceneInset(inset: Inset): void {
+  drawerInset = inset
+  scene.current?.setInset(inset)
+  world.map?.setInset(inset)
+}
 
 function reducedMotion(): boolean {
   return getState().settings.reducedMotion || prefersReducedMotion()
@@ -52,6 +60,7 @@ async function showLocation(id: string): Promise<void> {
   const { createScene } = await import('../scene/scene')
   const s = await createScene(locHost, id)
   s.setReducedMotion(reducedMotion())
+  s.setInset(drawerInset)
   s.update(getState())
   scene.current = s
   sceneLocation = id
@@ -68,6 +77,7 @@ async function ensureMap(): Promise<MapScene | null> {
     onInfo: (b) => openInfo(b),
   })
   world.map.setReducedMotion(reducedMotion())
+  world.map.setInset(drawerInset)
   world.map.update(getState())
   return world.map
 }
