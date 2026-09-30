@@ -88,15 +88,14 @@ flowchart LR
 ## Deployment
 
 `docker-compose.prod.yml` runs Caddy (automatic HTTPS, serves the static client, proxies `/api`),
-the API and Postgres with a volume:
+the API, Postgres with a volume and a nightly backup job. Releases deploy themselves: the
+release-please release triggers `.github/workflows/deploy.yml`, which pushes the images to GHCR
+and rolls them out over SSH. Setup, rollback and restore: [`docs/DEPLOY.md`](docs/DEPLOY.md).
 
 ```bash
 cp .env.example .env   # set DOMAIN, ACME_EMAIL, POSTGRES_PASSWORD, DATABASE_URL
-docker compose -f docker-compose.prod.yml up -d --build
+docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d
 ```
-
-A GitHub Actions pipeline (images to GHCR, deploy via SSH, Postgres backups) is on the
-[backlog](docs/backlog.md).
 
 ## Contributing
 

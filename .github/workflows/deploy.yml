@@ -1,0 +1,136 @@
+name: deploy
+
+# Builds the web + server images, pushes them to GHCR and rolls them out on the VPS.
+# Runs for release tags (also when release-please creates the release, see
+# release-please.yml) and by hand. Without the `production` environment secrets the
+# images are still published and the SSH step is skipped. Setup: docs/DEPLOY.md.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Git tag or branch to deploy
+        required: true
+        default: main
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  images:
+    name: build & push images
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+      owner: ${{ steps.meta.outputs.owner }}
+    steps:
+      - id: meta
+        name: Image tag and owner
+        env:
+          REF: ${{ inputs.tag || github.ref_name }}
+        run: |
+          ref="$REF"
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          echo "tag=${ref//\//-}" >> "$GITHUB_OUTPUT"
+          echo "owner=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.meta.outputs.ref }}
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Server image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/server/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.meta.outputs.owner }}/spin-doctor-server:${{ steps.meta.outputs.tag }}
+            ghcr.io/${{ steps.meta.outputs.owner }}/spin-doctor-server:latest
+          cache-from: type=gha,scope=server
+          cache-to: type=gha,mode=max,scope=server
+      - name: Web image (Caddy + client)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/client/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ steps.meta.outputs.owner }}/spin-doctor-web:${{ steps.meta.outputs.tag }}
+            ghcr.io/${{ steps.meta.outputs.owner }}/spin-doctor-web:latest
+          cache-from: type=gha,scope=web
+          cache-to: type=gha,mode=max,scope=web
+
+  deploy:
+    name: roll out on the VPS
+    needs: images
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      HOST: ${{ secrets.DEPLOY_HOST }}
+      USER: ${{ secrets.DEPLOY_USER }}
+      DIR: ${{ vars.DEPLOY_PATH || '/opt/spin-doctor' }}
+      TAG: ${{ needs.images.outputs.tag }}
+      OWNER: ${{ needs.images.outputs.owner }}
+    steps:
+      - id: target
+        name: Deploy target configured?
+        run: |
+          if [ -z "$HOST" ]; then
+            echo "::notice::No DEPLOY_HOST in the production environment: images are published, rollout skipped."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.target.outputs.skip != 'true'
+        with:
+          ref: ${{ inputs.tag || github.ref_name }}
+      - name: SSH setup
+        if: steps.target.outputs.skip != 'true'
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: Copy compose file and backup script
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          ssh -i ~/.ssh/id_deploy "$USER@$HOST" "mkdir -p '$DIR/deploy' '$DIR/backups'"
+          scp -i ~/.ssh/id_deploy docker-compose.prod.yml "$USER@$HOST:$DIR/docker-compose.prod.yml"
+          scp -i ~/.ssh/id_deploy deploy/backup.sh "$USER@$HOST:$DIR/deploy/backup.sh"
+      - name: Pull and restart
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          ssh -i ~/.ssh/id_deploy "$USER@$HOST" \
+            "cd '$DIR' && export TAG='$TAG' IMAGE_OWNER='$OWNER' \
+             && docker compose -f docker-compose.prod.yml pull web server \
+             && docker compose -f docker-compose.prod.yml up -d --remove-orphans \
+             && docker image prune -f"
+      - name: Health check
+        if: steps.target.outputs.skip != 'true' && vars.PUBLIC_URL != ''
+        env:
+          URL: ${{ vars.PUBLIC_URL }}
+        run: |
+          for i in $(seq 1 30); do
+            curl -fsS "$URL/api/health" && exit 0
+            sleep 5
+          done
+          echo "::error::$URL/api/health did not answer"
+          exit 1

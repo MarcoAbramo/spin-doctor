@@ -1,0 +1,51 @@
+name: backup-restore
+
+# Proves that the production backup service writes restorable dumps (docs/DEPLOY.md).
+on:
+  pull_request:
+    paths:
+      - deploy/**
+      - docker-compose.prod.yml
+      - .github/workflows/backup-test.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backup-restore:
+    runs-on: ubuntu-latest
+    env:
+      COMPOSE: docker compose -f docker-compose.prod.yml
+      POSTGRES_USER: spin
+      POSTGRES_PASSWORD: ci-only
+      POSTGRES_DB: spin
+      BACKUP_INTERVAL_SEC: '3'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start database and backup service
+        run: $COMPOSE up -d db backup
+      - name: Write test data
+        run: |
+          $COMPOSE exec -T db psql -U spin -d spin -v ON_ERROR_STOP=1 \
+            -c "create table backup_probe (answer int); insert into backup_probe values (42);"
+      - name: Wait for a dump that contains it
+        run: |
+          for i in $(seq 1 20); do
+            f=$(ls -t backups/spin-*.sql.gz 2>/dev/null | head -1 || true)
+            if [ -n "$f" ] && gunzip -c "$f" | grep -q backup_probe; then echo "dump: $f"; exit 0; fi
+            sleep 2
+          done
+          $COMPOSE logs backup
+          exit 1
+      - name: Lose the data, restore the latest dump
+        run: |
+          $COMPOSE exec -T db psql -U spin -d spin -c "drop table backup_probe;"
+          f=$(ls -t backups/spin-*.sql.gz | head -1)
+          gunzip -c "$f" | $COMPOSE exec -T db psql -U spin -d spin -v ON_ERROR_STOP=1
+      - name: Data is back
+        run: |
+          answer=$($COMPOSE exec -T db psql -U spin -d spin -tAc "select answer from backup_probe")
+          test "$answer" = "42"
+      - if: always()
+        run: $COMPOSE down -v

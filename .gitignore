@@ -19,3 +19,6 @@ playwright-report/
 
 # Personal notes (not part of the repo)
 ideas.md
+
+# database backups on a deploy box
+backups/
