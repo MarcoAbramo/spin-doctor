@@ -134,6 +134,12 @@ Example — a new side quest in `packages/shared/content/quests/opposition-basem
 
 Texts: German first. Put them into the pack's `i18n.de` or into `packages/shared/locales/de.json`.
 Run `pnpm validate:content` — it reports schema errors, unknown references and missing texts.
+
+**Keep it short — it is an idle game, not a novel.** Word budgets: dialog line ≤ 14 words,
+≤ 3 lines per step, framing question ≤ 12, answer/choice ≤ 6 (a punchline, not a sentence),
+reply ≤ 10, question + answers ≤ 30, whole quest ≤ 120. One joke per line; background belongs on a
+lexicon or Realitäts-Check card. `pnpm text:stats` shows words and reading time per quest
+(`--budgets` lists every text over its budget); `validate:content` warns about them.
 New characters, generators etc. need art: run `pnpm assets` and see [docs/ASSET_GUIDE.md](docs/ASSET_GUIDE.md).
 
 ## Code conventions

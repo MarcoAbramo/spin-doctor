@@ -3,6 +3,7 @@
  * known minigame handlers and missing German texts. Runs in CI.
  */
 import { ContentError, requiredTextKeys } from '../src/content'
+import { textLoad } from '../src/text-load'
 import { loadContentFromDisk, readLocale } from './load-content'
 
 try {
@@ -13,6 +14,12 @@ try {
     console.error(`Missing German texts (${missing.length}):\n- ${missing.join('\n- ')}`)
     process.exit(1)
   }
+  // Word budgets only warn for now; they become errors once the texts are shortened (#76).
+  const { issues } = textLoad(content, texts)
+  if (issues.length)
+    console.warn(
+      `Warning: ${issues.length} text(s) over their word budget — see \`pnpm text:stats --budgets\`.`,
+    )
   console.log(
     `Content OK: ${content.locations.length} location(s), ${content.stats.length} stats, ` +
       `${content.generators.length} generators, ` +
