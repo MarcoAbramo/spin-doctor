@@ -52,15 +52,21 @@ export function App() {
   const drawer = useRef<HTMLDivElement>(null)
   const panel = useRef<HTMLElement>(null)
   const [panelH, setPanelH] = useState(0)
+  const [side, setSide] = useState(false)
 
   // The drawer always keeps its open size, so the scene never has to move: folding
-  // it away only slides it down and uncovers the bottom of the room.
+  // it away only slides it down (or, on short landscape screens, to the right) and
+  // uncovers the rest of the room.
   useEffect(() => {
     const d = drawer.current
     const p = panel.current
     if (!d || !p) return
     const measure = () => {
-      setSceneInset(d.offsetHeight)
+      const isSide = getComputedStyle(d).getPropertyValue('--drawer-side').trim() === '1'
+      setSide(isSide)
+      setSceneInset(
+        isSide ? { bottom: 0, right: d.offsetWidth } : { bottom: d.offsetHeight, right: 0 },
+      )
       setPanelH(p.offsetHeight)
     }
     measure()
@@ -79,7 +85,9 @@ export function App() {
         <div
           class="drawer"
           ref={drawer}
-          style={{ transform: open ? 'none' : `translateY(${panelH}px)` }}
+          style={{
+            transform: open ? 'none' : side ? 'translateX(100%)' : `translateY(${panelH}px)`,
+          }}
         >
           <ObjectiveBar />
           <button

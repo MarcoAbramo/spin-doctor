@@ -44,14 +44,14 @@ function write(c, x, y, text, color) {
 }
 
 /** Seat back seen from behind, bottom-centre at (x, y) — 18×10. */
-function chair(c, x, y) {
+export function chair(c, x, y) {
   c.rect(x - 9, y - 10, 18, 8, C.blueD)
   c.hline(x - 8, x + 8, y - 10, C.blue)
   c.rect(x - 9, y - 2, 18, 2, C.navyD)
 }
 
 /** A seated person from behind, bottom-centre at (x, y) — 24×28 box. */
-function person(c, x, y, { hair, jacket, bun = false, bob = 0 }) {
+export function person(c, x, y, { hair, jacket, bun = false, bob = 0 }) {
   chair(c, x, y)
   c.ellipse(x, y - 9 + bob, 9, 5, jacket)
   c.ellipse(x, y - 19 + bob, 5, 6, hair)
@@ -60,7 +60,7 @@ function person(c, x, y, { hair, jacket, bun = false, bob = 0 }) {
   if (bun) c.ellipse(x, y - 26 + bob, 2, 2, hair)
 }
 
-const LOOKS = [
+export const LOOKS = [
   { hair: C.ink, jacket: C.grey3 },
   { hair: C.gold, jacket: C.plum },
   { hair: C.woodD, jacket: C.redD },

@@ -33,6 +33,12 @@ const PAL = {
   white: 0xffffff,
 }
 
+/** The open menu drawer covers the bottom (portrait) or the right side (short landscape). */
+export interface Inset {
+  bottom: number
+  right: number
+}
+
 export interface Scene {
   tap(clientX: number, clientY: number, label: string): void
   update(state: GameState): void
@@ -40,8 +46,8 @@ export interface Scene {
   confetti(): void
   setPaused(paused: boolean): void
   setReducedMotion(on: boolean): void
-  /** Height (CSS px) covered by the open menu drawer at the bottom. */
-  setInset(px: number): void
+  /** Part of the canvas (CSS px) covered by the open menu drawer. */
+  setInset(inset: Inset): void
   /** Entry performance: the player walks in from the side to their spot. */
   playEnter(): Promise<void>
   destroy(): void
@@ -133,20 +139,21 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
   const podium = await loadArt(target.sprite, () => drawPlaceholder(target.sprite, 80, 64))
   place(podium, target.x, target.y, 2)
 
-  // --- Layout: `viewH` art pixels above `coverY` fit above the open menu drawer ---
+  // --- Layout: `viewH` art pixels above `coverY` fit next to the open menu drawer ---
   let scale = 1
-  let inset = 0
+  let inset: Inset = { bottom: 0, right: 0 }
   function layout(): void {
     const { width, height } = app.screen
     const res = app.renderer.resolution
-    const visible = Math.max(height / 3, height - inset)
-    const fit = Math.min(width / ART_W, visible / def.viewH)
+    const visibleW = Math.max(width / 2, width - inset.right)
+    const visible = Math.max(height / 3, height - inset.bottom)
+    const fit = Math.min(visibleW / ART_W, visible / def.viewH)
     // Whole device pixels per art pixel when that doesn't shrink the room by much.
     const snapped = Math.floor(fit * res) / res
     scale = snapped >= 1 / res && snapped / fit > 0.8 ? snapped : fit
     root.scale.set(scale)
     root.position.set(
-      Math.round((width - ART_W * scale) / 2),
+      Math.round((visibleW - ART_W * scale) / 2),
       Math.round(visible - def.coverY * scale),
     )
     const floorY = root.position.y + def.backdrop.splitY * scale
@@ -308,9 +315,9 @@ export async function createScene(host: HTMLElement, locationId: string): Promis
     setReducedMotion(on) {
       reducedMotion = on
     },
-    setInset(px) {
-      if (px === inset) return
-      inset = px
+    setInset(next) {
+      if (next.bottom === inset.bottom && next.right === inset.right) return
+      inset = next
       layout()
     },
     playEnter() {

@@ -68,6 +68,7 @@ textarea {
 .btn,
 .modal,
 .chip,
+.stat,
 .toast,
 .bubble,
 .post,
@@ -103,22 +104,25 @@ textarea {
 
 /* ---------------- HUD ---------------- */
 .hud {
-  padding: calc(var(--safe-top) + 6px) 12px 6px;
+  position: relative;
+  padding: calc(var(--safe-top) + 6px) 10px 6px;
   background: var(--ink);
   border-bottom: var(--px) solid var(--card);
   z-index: 2;
 }
+/* Fixed layout: long numbers shrink instead of wrapping, so the scene below never moves. */
 .hud-main {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0 8px;
+  gap: 8px;
 }
 .hud-spin {
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
+  overflow: hidden;
 }
 .hud-spin strong {
   font-size: clamp(26px, 8vw, 34px);
@@ -132,23 +136,64 @@ textarea {
 }
 .hud-emoji {
   width: 32px;
+  flex: none;
   font-size: 22px;
 }
 .hud-emoji img {
   width: 32px;
   height: 32px;
 }
-.hud-label,
-.hud-rate {
+.hud-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: none;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.hud-label {
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
+}
+.hud-rate {
+  color: var(--good);
+  font-size: 13px;
 }
 .hud-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 6px;
   margin-top: 4px;
+}
+.stat {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
   align-items: center;
+  column-gap: 4px;
+  min-height: 26px;
+  padding: 3px 6px 3px 4px;
+  background: var(--card);
+  font-size: 13px;
+  color: var(--muted);
+}
+.stat-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stat b {
+  color: var(--text);
+  white-space: nowrap;
+}
+.hud-mods {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  pointer-events: none;
 }
 .chip {
   display: inline-flex;
@@ -180,20 +225,6 @@ textarea {
   color: #fff;
   animation: blink 1s steps(2) infinite;
 }
-.meter {
-  flex: 1 1 160px;
-  min-width: 140px;
-}
-.meter-label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  color: var(--muted);
-}
-.meter-label b {
-  color: var(--text);
-}
 
 /* Democracy index: pixel blocks; lost blocks turn into rubble. */
 .crumble {
@@ -208,6 +239,10 @@ textarea {
     var(--ink) 9px 10px
   );
   border: var(--px) solid var(--ink);
+}
+.stat .crumble {
+  grid-column: 1 / -1;
+  height: 8px;
 }
 .crumble-fill {
   position: absolute;
@@ -930,6 +965,33 @@ progress::-moz-progress-bar {
   }
 }
 
+/* Short landscape screens (phones on their side): the menu becomes a side panel, the
+   HUD values sit in one row. App.tsx reads --drawer-side to inset the scene. */
+@media (orientation: landscape) and (max-height: 560px) {
+  .app {
+    max-width: none;
+  }
+  .hud-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .drawer {
+    --drawer-side: 1;
+    top: 0;
+    left: auto;
+    width: min(46%, 380px);
+    border-left: var(--px) solid var(--card);
+  }
+  .panel {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .tab {
+    flex-direction: row;
+    gap: 6px;
+    min-height: 44px;
+  }
+}
+
 /* ---------------- World map & scene switching ---------------- */
 .scene-host {
   position: absolute;
@@ -1358,10 +1420,6 @@ progress::-moz-progress-bar {
   cursor: pointer;
 }
 .hud-spin.hud-button {
-  background: none;
-  padding: 0;
-}
-.meter.hud-button {
   background: none;
   padding: 0;
 }

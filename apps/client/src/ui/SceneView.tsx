@@ -12,7 +12,7 @@ import { content } from '../content'
 import { has, t } from '../i18n'
 import { play, prefersReducedMotion, vibrate } from '../juice/audio'
 import type { Building, MapScene } from '../scene/map'
-import type { Scene } from '../scene/scene'
+import type { Inset, Scene } from '../scene/scene'
 import { dispatch, getState, subscribe } from '../store'
 import { useGame } from './hooks'
 import { LocationCard } from './modals/LocationCard'
@@ -31,13 +31,13 @@ let locHost: HTMLDivElement | null = null
 let mapHost: HTMLDivElement | null = null
 let setViewUi: (v: View) => void = () => undefined
 let openInfo: (b: Building | null) => void = () => undefined
-let drawerInset = 0
+let drawerInset: Inset = { bottom: 0, right: 0 }
 
-/** The open menu drawer covers this many CSS px at the bottom of the scene. */
-export function setSceneInset(px: number): void {
-  drawerInset = px
-  scene.current?.setInset(px)
-  world.map?.setInset(px)
+/** The open menu drawer covers this part of the scene (CSS px). */
+export function setSceneInset(inset: Inset): void {
+  drawerInset = inset
+  scene.current?.setInset(inset)
+  world.map?.setInset(inset)
 }
 
 function reducedMotion(): boolean {
